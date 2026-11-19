@@ -20,29 +20,42 @@ const projects = (await getCollection('projects', ({ data }) => data.visibility 
 const allCategories = Array.from(new Set(projects.flatMap((p) => p.data.category)));
 const allStatuses = Array.from(new Set(projects.map((p) => p.data.status)));
 
+const categoryHumanLabels: Record<string, { ar: string; en: string }> = {
+  AI: { ar: 'ذكاء اصطناعي (AI)', en: 'Artificial Intelligence (AI)' },
+  Automation: { ar: 'أتمتة ذكية (Automation)', en: 'Smart Automation' },
+  Web: { ar: 'تطبيقات ومنصات ويب (Web)', en: 'Web Platforms & Apps' },
+  Mobile: { ar: 'تطبيقات موبايل (Mobile)', en: 'Mobile Applications' },
+  Desktop: { ar: 'أنظمة سطح مكتب (Desktop)', en: 'Desktop Systems' },
+  Algorithm: { ar: 'خوارزميات وحل قيود (Algorithm)', en: 'Algorithms & Scheduling' },
+  API: { ar: 'خدمات وواجهات خلفية (Backend/API)', en: 'Backend & APIs' },
+  CLI: { ar: 'أدوات تشغيل سريعة (CLI)', en: 'CLI Tools' },
+};
+
 const pageTitle =
   locale === 'ar'
-    ? 'جميع الأعمال ودراسات الحالة — احمد عبداللاه'
-    : 'All Projects & Case Studies — Ahmed Abdellah';
+    ? 'جميع الأعمال والمشاريع السبعة — احمد عبداللاه'
+    : 'All 7 Projects & Case Studies — Ahmed Abdellah';
 const pageDesc =
   locale === 'ar'
-    ? 'تصفح جميع المشاريع ودراسات الحالة الهندسية السبعة مع إمكانية البحث والتصفية حسب الفئة وحالة التنفيذ.'
-    : 'Browse all 7 verified engineering case studies with instant filtering by category, technology, and status.';
+    ? 'استعرض جميع المشاريع والأنظمة السبعة: المعاناة قبل الحل، النقلة والنتيجة الحاسمة، مع بحث وتصفية فورية.'
+    : 'Explore all 7 software systems: the struggle before the solution, the breakthrough, and measurable results with instant search.';
 ---
 
 <BaseLayout title={pageTitle} description={pageDesc} locale={locale} currentPath={`/${locale}/projects`}>
-  <section class="border-b border-white/10 py-12 sm:py-14">
+  <section class="border-b border-white/10 py-10 sm:py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <span class="font-mono text-xs uppercase tracking-wider text-amber-400">
-        {locale === 'ar' ? 'فهرس الأعمال الموثقة · 7 مشاريع' : 'Verified Systems Catalog · 7 Projects'}
+      <span class="text-xs uppercase tracking-wider text-amber-400 font-bold">
+        {locale === 'ar' ? 'معرض الأعمال الكامل · 7 أنظمة حقيقية' : 'Complete Portfolio · 7 Real Systems'}
       </span>
       <h1 class="text-3xl sm:text-4xl font-extrabold text-white mt-2">
-        {locale === 'ar' ? 'الأعمال ودراسات الحالة الهندسية' : 'Engineering Projects & Case Studies'}
+        {locale === 'ar'
+          ? 'المشاريع السبعة: من المعاناة والتعقيد إلى أنظمة تعمل بكفاءة'
+          : 'All 7 Projects: From Operational Pain to High-Impact Systems'}
       </h1>
       <p class="text-sm sm:text-base text-slate-300 mt-3 max-w-3xl leading-relaxed">
         {locale === 'ar'
-          ? 'يمثل كل مشروع هنا نظامًا حقيقيًا تم فحصه وتوثيق معماريته وتحدياته التقنية من الكود المصدري. يمكنك التصفية حسب نوع النظام، حالة النضج، أو البحث بالتقنية.'
-          : 'Every entry represents an audited codebase with verified architecture, challenge stories, and code evidence. Filter by category, status, or search by technology.'}
+          ? 'تصفح جميع الأنظمة التي طورتها، أو ابحث مباشرة باسم المشروع أو نوع المشكلة أو التقنية.'
+          : 'Browse every system I built, or filter immediately by domain, status, or keyword.'}
       </p>
     </div>
   </section>
@@ -54,28 +67,30 @@ const pageDesc =
         <!-- Search Input -->
         <div>
           <label for="project-search" class="block text-xs font-bold text-slate-200 mb-1.5">
-            {locale === 'ar' ? 'بحث سريع (الاسم، التقنية، المشكلة)' : 'Quick Search (Title, Tech, Problem)'}
+            {locale === 'ar' ? 'بحث سريع (اسم المشروع، المشكلة، التقنية)' : 'Quick Search (Project, Problem, Tech)'}
           </label>
           <input
             id="project-search"
             type="search"
-            placeholder={locale === 'ar' ? 'مثال: CP-SAT, Flutter, ZNCC, React...' : 'e.g. CP-SAT, Flutter, ZNCC, React...'}
-            class="w-full px-3.5 py-2.5 rounded-xl border border-white/15 text-sm bg-[#050914]/80 text-white placeholder:text-slate-500 focus:border-blue-400"
+            placeholder={locale === 'ar' ? 'ابحث هنا... مثل: جدول، فيديو، متجر، طبي، هاتف' : 'Search... e.g. timetable, video, store, medical, phone'}
+            class="w-full px-3.5 py-2.5 rounded-xl border border-white/15 text-sm bg-[#050914]/80 text-white placeholder:text-slate-400 focus:border-blue-400"
           />
         </div>
 
         <!-- Category Filter -->
         <div>
           <label for="category-filter" class="block text-xs font-bold text-slate-200 mb-1.5">
-            {locale === 'ar' ? 'تصفية حسب الفئة' : 'Filter by Category'}
+            {locale === 'ar' ? 'نوع النظام' : 'System Domain'}
           </label>
           <select
             id="category-filter"
             class="w-full px-3.5 py-2.5 rounded-xl border border-white/15 text-sm bg-[#050914]/80 text-white focus:border-blue-400"
           >
-            <option value="all">{locale === 'ar' ? 'جميع الفئات' : 'All Categories'}</option>
+            <option value="all">{locale === 'ar' ? 'جميع المجالات (7 مشاريع)' : 'All Domains (7 Projects)'}</option>
             {allCategories.map((cat) => (
-              <option value={cat}>{cat.toUpperCase()}</option>
+              <option value={cat}>
+                {categoryHumanLabels[cat] ? categoryHumanLabels[cat][locale] : cat}
+              </option>
             ))}
           </select>
         </div>
@@ -83,7 +98,7 @@ const pageDesc =
         <!-- Status Filter -->
         <div>
           <label for="status-filter" class="block text-xs font-bold text-slate-200 mb-1.5">
-            {locale === 'ar' ? 'تصفية حسب حالة التنفيذ' : 'Filter by Status'}
+            {locale === 'ar' ? 'حالة النظام' : 'System Status'}
           </label>
           <select
             id="status-filter"
@@ -97,18 +112,18 @@ const pageDesc =
         </div>
       </div>
 
-      <div class="flex items-center justify-between text-xs text-slate-400 pt-2 border-t border-white/10">
-        <span id="results-count" aria-live="polite">
+      <div class="flex items-center justify-between text-xs text-slate-300 pt-2 border-t border-white/10">
+        <span id="results-count" aria-live="polite" class="font-semibold">
           {locale === 'ar'
-            ? `يعرض ${projects.length} من ${projects.length} مشاريع منشورة`
-            : `Showing ${projects.length} of ${projects.length} published projects`}
+            ? `يعرض ${projects.length} من ${projects.length} مشاريع`
+            : `Showing ${projects.length} of ${projects.length} projects`}
         </span>
         <button
           id="reset-filters"
           type="button"
-          class="font-semibold text-blue-400 hover:underline cursor-pointer"
+          class="font-bold text-amber-300 hover:underline cursor-pointer"
         >
-          {locale === 'ar' ? 'إعادة ضبط الفلاتر' : 'Reset Filters'}
+          {locale === 'ar' ? 'عرض الكل (إعادة ضبط)' : 'Show All (Reset)'}
         </button>
       </div>
     </div>
@@ -120,7 +135,7 @@ const pageDesc =
           class="project-item flex"
           data-categories={entry.data.category.join(',').toLowerCase()}
           data-status={entry.data.status.toLowerCase()}
-          data-search={`${entry.data.titleAr} ${entry.data.titleEn} ${entry.data.summaryAr} ${entry.data.summaryEn} ${entry.data.technologies.join(' ')}`.toLowerCase()}
+          data-search={`${entry.data.titleAr} ${entry.data.titleEn} ${entry.data.humanCategoryAr || ''} ${entry.data.humanCategoryEn || ''} ${entry.data.struggleAr || ''} ${entry.data.struggleEn || ''} ${entry.data.triumphAr || ''} ${entry.data.triumphEn || ''} ${entry.data.summaryAr} ${entry.data.summaryEn} ${entry.data.technologies.join(' ')}`.toLowerCase()}
         >
           <ProjectCard project={entry.data} locale={locale} index={idx} />
         </div>
@@ -130,12 +145,12 @@ const pageDesc =
     <!-- Empty Filter State -->
     <div id="empty-state" class="hidden text-center py-12 glass-panel rounded-2xl mt-6">
       <p class="text-base font-bold text-white">
-        {locale === 'ar' ? 'لا توجد مشاريع تطابق معايير البحث الحالية.' : 'No projects match the current filter criteria.'}
+        {locale === 'ar' ? 'لا توجد مشاريع تطابق البحث الحالي.' : 'No projects match the current search.'}
       </p>
     </div>
   </section>
 
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
     <CTA locale={locale} />
   </div>
 
@@ -174,8 +189,8 @@ const pageDesc =
       if (countLabel) {
         countLabel.textContent =
           locale === 'ar'
-            ? `يعرض ${visible} من ${totalCount} مشاريع منشورة`
-            : `Showing ${visible} of ${totalCount} published projects`;
+            ? `يعرض ${visible} من ${totalCount} مشاريع`
+            : `Showing ${visible} of ${totalCount} projects`;
       }
       if (emptyState) {
         emptyState.classList.toggle('hidden', visible > 0);

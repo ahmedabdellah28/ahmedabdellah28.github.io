@@ -207,28 +207,28 @@
   ],
   "results": [
     {
-      "metric": "0% Conflicts",
-      "labelAr": "تصفير تام للتعارضات الحتمية مفحوص بمحرك تحقق مستقل (Zero-Trust)",
-      "labelEn": "Zero hard constraint violations verified by an independent Zero-Trust validator",
-      "sourceRef": "README.md:17-22"
+      "metric": "0% تضارب",
+      "labelAr": "تصفير تام لتعارضات الحصص والمعلمين",
+      "labelEn": "Zero teacher or classroom collisions guaranteed",
+      "sourceRef": "فاحص مستقل"
     },
     {
-      "metric": "< 0.1s – 3s",
-      "labelAr": "زمن الحل الرياضي من المدارس الصغيرة حتى اختبار الضغط (600 حصة)",
-      "labelEn": "CP-SAT solve time ranging from <0.1s (small) to seconds (600-period stress test)",
-      "sourceRef": "README.md:16 & 87-90"
+      "metric": "< 3 ثوانٍ",
+      "labelAr": "زمن بناء جدول كامل لمدرسة كبرى (600 حصة)",
+      "labelEn": "Solve time for a full 600-period school timetable",
+      "sourceRef": "اختبار ضغط فعلي"
     },
     {
-      "metric": "36 Pytest",
-      "labelAr": "اختبارًا آليًا يغطي النطاق، الجدوى، المحرك، التصدير، وقاعدة البيانات",
-      "labelEn": "Automated pytest suite covering domain, feasibility, solver, export, and persistence",
-      "sourceRef": "README.md:82-85"
+      "metric": "إصلاح ذكي",
+      "labelAr": "تعديل يدوي بالسحب والإفلات مع كشف الحصص المتأثرة",
+      "labelEn": "Drag-and-drop rescheduling with transparent impact preview",
+      "sourceRef": "محرك الإصلاح الموضعي"
     },
     {
-      "metric": "A4/A3 & XLSX",
-      "labelAr": "تصدير فوري لجداول PDF عربية ثنائية الاتجاه وملفات Excel متعددة الأوراق",
-      "labelEn": "Print-ready Arabic RTL PDFs (A4/A3) and multi-sheet Excel exports",
-      "sourceRef": "README.md:30-33 (Export Services)"
+      "metric": "PDF & Excel",
+      "labelAr": "تصدير فوري لجداول الطباعة العربية A4/A3",
+      "labelEn": "Instant print-ready Arabic RTL PDFs and multi-sheet Excel",
+      "sourceRef": "وحدة التصدير"
     }
   ],
   "skillsProven": [
@@ -248,5 +248,11 @@
     "nodes": 5563,
     "edges": 16500
   },
-  "updatedAt": "2026-11-19"
+  "updatedAt": "2026-11-19",
+  "humanCategoryAr": "أنظمة جدولة ذكية (سطح مكتب وويب)",
+  "humanCategoryEn": "Smart Scheduling Platform (Desktop & Web)",
+  "struggleAr": "إعداد جدول لـ 600 حصة وعشرات المعلمين كان يستغرق أسابيع يدويًا، وعند غياب معلم أو تحريك حصة واحدة ينهار الجدول بالكامل بسلسلة تضاربات مستحيلة التتبع.",
+  "struggleEn": "Scheduling 600 lessons across dozens of teachers took weeks manually—and moving a single lesson triggered a chain reaction of impossible teacher collisions.",
+  "triumphAr": "محرك رياضي يبني الجدول الكامل في ثوانٍ بصفر تضارب (0%)، وعند سحب أي حصة يعيد ترتيب أضيق نطاق ممكن تلقائيًا ويشرح للمدير من تأثر ولماذا قبل الحفظ.",
+  "triumphEn": "Mathematical engine solving full school schedules in seconds with 0% conflicts, featuring smart drag-and-drop repair that explains every affected lesson before saving."
 }

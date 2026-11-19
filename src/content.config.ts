@@ -57,6 +57,12 @@ const projectsCollection = defineCollection({
     summaryEn: z.string().min(1),
     valuePropositionAr: z.string().min(1),
     valuePropositionEn: z.string().min(1),
+    humanCategoryAr: z.string().optional(),
+    humanCategoryEn: z.string().optional(),
+    struggleAr: z.string().optional(),
+    struggleEn: z.string().optional(),
+    triumphAr: z.string().optional(),
+    triumphEn: z.string().optional(),
     category: z.array(
       z.enum([
         'web',

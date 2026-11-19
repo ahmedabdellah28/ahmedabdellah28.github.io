@@ -144,28 +144,28 @@
   ],
   "results": [
     {
-      "metric": "5 Anchors",
-      "labelAr": "نقاط إرساء هندسية (المركز والأركان) لمعالجة اختلاف نسب الشاشات",
-      "labelEn": "Semantic viewport anchors handling aspect-ratio variance",
-      "sourceRef": "rok_universal_controller.py:27-62"
+      "metric": "5 نقاط ارتكاز",
+      "labelAr": "تحويل هندسي يحاكي طريقة تثبيت الأزرار في زوايا الشاشة",
+      "labelEn": "5 viewport anchor zones mirroring real UI layout pinning",
+      "sourceRef": "محول الإحداثيات"
     },
     {
-      "metric": "2400x1080",
-      "labelAr": "الفضاء المرجعي الموحد المحول ديناميكيًا بمعامل ارتفاع الشاشة",
-      "labelEn": "Reference coordinate space dynamically scaled by h / 1080.0",
-      "sourceRef": "rok_universal_controller.py:11-21"
+      "metric": "16:9 ← 20:9",
+      "labelAr": "يعمل فورًا على الهواتف والأجهزة اللوحية دون إعادة قياس",
+      "labelEn": "Works across phones and tablets with zero manual recalibration",
+      "sourceRef": "دعم الأبعاد"
     },
     {
-      "metric": "5.0s – 10.0s",
-      "labelAr": "نطاق التأخير العشوائي بين النقرات لمحاكاة التفاعل الطبيعي",
-      "labelEn": "Randomized humanization delay envelope between ADB taps",
-      "sourceRef": "rok_controller.py:84-86"
+      "metric": "توقيت طبيعي",
+      "labelAr": "فواصل زمنية متغيرة تحاكي التفاعل البشري الهادئ",
+      "labelEn": "Randomized human-like timing intervals between interactions",
+      "sourceRef": "محرك الدورة"
     },
     {
-      "metric": "16:9 – 20:9",
-      "labelAr": "دعم مختلف نسب العرض إلى الارتفاع للهواتف والأجهزة اللوحية دون انحراف",
-      "labelEn": "Aspect-ratio compatibility across phones and tablets without drift",
-      "sourceRef": "rok_universal_controller.py:5-26"
+      "metric": "تبديل تلقائي",
+      "labelAr": "إدارة دورة العمل عبر عدة حسابات بالتتابع مع عداد حي",
+      "labelEn": "Automated multi-profile rotation loop with live countdowns",
+      "sourceRef": "وحدة التحكم"
     }
   ],
   "skillsProven": [
@@ -183,5 +183,11 @@
     "nodes": 64,
     "edges": 108
   },
-  "updatedAt": "2026-11-19"
+  "updatedAt": "2026-11-19",
+  "humanCategoryAr": "تحويل هندسي ذكي للشاشات المتعددة",
+  "humanCategoryEn": "Multi-Resolution Adaptive Screen Controller",
+  "struggleAr": "اختلاف أبعاد الشاشات بين الهواتف العريضة (20:9) والأجهزة اللوحية (16:9) كان يجعل النقرات الآلية تضرب خارج الأزرار، مما يجبر المطور على إعادة القياس يدويًا لكل جهاز.",
+  "struggleEn": "Aspect-ratio differences between ultra-wide phones (20:9) and tablets (16:9) caused automated taps to miss buttons, forcing manual recalibration for every device.",
+  "triumphAr": "خوارزمية تحويل هندسي ذكية ترتكز على زوايا الواجهة الخمس وارتفاع الشاشة، لتصيب الأزرار بدقة فورية على أي هاتف أو جهاز لوحي دون إعادة معايرة.",
+  "triumphEn": "Smart anchor-based geometric transformer locking scale to screen height across 5 HUD zones, delivering instant click accuracy on any screen size."
 }

@@ -84,14 +84,13 @@
   border: 1px solid rgba(255, 255, 255, 0.13);
 }
 
-/* Restrained, Purposeful Motion System (180ms–360ms) */
+/* Restrained, Purposeful Motion System — Always Visible by Default (Never Hides Content) */
 .js-enabled .reveal-item {
-  opacity: 0;
-  transform: translateY(10px);
+  opacity: 1;
+  transform: translateY(0);
   transition:
-    opacity 0.34s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
-  transition-delay: var(--reveal-delay, 0ms);
+    opacity 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .js-enabled .reveal-item.is-visible {

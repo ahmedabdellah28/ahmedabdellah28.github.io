@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 540" width="1200" height="540" role="img" aria-label="Phone Commander — ThreadLocal Zero-GC ZNCC Matcher, Priority State Machine & Flutter Telemetry">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 540" width="1200" height="540" role="img" aria-label="Phone Commander — Zero-Memory-Churn Mobile Vision & Autonomous Decision Loop">
   <defs>
     <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#0B1220"/>
@@ -14,11 +14,11 @@
 
   <!-- Top Badge -->
   <rect x="60" y="48" width="270" height="28" rx="14" fill="#2663EB" fill-opacity="0.16" stroke="#2663EB" stroke-width="1"/>
-  <text x="195" y="66" fill="#93C5FD" font-family="JetBrains Mono, monospace" font-size="11" font-weight="600" text-anchor="middle">VERIFIED ARCHITECTURE · ZERO-GC ZNCC VISION</text>
+  <text x="195" y="66" fill="#93C5FD" font-family="JetBrains Mono, monospace" font-size="11" font-weight="600" text-anchor="middle">PHONE COMMANDER · MOBILE COMPUTER VISION</text>
 
   <!-- Titles -->
-  <text x="60" y="114" fill="#F8FAFC" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="24" font-weight="800">Phone Commander — ThreadLocal Zero-GC ZNCC Matcher, Priority State Machine & Flutter Telemetry</text>
-  <text x="60" y="148" fill="#94A3B8" font-family="IBM Plex Sans Arabic, Manrope, sans-serif" font-size="16" font-weight="500">محرك الرؤية الحاسوبية ZNCC بدون استنزاف الذاكرة وآلة الحالة الذاتية مع بث اللوجز لـ Flutter</text>
+  <text x="60" y="114" fill="#F8FAFC" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="24" font-weight="800">Phone Commander — Zero-Memory-Churn Mobile Vision & Autonomous Decision Loop</text>
+  <text x="60" y="148" fill="#94A3B8" font-family="IBM Plex Sans Arabic, Manrope, sans-serif" font-size="16" font-weight="500">رؤية حاسوبية فورية على الهاتف بصفر استنزاف للذاكرة وحظر تام للنقرات العمياء</text>
 
   <!-- Pipeline Stages -->
   
@@ -26,50 +26,50 @@
           <rect width="201" height="175" rx="12" fill="#182438" stroke="#2663EB" stroke-width="1.5"/>
           <rect x="14" y="14" width="32" height="22" rx="6" fill="#2663EB" fill-opacity="0.18"/>
           <text x="30" y="29" fill="#F5F7FA" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" text-anchor="middle">01</text>
-          <text x="16" y="62" fill="#F5F7FA" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="14" font-weight="700">ReusableScaleBuffer</text>
-          <text x="16" y="88" fill="#94A3B8" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="11.5">ThreadLocal Bitmap Reuse</text>
+          <text x="16" y="62" fill="#F5F7FA" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="14" font-weight="700">1. تدوير ذكي للذاكرة</text>
+          <text x="16" y="88" fill="#94A3B8" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="11.5">توفير 8MB في كل إطار</text>
           <rect x="12" y="128" width="177" height="32" rx="6" fill="#0B1220" stroke="#334155" stroke-width="1"/>
-          <text x="20" y="148" fill="#18B8A7" font-family="JetBrains Mono, monospace" font-size="10.5">Zero 8MB/Frame GC Churn</text>
+          <text x="20" y="148" fill="#18B8A7" font-family="JetBrains Mono, monospace" font-size="10.5">Zero Memory Churn</text>
         </g>
         
         <g transform="translate(279, 195)">
           <rect width="201" height="175" rx="12" fill="#182438" stroke="#18B8A7" stroke-width="1.5"/>
           <rect x="14" y="14" width="32" height="22" rx="6" fill="#18B8A7" fill-opacity="0.18"/>
           <text x="30" y="29" fill="#F5F7FA" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" text-anchor="middle">02</text>
-          <text x="16" y="62" fill="#F5F7FA" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="14" font-weight="700">Parallel ZNCC Matcher</text>
-          <text x="16" y="88" fill="#94A3B8" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="11.5">Precalculated Stride Offsets</text>
+          <text x="16" y="62" fill="#F5F7FA" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="14" font-weight="700">2. مطابقة بصرية دقيقة</text>
+          <text x="16" y="88" fill="#94A3B8" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="11.5">فحص متوازٍ داخل النطاق الآمن</text>
           <rect x="12" y="128" width="177" height="32" rx="6" fill="#0B1220" stroke="#334155" stroke-width="1"/>
-          <text x="20" y="148" fill="#18B8A7" font-family="JetBrains Mono, monospace" font-size="10.5">TemplateMatcher.kt (88-92%)</text>
+          <text x="20" y="148" fill="#18B8A7" font-family="JetBrains Mono, monospace" font-size="10.5">Fast Visual Matching</text>
         </g>
         
         <g transform="translate(498, 195)">
           <rect width="201" height="175" rx="12" fill="#182438" stroke="#2663EB" stroke-width="1.5"/>
           <rect x="14" y="14" width="32" height="22" rx="6" fill="#2663EB" fill-opacity="0.18"/>
           <text x="30" y="29" fill="#F5F7FA" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" text-anchor="middle">03</text>
-          <text x="16" y="62" fill="#F5F7FA" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="14" font-weight="700">ML Kit OCR & Back</text>
-          <text x="16" y="88" fill="#94A3B8" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="11.5">Zero Hardcoded Blind Taps</text>
+          <text x="16" y="62" fill="#F5F7FA" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="14" font-weight="700">3. حظر النقر الأعمى</text>
+          <text x="16" y="88" fill="#94A3B8" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="11.5">كل ضغطة مشروطة برصد مؤكد</text>
           <rect x="12" y="128" width="177" height="32" rx="6" fill="#0B1220" stroke="#334155" stroke-width="1"/>
-          <text x="20" y="148" fill="#18B8A7" font-family="JetBrains Mono, monospace" font-size="10.5">GLOBAL_ACTION_BACK</text>
+          <text x="20" y="148" fill="#18B8A7" font-family="JetBrains Mono, monospace" font-size="10.5">Zero Blind Taps</text>
         </g>
         
         <g transform="translate(717, 195)">
           <rect width="201" height="175" rx="12" fill="#182438" stroke="#18B8A7" stroke-width="1.5"/>
           <rect x="14" y="14" width="32" height="22" rx="6" fill="#18B8A7" fill-opacity="0.18"/>
           <text x="30" y="29" fill="#F5F7FA" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" text-anchor="middle">04</text>
-          <text x="16" y="62" fill="#F5F7FA" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="14" font-weight="700">SQLite Queue Sync</text>
-          <text x="16" y="88" fill="#94A3B8" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="11.5">Deduplicated Session State</text>
+          <text x="16" y="62" fill="#F5F7FA" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="14" font-weight="700">4. حماية البطارية</text>
+          <text x="16" y="88" fill="#94A3B8" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="11.5">تصغير تلقائي وقت الانتظار</text>
           <rect x="12" y="128" width="177" height="32" rx="6" fill="#0B1220" stroke="#334155" stroke-width="1"/>
-          <text x="20" y="148" fill="#18B8A7" font-family="JetBrains Mono, monospace" font-size="10.5">Commit d5dc166 & 50927ed</text>
+          <text x="20" y="148" fill="#18B8A7" font-family="JetBrains Mono, monospace" font-size="10.5">Battery Auto-Save</text>
         </g>
         
         <g transform="translate(936, 195)">
           <rect width="201" height="175" rx="12" fill="#182438" stroke="#2663EB" stroke-width="1.5"/>
           <rect x="14" y="14" width="32" height="22" rx="6" fill="#2663EB" fill-opacity="0.18"/>
           <text x="30" y="29" fill="#F5F7FA" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" text-anchor="middle">05</text>
-          <text x="16" y="62" fill="#F5F7FA" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="14" font-weight="700">Flutter Live Console</text>
-          <text x="16" y="88" fill="#94A3B8" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="11.5">Real-Time MethodChannel</text>
+          <text x="16" y="62" fill="#F5F7FA" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="14" font-weight="700">5. شاشة متابعة حية</text>
+          <text x="16" y="88" fill="#94A3B8" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="11.5">عرض كل خطوة لحظيًا</text>
           <rect x="12" y="128" width="177" height="32" rx="6" fill="#0B1220" stroke="#334155" stroke-width="1"/>
-          <text x="20" y="148" fill="#18B8A7" font-family="JetBrains Mono, monospace" font-size="10.5">AutomationLogPayload</text>
+          <text x="20" y="148" fill="#18B8A7" font-family="JetBrains Mono, monospace" font-size="10.5">Live App Console</text>
         </g>
         
 
@@ -77,26 +77,26 @@
   
         <g transform="translate(60, 415)">
           <rect width="255" height="82" rx="10" fill="#111C2D" stroke="#1E293B" stroke-width="1.5"/>
-          <text x="20" y="34" fill="#60A5FA" font-family="JetBrains Mono, monospace" font-size="18" font-weight="700">0 MB/Frame</text>
-          <text x="20" y="58" fill="#CBD5E1" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="12">Eliminated Per-Frame Bitmap Heap Allocations via ThreadLocal</text>
+          <text x="20" y="34" fill="#60A5FA" font-family="JetBrains Mono, monospace" font-size="18" font-weight="700">0 MB/إطار</text>
+          <text x="20" y="58" fill="#CBD5E1" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="12">تصفير استنزاف الذاكرة أثناء المسح البصري المستمر</text>
         </g>
         
         <g transform="translate(335, 415)">
           <rect width="255" height="82" rx="10" fill="#111C2D" stroke="#1E293B" stroke-width="1.5"/>
-          <text x="20" y="34" fill="#18B8A7" font-family="JetBrains Mono, monospace" font-size="18" font-weight="700">86% – 92%</text>
-          <text x="20" y="58" fill="#CBD5E1" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="12">Calibrated ZNCC Confidence Gates Across HUD Elements</text>
+          <text x="20" y="34" fill="#18B8A7" font-family="JetBrains Mono, monospace" font-size="18" font-weight="700">0 نقرات عمياء</text>
+          <text x="20" y="58" fill="#CBD5E1" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="12">كل ضغطة مشروطة برصد بصري مؤكد أو رجوع آمن</text>
         </g>
         
         <g transform="translate(610, 415)">
           <rect width="255" height="82" rx="10" fill="#111C2D" stroke="#1E293B" stroke-width="1.5"/>
-          <text x="20" y="34" fill="#60A5FA" font-family="JetBrains Mono, monospace" font-size="18" font-weight="700">5,264 Lines</text>
-          <text x="20" y="58" fill="#CBD5E1" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="12">Autonomous Kotlin State-Machine & Recovery Loop</text>
+          <text x="20" y="34" fill="#60A5FA" font-family="JetBrains Mono, monospace" font-size="18" font-weight="700">حماية البطارية</text>
+          <text x="20" y="58" fill="#CBD5E1" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="12">تصغير تلقائي أثناء الانتظار الطويل لمنع سخونة الجهاز</text>
         </g>
         
         <g transform="translate(885, 415)">
           <rect width="255" height="82" rx="10" fill="#111C2D" stroke="#1E293B" stroke-width="1.5"/>
-          <text x="20" y="34" fill="#18B8A7" font-family="JetBrains Mono, monospace" font-size="18" font-weight="700">> 15 Min</text>
-          <text x="20" y="58" fill="#CBD5E1" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="12">Battery-Saving Auto-Minimize During Long Idle Waits</text>
+          <text x="20" y="34" fill="#18B8A7" font-family="JetBrains Mono, monospace" font-size="18" font-weight="700">متابعة لحظية</text>
+          <text x="20" y="58" fill="#CBD5E1" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="12">شاشة سجل حية داخل التطبيق تعرض كل خطوة ونسبة الثقة</text>
         </g>
         
 </svg>

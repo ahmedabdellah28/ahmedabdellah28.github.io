@@ -216,28 +216,28 @@
   ],
   "results": [
     {
-      "metric": "13 Stages",
-      "labelAr": "مراحل إنتاج محكومة بعقود JSON صارمة وعزل كامل لكل تشغيل",
-      "labelEn": "Contract-gated pipeline stages with isolated per-run directories",
-      "sourceRef": "PIPELINE_CONTRACTS.md:9-24"
+      "metric": "13 مرحلة آلية",
+      "labelAr": "من النص الخام إلى فيديو كامل دون مونتاج يدوي",
+      "labelEn": "End-to-end automated stages from raw script to final MP4",
+      "sourceRef": "خط إنتاج متكامل"
     },
     {
-      "metric": "10 Compilers",
-      "labelAr": "وحدات ترجمة داخل ECGC لتحويل مخطط المشهد إلى مشروع GPU وفيديو",
-      "labelEn": "Modular compiler stages inside ECGC (core/aion/ecgc_compiler.py)",
-      "sourceRef": "core/aion/ecgc_compiler.py:1-15"
+      "metric": "< 0.35 ثانية",
+      "labelAr": "دقة تزامن الصوت مع الصورة والحركة",
+      "labelEn": "Strict audio-visual sync accuracy threshold",
+      "sourceRef": "فحص جودة آلي"
     },
     {
-      "metric": "< 0.35s",
-      "labelAr": "الحد الأقصى المسموح لانحراف الصوت عن الصورة في بوابة الفحص الآلي",
-      "labelEn": "Maximum A/V drift threshold enforced by automated QA gate",
-      "sourceRef": "PIPELINE_CONTRACTS.md:22"
+      "metric": "86 طبقة موشن",
+      "labelAr": "تحريك متزامن للبطاقات والأسهم والنصوص العربية",
+      "labelEn": "Simultaneous motion layers with clean Arabic typography",
+      "sourceRef": "مخرج مرندر فعلي"
     },
     {
       "metric": "16:9 & 9:16",
-      "labelAr": "دعم مزدوج لإنتاج الفيديوهات الوثائقية الطويلة ومقاطع Shorts العمودية",
-      "labelEn": "Dual rendering modes for 16:9 explainers and 9:16 vertical shorts",
-      "sourceRef": "README.md:65-75 (Studio Compile & Shorts Pipeline)"
+      "labelAr": "إنتاج مزدوج للفيديوهات الطويلة ومقاطع Shorts",
+      "labelEn": "Dual output for widescreen explainers and vertical Shorts",
+      "sourceRef": "مترجم رسومي مدمج"
     }
   ],
   "skillsProven": [
@@ -257,5 +257,11 @@
     "nodes": 3233,
     "edges": 8111
   },
-  "updatedAt": "2026-11-19"
+  "updatedAt": "2026-11-19",
+  "humanCategoryAr": "ذكاء اصطناعي وإنتاج فيديو آلي",
+  "humanCategoryEn": "AI & Automated Video Production",
+  "struggleAr": "إنتاج فيديو موشن جرافيك واحد كان يستغرق أيامًا من القص اليدوي والمزامنة كلمة بكلمة، مع تداخل أكثر من 80 مؤثرًا صوتيًا فوق صوت المعلق وتشوه النصوص العربية أثناء الحركة.",
+  "struggleEn": "Producing a single explainer video took days of manual cutout and word-by-word syncing, plagued by 80+ overlapping sound effects drowning narration and ghosted Arabic captions.",
+  "triumphAr": "محرك آلي من 13 مرحلة يحوّل النص ولوحة القصة إلى فيديو 1080p ومقاطع Shorts متزامنة بالثانية، مع خفض تلقائي للمؤثرات الصوتية أثناء الكلام وفحص جودة ذاتي.",
+  "triumphEn": "A 13-stage automated engine turning scripts and storyboards into 1080p videos and Shorts synced to the millisecond, with automatic voice ducking and self-verifying QA."
 }

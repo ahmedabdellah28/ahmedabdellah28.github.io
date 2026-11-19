@@ -36,25 +36,25 @@ const badgeColors = {
 ---
 
 <div class="space-y-6">
-  {challenges.map((ch) => (
-    <article class="glass-panel rounded-2xl p-6 sm:p-8">
-      <div class="flex items-center justify-between gap-3 flex-wrap mb-4">
-        <span class:list={['px-3 py-1 rounded-full text-xs font-semibold border', badgeColors[ch.type]]}>
+  {challenges.map((ch, idx) => (
+    <article class="glass-panel rounded-2xl p-6 sm:p-7">
+      <div class="flex items-center justify-between gap-3 flex-wrap mb-3">
+        <span class:list={['px-3 py-1 rounded-full text-xs font-bold border', badgeColors[ch.type]]}>
           {t.challengeTypeLabels[ch.type]}
         </span>
-        <span class="font-mono text-xs px-2.5 py-1 rounded bg-white/[0.06] text-amber-300 border border-white/10">
-          {ch.id}
+        <span class="text-xs font-bold text-amber-300">
+          {locale === 'ar' ? `التحدي #${idx + 1}` : `Challenge #${idx + 1}`}
         </span>
       </div>
 
-      <h3 class="text-lg sm:text-xl font-bold text-white mb-5">
+      <h3 class="text-lg sm:text-xl font-extrabold text-white mb-5">
         {locale === 'ar' ? ch.titleAr : ch.titleEn}
       </h3>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
-        <div class="p-4 rounded-xl bg-rose-950/35 border border-rose-500/25">
-          <h4 class="text-xs font-bold uppercase tracking-wider text-rose-300 mb-1.5">
-            {locale === 'ar' ? '1. المشكلة أو السيناريو' : '1. Scenario & Problem'}
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div class="p-4 rounded-xl bg-rose-950/40 border border-rose-500/25">
+          <h4 class="text-xs font-extrabold uppercase tracking-wider text-rose-300 mb-1.5">
+            {locale === 'ar' ? '🔥 المعاناة والأزمة الواقعية' : '🔥 The Real Struggle'}
           </h4>
           <p class="text-sm text-slate-200 leading-relaxed">
             {locale === 'ar' ? ch.problemAr : ch.problemEn}
@@ -62,48 +62,38 @@ const badgeColors = {
         </div>
 
         <div class="p-4 rounded-xl bg-amber-950/35 border border-amber-500/25">
-          <h4 class="text-xs font-bold uppercase tracking-wider text-amber-300 mb-1.5">
-            {locale === 'ar' ? '2. لماذا كانت مهمة؟' : '2. Why It Mattered'}
+          <h4 class="text-xs font-extrabold uppercase tracking-wider text-amber-300 mb-1.5">
+            {locale === 'ar' ? '⚠️ خطورة ترك المشكلة' : '⚠️ Business Risk'}
           </h4>
           <p class="text-sm text-slate-200 leading-relaxed">
             {locale === 'ar' ? ch.whyImportantAr : ch.whyImportantEn}
           </p>
         </div>
 
-        <div class="p-4 rounded-xl bg-blue-950/35 border border-blue-500/25">
-          <h4 class="text-xs font-bold uppercase tracking-wider text-blue-300 mb-1.5">
-            {locale === 'ar' ? '3. القرار والحل الهندسي' : '3. Engineering Solution'}
+        <div class="p-4 rounded-xl bg-blue-950/40 border border-blue-500/25">
+          <h4 class="text-xs font-extrabold uppercase tracking-wider text-blue-300 mb-1.5">
+            {locale === 'ar' ? '⚡ التدخل والحل الحاسم' : '⚡ Breakthrough Solution'}
           </h4>
           <p class="text-sm text-slate-200 leading-relaxed">
             {locale === 'ar' ? ch.solutionAr : ch.solutionEn}
           </p>
         </div>
 
-        <div class="p-4 rounded-xl bg-emerald-950/35 border border-emerald-500/25">
-          <h4 class="text-xs font-bold uppercase tracking-wider text-emerald-300 mb-1.5">
-            {locale === 'ar' ? '4. الأثر والنتيجة المثبتة' : '4. Verified Impact'}
+        <div class="p-4 rounded-xl bg-emerald-950/40 border border-emerald-500/25">
+          <h4 class="text-xs font-extrabold uppercase tracking-wider text-emerald-300 mb-1.5">
+            {locale === 'ar' ? '✅ النتيجة والأثر الفعلي' : '✅ Concrete Outcome'}
           </h4>
-          <p class="text-sm text-slate-200 leading-relaxed">
+          <p class="text-sm text-slate-100 font-medium leading-relaxed">
             {locale === 'ar' ? ch.impactAr : ch.impactEn}
           </p>
         </div>
       </div>
 
-      <div class="pt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-        <div class="flex items-center gap-2 flex-wrap">
-          <span class="font-semibold text-slate-300">
-            {locale === 'ar' ? 'الدليل المرجعي:' : 'Source Evidence:'}
-          </span>
-          <code class="px-2.5 py-1 rounded bg-[#050914] text-emerald-300 font-mono border border-white/10">
-            {ch.proofRef}
-          </code>
-        </div>
-        <div class="text-slate-300">
-          <strong class="text-amber-300">
-            {locale === 'ar' ? 'الخلاصة الهندسية: ' : 'Takeaway: '}
-          </strong>
-          {locale === 'ar' ? ch.lessonAr : ch.lessonEn}
-        </div>
+      <div class="pt-3.5 border-t border-white/10 text-xs sm:text-sm text-slate-200">
+        <strong class="text-amber-300">
+          {locale === 'ar' ? '💡 الخلاصة العملية: ' : '💡 Key Takeaway: '}
+        </strong>
+        {locale === 'ar' ? ch.lessonAr : ch.lessonEn}
       </div>
     </article>
   ))}

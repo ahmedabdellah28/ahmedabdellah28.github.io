@@ -187,28 +187,28 @@
   ],
   "results": [
     {
-      "metric": "506 Products",
-      "labelAr": "منتجًا حقيقيًا تم استيرادها وتطبيع أسمائها عبر 15 قسمًا",
-      "labelEn": "Studio products ingested and normalized across 15 collections",
-      "sourceRef": "public/catalog-fallback.json & storefront screenshot"
+      "metric": "506 منتجًا",
+      "labelAr": "تم تنظيف أسمائها وتصنيفها تلقائيًا في 15 قسمًا",
+      "labelEn": "Automatically normalized and organized across 15 collections",
+      "sourceRef": "كتالوج المتجر الفعلي"
     },
     {
-      "metric": "0 Live Scans",
-      "labelAr": "استدعاءات Cloudinary Admin API أثناء تصفح الزوار بفضل طبقة Supabase والملف الاحتياطي",
-      "labelEn": "Cloudinary Admin API calls triggered by public visitors",
-      "sourceRef": "src/server/catalogService.ts:50-54"
+      "metric": "0 استهلاك حي",
+      "labelAr": "فصل زيارات العملاء عن استنزاف حصة الصور السحابية",
+      "labelEn": "Zero live cloud Admin API calls triggered by store visitors",
+      "sourceRef": "معمارية الكتالوج"
     },
     {
-      "metric": "100% Blocked",
-      "labelAr": "منع كامل لملفات SVG/HTML/EXE المزيفة وحقن فلاتر PostgREST في اختبارات الوحدة",
-      "labelEn": "Spoofed SVG/HTML/EXE uploads and PostgREST injection payloads rejected in tests",
-      "sourceRef": "src/server/security.test.ts:13-95"
+      "metric": "100% حماية",
+      "labelAr": "صد الملفات الخبيثة المنتحلة لصور قبل وصولها للخادم",
+      "labelEn": "Spoofed malicious files blocked via binary header inspection",
+      "sourceRef": "اختبارات الأمان"
     },
     {
-      "metric": "400w – 1200w",
-      "labelAr": "توليد تلقائي لروابط صور Cloudinary المتجاوبة (srcset) بصيغ f_auto,q_auto",
-      "labelEn": "Responsive Cloudinary srcset transformations (f_auto,q_auto)",
-      "sourceRef": "src/utils/catalog.test.ts:46-59"
+      "metric": "عمل مستمر",
+      "labelAr": "نسخة احتياطية مدمجة تضمن عمل المتجر دون انقطاع",
+      "labelEn": "Built-in fallback catalog ensuring uninterrupted store uptime",
+      "sourceRef": "نظام الاعتمادية"
     }
   ],
   "skillsProven": [
@@ -228,5 +228,11 @@
     "nodes": 320,
     "edges": 848
   },
-  "updatedAt": "2026-11-19"
+  "updatedAt": "2026-11-19",
+  "humanCategoryAr": "تجارة إلكترونية ومتاجر سحابية",
+  "humanCategoryEn": "E-Commerce & Cloud Storefront",
+  "struggleAr": "أكثر من 500 صورة أحذية مرفوعة مباشرة من الكاميرا وواتساب بأسماء مشوهة (IMG-WA0019) ومجلدات مختلطة، مع خطر توقف المتجر عند نفاد حصة السحابة أو رفع ملفات خبيثة.",
+  "struggleEn": "500+ raw WhatsApp/camera shoe photos with cryptic names (IMG-WA0019) and mixed folders, risking site downtime from cloud API limits and malicious file uploads.",
+  "triumphAr": "تحويل تلقائي لأرشيف الصور الخام إلى متجر عربي/إنجليزي فاخر (506 منتجًا في 15 قسمًا) يعمل بسرعة فائقة دون استهلاك حصة السحابة ومحصن بفحص البصمة الثنائية للصور.",
+  "triumphEn": "Automated transformation of raw photo archives into a fast 506-product bilingual storefront with zero live cloud API drain on visitors and binary upload security."
 }

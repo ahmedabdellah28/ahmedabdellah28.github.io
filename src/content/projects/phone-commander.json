@@ -197,28 +197,28 @@
   ],
   "results": [
     {
-      "metric": "0 MB/Frame",
-      "labelAr": "تخصيص ذاكرة جديدة لكل إطار بفضل إعادة استخدام المخازن المحلية للخيوط",
-      "labelEn": "Per-frame bitmap heap allocation eliminated via ThreadLocal ReusableScaleBuffer",
-      "sourceRef": "TemplateMatcher.kt:62-85"
+      "metric": "0 MB/إطار",
+      "labelAr": "تصفير استنزاف الذاكرة أثناء المسح البصري المستمر",
+      "labelEn": "Eliminated per-frame memory churn via reusable thread buffers",
+      "sourceRef": "محرك المطابقة البصري"
     },
     {
-      "metric": "0.86 – 0.92",
-      "labelAr": "عتبات الثقة المضبوطة في خوارزمية ZNCC لقبول المطابقة البصرية",
-      "labelEn": "Configured ZNCC confidence thresholds gating UI template matches",
-      "sourceRef": "AUTOMATION_UPGRADE_PLAN.md:76-85"
+      "metric": "0 نقرات عمياء",
+      "labelAr": "كل ضغطة مشروطة برصد بصري مؤكد أو رجوع نظامي آمن",
+      "labelEn": "Zero blind taps; every action gated by vision or OCR confirmation",
+      "sourceRef": "محرك القرار"
     },
     {
-      "metric": "5,264 Lines",
-      "labelAr": "حجم محرك آلة الحالة الذاتية والتعافي من الأخطاء في Kotlin",
-      "labelEn": "Autonomous state-machine and error recovery implementation in AutomationEngine.kt",
-      "sourceRef": "AutomationEngine.kt:1-5264"
+      "metric": "حماية البطارية",
+      "labelAr": "تصغير تلقائي أثناء الانتظار الطويل لمنع سخونة الجهاز",
+      "labelEn": "Auto-minimize during long idle windows to reduce heat & battery drain",
+      "sourceRef": "إدارة الطاقة"
     },
     {
-      "metric": "> 15 Min",
-      "labelAr": "عتبة تصغير التطبيق التلقائي لتوفير البطارية والحرارة أثناء الانتظار الطويل",
-      "labelEn": "Auto-minimize threshold saving battery and thermal load during long waits",
-      "sourceRef": "AutomationEngine.kt:89-95"
+      "metric": "متابعة لحظية",
+      "labelAr": "شاشة سجل حية داخل التطبيق تعرض كل خطوة ونسبة الثقة",
+      "labelEn": "Real-time in-app telemetry console showing every step and match score",
+      "sourceRef": "واجهة المراقبة"
     }
   ],
   "skillsProven": [
@@ -238,5 +238,11 @@
     "nodes": 1704,
     "edges": 3056
   },
-  "updatedAt": "2026-11-19"
+  "updatedAt": "2026-11-19",
+  "humanCategoryAr": "رؤية حاسوبية وأتمتة هواتف أندرويد",
+  "humanCategoryEn": "Mobile Computer Vision & Android Automation",
+  "struggleAr": "المسح البصري المستمر للشاشة كان يلتهم 8 ميجابايت من الذاكرة في كل إطار فيسبب سخونة الهاتف وانهيار التطبيق، بينما كانت النقرات الافتراضية تدخله في حلقات لا نهائية.",
+  "struggleEn": "Continuous screen vision scanning allocated 8MB of memory every frame—causing thermal throttling and crashes—while blind fallback taps trapped the phone in infinite loops.",
+  "triumphAr": "محرك رؤية حاسوبية مُعاد الهندسة بصفر استنزاف للذاكرة (0 MB/Frame)، يرفض أي نقرة غير مؤكدة بصريًا، ويصغّر التطبيق تلقائيًا لتوفير البطارية مع شاشة متابعة حية.",
+  "triumphEn": "Re-engineered zero-memory-churn computer vision engine (0 MB/frame) that bans blind taps, auto-minimizes during long waits to save battery, and streams live logs."
 }

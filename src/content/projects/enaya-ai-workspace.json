@@ -188,28 +188,28 @@
   ],
   "results": [
     {
-      "metric": "5 Flutter Apps",
-      "labelAr": "تطبيقات متكاملة في المونوريبو (المريض، الطبيب، المختبر، الصيدلية، الإدارة)",
-      "labelEn": "Unified healthcare applications inside enaya_monorepo",
-      "sourceRef": "enaya_monorepo/.git commits 07c9431..08208b8"
+      "metric": "5 تطبيقات",
+      "labelAr": "منظومة مترابطة للمريض والطبيب والمختبر والصيدلية والإدارة",
+      "labelEn": "Integrated apps for Patient, Doctor, Lab, Pharmacy, and Admin",
+      "sourceRef": "المونوريبو الطبي"
     },
     {
-      "metric": "90+ Artifacts",
-      "labelAr": "وثيقة معمارية وتدقيق أمني وسجل قرارات (ADR) مفهرسة في MANIFEST.md",
-      "labelEn": "Governance, RLS audit, and target architecture specs in MANIFEST.md",
-      "sourceRef": "MANIFEST.md:1-90"
+      "metric": "عمل دون شبكة",
+      "labelAr": "حفظ العمليات الحرجة محليًا ومزامنتها فور عودة الاتصال",
+      "labelEn": "Offline queue preserving critical actions during network drops",
+      "sourceRef": "مدير المزامنة"
     },
     {
-      "metric": "12 Roles",
-      "labelAr": "أدوار تدقيق هندسية متخصصة بمراجعات متقاطعة وإسناد إلزامي للأسطر",
-      "labelEn": "Specialist engineering audit roles with cross-review conflict resolution",
-      "sourceRef": "MANIFEST.md:21-44"
+      "metric": "تعافٍ ذكي",
+      "labelAr": "إعادة محاولة متدرجة تمنع تكدس الطلبات على الخادم",
+      "labelEn": "Jittered backoff retries preventing server overload storms",
+      "sourceRef": "خدمة التعافي"
     },
     {
-      "metric": "0.8x – 1.2x",
-      "labelAr": "معامل العشوائية (Jitter) في إعادة المحاولة التصاعدية لحماية الخادم",
-      "labelEn": "Jitter multiplier on exponential backoff retries for transient faults",
-      "sourceRef": "error_recovery_service.dart:50-56"
+      "metric": "12 زاوية فحص",
+      "labelAr": "مراجعة معمارية وأمنية شاملة لحماية بيانات المرضى",
+      "labelEn": "12-role architectural and security audit protecting patient data",
+      "sourceRef": "وثائق الحوكمة"
     }
   ],
   "skillsProven": [
@@ -229,5 +229,11 @@
     "nodes": 11456,
     "edges": 17367
   },
-  "updatedAt": "2026-11-19"
+  "updatedAt": "2026-11-19",
+  "humanCategoryAr": "منظومة تطبيقات طبية (5 تطبيقات موبايل وويب)",
+  "humanCategoryEn": "Healthcare App Ecosystem (5 Mobile & Web Apps)",
+  "struggleAr": "توزيع رحلة المريض بين 5 تطبيقات (المريض، الطبيب، المختبر، الصيدلية، الإدارة) جعل أي انقطاع في إنترنت الهاتف يضيع إلغاءات الحجوزات ويخلق تضاربًا في التسعير.",
+  "struggleEn": "Splitting patient journeys across 5 apps meant any mobile network drop caused lost booking cancellations, pricing race conditions, and retry storms.",
+  "triumphAr": "توحيد المعمارية عبر التطبيقات الخمسة مع طابور عمليات ذكي يعمل دون إنترنت (Offline Queue) ويستأنف المزامنة تلقائيًا بهدوء فور عودة الشبكة.",
+  "triumphEn": "Unified the 5-app ecosystem with an offline-first action queue and jittered auto-recovery that syncs pending medical transactions seamlessly upon reconnection."
 }

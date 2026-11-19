@@ -188,28 +188,28 @@
   ],
   "results": [
     {
-      "metric": "100% Isolated",
-      "labelAr": "تدمير كامل لسياق الجلسة والكوكيز وتبديل البروكسي بين كل عملية وأخرى",
-      "labelEn": "Complete BrowserContext teardown and proxy rotation between executions",
-      "sourceRef": "browser_data_and_slots_report.md:33-61"
+      "metric": "100% عزل",
+      "labelAr": "تدمير كامل للجلسة والكوكيز وتجديد البصمة بين كل عملية",
+      "labelEn": "Complete browser context teardown and fresh identity per task",
+      "sourceRef": "مدير الجلسات"
     },
     {
-      "metric": "83/83 Modules",
-      "labelAr": "ملف بايثون مفصول ومترجم بنجاح بصفر اعتماديات خارجية مكسورة",
-      "labelEn": "Standalone Python modules compiling cleanly with zero external path leaks",
-      "sourceRef": "verification_report.md:17-19"
+      "metric": "حفظ لحظي آمن",
+      "labelAr": "منع تلف أو تكرار البيانات عند التشغيل المتوازي",
+      "labelEn": "Crash-safe atomic file updates across concurrent worker threads",
+      "sourceRef": "معالج النتائج"
     },
     {
-      "metric": "10 Findings",
-      "labelAr": "إشارات بروتوكول وسلوك موثقة في تقرير التدقيق الجنائي (1,276 سطرًا)",
-      "labelEn": "Protocol and behavioral anomalies documented in the 1,276-line forensic audit",
-      "sourceRef": "camoufox_forensic_audit.md:16-28"
+      "metric": "قفل البروكسي",
+      "labelAr": "منع استخدام نفس الـ IP في مهمتين متزامنتين",
+      "labelEn": "Exclusive proxy locking preventing IP collisions across slots",
+      "sourceRef": "مدير الشبكة"
     },
     {
-      "metric": "Atomic Lock",
-      "labelAr": "حذف وتصنيف ذري للسجلات المعالجة عبر threading.Lock لمنع التضارب",
-      "labelEn": "Thread-safe atomic input pruning and output routing via threading.Lock",
-      "sourceRef": "scenarios/recovery/failure_handler.py:31-75"
+      "metric": "83 وحدة مستقلة",
+      "labelAr": "بنية برمجية مفصولة بالكامل تعمل دون اعتماديات مكسورة",
+      "labelEn": "83 decoupled modules verified with zero broken imports",
+      "sourceRef": "فحص التكامل"
     }
   ],
   "skillsProven": [
@@ -228,5 +228,11 @@
     "nodes": 1757,
     "edges": 4374
   },
-  "updatedAt": "2026-11-19"
+  "updatedAt": "2026-11-19",
+  "humanCategoryAr": "أتمتة متصفحات متوازية وعزل جلسات",
+  "humanCategoryEn": "Concurrent Browser Automation & Session Isolation",
+  "struggleAr": "تشغيل عشرات المهام المتوازية على المتصفح كان يعاني من تسرب الكوكيز والبصمة بين الجلسات، وتصادم البروكسيات، وتلف ملفات البيانات عند أي توقف مفاجئ.",
+  "struggleEn": "Running concurrent browser tasks suffered from cross-session cookie leaks, proxy collisions across threads, and corrupted data files on unexpected halts.",
+  "triumphAr": "نظام سلوتات متوازية يدمر الجلسة بالكامل بعد كل عملية لعزل البيانات 100%، مع قفل حصري للبروكسي وحفظ لحظي آمن يمنع ضياع أو تكرار أي سجل.",
+  "triumphEn": "Multi-slot engine enforcing complete session destruction per task for 100% isolation, paired with exclusive proxy locking and crash-safe atomic file updates."
 }

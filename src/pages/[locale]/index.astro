@@ -12,128 +12,112 @@ export function getStaticPaths() {
 const { locale } = Astro.params as { locale: 'ar' | 'en' };
 const t = UI_LABELS[locale];
 
-// Strictly filter published projects only
+// Strictly filter published projects only, ordered by featuredOrder
 const allPublished = (await getCollection('projects', ({ data }) => data.visibility === 'published')).sort(
   (a, b) => a.data.featuredOrder - b.data.featuredOrder
 );
 
-// 3 Flagship Featured Projects right after Hero (§5.C)
-const featuredProjects = allPublished.filter((p) => p.data.featured).slice(0, 3);
+// 3 Flagship Featured Projects + 4 Additional Specialized Systems — ALL 7 visible on Homepage!
+const featuredProjects = allPublished.slice(0, 3);
+const additionalProjects = allPublished.slice(3);
 
-// D. What I Build / Expertise (4 clear groups with supporting project links)
+// D. What I Build / Expertise (4 clear client-value cards)
 const expertiseGroups = [
   {
-    titleAr: 'تطبيقات وتجارب رقمية متكاملة',
-    titleEn: 'Digital Applications & Product Experiences',
-    valueAr: 'بناء تطبيقات ويب وموبايل وسطح مكتب سريعة، تدعم العربية والإنجليزية، وتمنح المستخدم النهائي تجربة واضحة بلا تعقيد.',
-    valueEn: 'Building fast web, mobile, and desktop applications with native Arabic/English support and intuitive user journeys.',
-    exampleLabelAr: 'مثال مطبق: متجر سول للأحذية (SOLE) ومنظومة عناية الطبية',
-    exampleLabelEn: 'Proven in: SOLE Footwear Marketplace & Enaya Healthcare Platform',
+    badgeAr: 'تطبيقات ومنصات',
+    badgeEn: 'Web, Mobile & Desktop Apps',
+    titleAr: 'منصات وتطبيقات رقمية متكاملة وسريعة',
+    titleEn: 'Fast, Production-Grade Digital Platforms',
+    valueAr: 'بناء متاجر ومنصات طبية وتطبيقات موبايل وسطح مكتب تدعم العربية والإنجليزية بسلاسة وتتحمل ضغط التشغيل الحقيقي.',
+    valueEn: 'Building e-commerce marketplaces, healthcare suites, and cross-platform apps with native Arabic/English UX.',
+    exampleLabelAr: 'شاهد التطبيق في: متجر سول للأحذية ومنظومة عناية الطبية ←',
+    exampleLabelEn: 'See in action: SOLE Marketplace & Enaya Medical Suite →',
     exampleHref: `/${locale}/projects/remix-sole-marketplace`,
   },
   {
-    titleAr: 'الذكاء الاصطناعي ومحركات الأتمتة',
-    titleEn: 'AI Workflows & Intelligent Automation',
-    valueAr: 'تحويل العمليات اليدوية التي تستغرق ساعات أو أيامًا (مثل إنتاج الفيديو أو الرصد البصري على الشاشات) إلى خطوط إنتاج آلية منضبطة.',
-    valueEn: 'Transforming multi-hour manual workflows (video production, visual screen tasks, multi-slot browser flows) into deterministic pipelines.',
-    exampleLabelAr: 'مثال مطبق: محرك AION Studio لإنتاج الموشن جرافيك',
-    exampleLabelEn: 'Proven in: AION Studio Automated Motion Graphics Engine',
+    badgeAr: 'ذكاء اصطناعي وأتمتة',
+    badgeEn: 'AI & Automation Engines',
+    titleAr: 'تحويل العمل اليدوي المرهق إلى خطوط إنتاج آلية',
+    titleEn: 'Turning Grueling Manual Work into Automated Pipelines',
+    valueAr: 'أتمتة العمليات التي تستهلك أيامًا من المونتاج أو المتابعة البصرية أو إدارة المتصفحات المتعددة لتعمل ذاتيًا بدقة.',
+    valueEn: 'Automating multi-hour video rendering, visual screen monitoring, and multi-browser workflows into self-healing pipelines.',
+    exampleLabelAr: 'شاهد التطبيق في: محرك AION Studio لإنتاج الموشن جرافيك ←',
+    exampleLabelEn: 'See in action: AION Studio Motion Graphics Engine →',
     exampleHref: `/${locale}/projects/image-to-animate`,
   },
   {
-    titleAr: 'الأنظمة الحتمية وحل القيود المعقدة',
-    titleEn: 'Constraint Systems & Mathematical Scheduling',
-    valueAr: 'صياغة القواعد المتشابكة رياضيًا لإنتاج حلول خالية من التضارب مع شرح الأسباب والبدائل للمستخدم بوضوح عند التعديل اليدوي.',
-    valueEn: 'Modeling complex operational rules mathematically to produce conflict-free schedules with explainable interactive repair.',
-    exampleLabelAr: 'مثال مطبق: نظام الجدول المدرسي الذكي',
-    exampleLabelEn: 'Proven in: Smart School Timetable System',
+    badgeAr: 'خوارزميات وحل قيود',
+    badgeEn: 'Constraint Solving',
+    titleAr: 'حل الجداول والقيود المستحيلة رياضيًا بدون تضارب',
+    titleEn: 'Solving Complex Scheduling & Operational Constraints',
+    valueAr: 'تحويل القواعد المتشابكة إلى محرك رياضي ينتج جداول خالية 100% من التعارض مع اقتراح بدائل ذكية عند التعديل اليدوي.',
+    valueEn: 'Modeling strict institutional rules mathematically to generate 100% conflict-free schedules with interactive smart repair.',
+    exampleLabelAr: 'شاهد التطبيق في: نظام الجدول المدرسي الذكي ←',
+    exampleLabelEn: 'See in action: Smart School Timetable System →',
     exampleHref: `/${locale}/projects/school-timetable`,
   },
   {
-    titleAr: 'الأداء، الاعتمادية، وتحصين الأمان',
-    titleEn: 'Performance, Offline Resilience & Security',
-    valueAr: 'حماية العمليات من الضياع عند انقطاع الإنترنت، وتصفير استنزاف ذاكرة المعالج في المهام المستمرة، وفحص الملفات المرفوعة من البايت الأول.',
-    valueEn: 'Preventing data loss during network drops, eliminating memory churn in continuous loops, and verifying binary file uploads.',
-    exampleLabelAr: 'مثال مطبق: Phone Commander وواجهة أمان متجر سول',
-    exampleLabelEn: 'Proven in: Phone Commander & SOLE Security Gate',
+    badgeAr: 'أمان واعتمادية 24/7',
+    badgeEn: 'Security & Offline Resilience',
+    titleAr: 'حماية البيانات من الضياع وتحصين الأنظمة ضد الاختراق',
+    titleEn: 'Zero Data Loss Offline & Binary Security Hardening',
+    valueAr: 'تخزين المهام محليًا عند انقطاع الإنترنت، وتصفير استنزاف الذاكرة في التشغيل المستمر، وفحص الملفات المرفوعة أمنيًا.',
+    valueEn: 'Persisting queued tasks through network drops, eliminating memory leaks in 24/7 loops, and blocking spoofed uploads.',
+    exampleLabelAr: 'شاهد التطبيق في: Phone Commander وحماية متجر سول ←',
+    exampleLabelEn: 'See in action: Phone Commander & SOLE Security Gate →',
     exampleHref: `/${locale}/projects/phone-commander`,
   },
 ];
 
-// E. Problem Solving / Engineering Highlights (3 verified stories: Problem -> Decision -> Verified Outcome)
+// E. Dramatic Struggle -> Breakthrough Stories (Concise, Client-Magnetic, Zero File-Path Clutter)
 const engineeringStories = [
   {
-    badgeAr: 'إصلاح موثق بالدليل · Verified Fix',
-    badgeEn: 'Verified Fix · Code & RCA Proven',
-    badgeStyle: 'bg-emerald-500/15 text-emerald-300 border-emerald-400/30',
-    projectTitleAr: 'AION Studio — إنتاج الموشن جرافيك',
-    projectTitleEn: 'AION Studio Motion Engine',
-    href: `/${locale}/projects/image-to-animate#engineering-deep-dive`,
-    titleAr: 'منع تشوه النصوص العربية وتداخل المؤثرات الصوتية فوق صوت المعلق',
-    titleEn: 'Eliminating Arabic Caption Ghosting & Overlapping Audio Cues',
-    problemAr: 'كانت النصوص العربية تظهر باهتة أثناء فتح البطاقات، مع تداخل عشرات المؤثرات الصوتية فوق صوت الراوي.',
-    problemEn: 'Arabic captions lagged behind card reveal animations, while redundant sound effects drowned out voice narration.',
-    decisionAr: 'مزامنة زمن كشف النص مع البطاقة داخل المترجم الرسومي، وتوجيه الصوت عبر محرك خلط يخفض المؤثرات تلقائيًا أثناء الكلام (RMS Voice Ducking).',
-    decisionEn: 'Synchronized text-card reveal windows in the compiler and routed audio through an RMS envelope voice-ducking mixer.',
-    outcomeAr: 'اجتياز بوابة الفحص الآلي بانحراف صوت/صورة أقل من 0.35 ثانية وصفر بتر لصوت الراوي.',
-    outcomeEn: 'Passed automated QA verification with <0.35s A/V drift and zero narration clipping.',
+    badgeAr: 'تحدي إنتاج الفيديو الآلي',
+    badgeEn: 'Automated Video Production Challenge',
+    badgeStyle: 'bg-amber-500/15 text-amber-300 border-amber-400/30',
+    projectTitleAr: 'AION Studio',
+    projectTitleEn: 'AION Studio',
+    href: `/${locale}/projects/image-to-animate`,
+    titleAr: 'حين كانت النصوص العربية تتشوه والمؤثرات الصوتية تطغى على صوت المعلق',
+    titleEn: 'When Arabic Captions Broke and Sound Effects Drowned Out the Narrator',
+    problemAr: 'إنتاج فيديو عربي آليًا كان يصطدم بتأخر ظهور النص عن حركة البطاقة، وتراكم عشرات المؤثرات الصوتية فوق صوت الراوي.',
+    problemEn: 'Automated Arabic videos suffered from text lagging behind card animations and overlapping sound effects burying the voiceover.',
+    decisionAr: 'ابتكار خلط صوتي ذكي يخفض الموسيقى والمؤثرات تلقائيًا فور نطق المعلق، مع مزامنة كشف النص مع إطار البطاقة بدقة.',
+    decisionEn: 'Built an automatic voice-ducking audio mixer that lowers SFX whenever narration speaks, paired with frame-locked Arabic text reveal.',
+    outcomeAr: 'فيديو عربي احترافي متزامن بأقل من 0.35 ثانية انحراف، وصفر تداخل صوتي، وفحص جودة آلي قبل التصدير.',
+    outcomeEn: 'Studio-grade Arabic video with <0.35s sync drift, crystal-clear voiceover, and automated QA verification.',
   },
   {
-    badgeAr: 'إصلاح موثق بالدليل · Verified Fix',
-    badgeEn: 'Verified Fix · Call-Chain Audit',
-    badgeStyle: 'bg-emerald-500/15 text-emerald-300 border-emerald-400/30',
-    projectTitleAr: 'نظام الجدول المدرسي الذكي',
-    projectTitleEn: 'Smart School Timetable System',
-    href: `/${locale}/projects/school-timetable#engineering-deep-dive`,
-    titleAr: 'تحويل التعديل اليدوي للجدول من استبدال صامت إلى إصلاح ذكي قابل للتفسير',
-    titleEn: 'Turning Silent Schedule Overwrites into Explainable Smart Repair',
-    problemAr: 'سحب حصة إلى موعد مشغول كان يستبدل الجدول في قاعدة البيانات دون توضيح الحصص الأخرى التي تحركت أو احترام الحصص المثبتة.',
-    problemEn: 'Dragging a lesson onto an occupied slot previously overwrote SQLite entries without showing displaced lessons or respecting pinned slots.',
-    decisionAr: 'توحيد المسار عبر أمر نقل موحد يعرض جدول الحصص المزاحة وسبب نقل كل حصة قبل الاعتماد، مع حفظ حالة التثبيت في قاعدة البيانات.',
-    decisionEn: 'Unified the drag-and-drop pipeline to present a causal displacement diff table before saving, while persisting pinned lesson locks in SQLite.',
-    outcomeAr: 'شفافية كاملة لمدير المدرسة قبل حفظ أي تعديل، مع إمكانية التراجع الفوري وصفر فقدان للبيانات.',
-    outcomeEn: '100% pre-commit visibility into ripple effects with instant rollback safety.',
-  },
-  {
-    badgeAr: 'تصميم وقائي · Preventive Design',
-    badgeEn: 'Preventive Design · Unit-Test Proven',
+    badgeAr: 'تحدي الجداول المعقدة',
+    badgeEn: 'Complex Scheduling Challenge',
     badgeStyle: 'bg-blue-500/15 text-blue-300 border-blue-400/30',
+    projectTitleAr: 'نظام الجدول المدرسي الذكي',
+    projectTitleEn: 'Smart School Timetable',
+    href: `/${locale}/projects/school-timetable`,
+    titleAr: 'حين كان تحريك حصة واحدة يدويًا يضرب جدول المدرسة بالكامل في صمت',
+    titleEn: 'When Moving One Lesson Manually Silently Broke the Entire School Schedule',
+    problemAr: 'مدير المدرسة عندما يسحب حصة لموعد مشغول كان يفاجأ بتغير حصص أخرى أو كسر الحصص المثبتة دون أن يعرف السبب.',
+    problemEn: 'Dragging a lesson onto a busy slot previously overwrote schedule entries without showing which other classes were displaced.',
+    decisionAr: 'تحويل السحب والإفلات إلى «إصلاح ذكي شفاف» يعرض للمدير جدولًا واضحًا بالحصص التي ستتحرك وسببها قبل الاعتماد.',
+    decisionEn: 'Turned drag-and-drop into an explainable smart-repair preview showing every affected lesson and reason before saving.',
+    outcomeAr: 'تحكم كامل لمدير المدرسة مع تثبيت الحصص السيادية، وتراجع فوري بضغطة زر، وصفر تضارب في الحصص.',
+    outcomeEn: '100% visibility before saving, strict respect for pinned lessons, instant undo, and 0% schedule conflict.',
+  },
+  {
+    badgeAr: 'تحدي الأمان والسرعة',
+    badgeEn: 'Security & Speed Challenge',
+    badgeStyle: 'bg-emerald-500/15 text-emerald-300 border-emerald-400/30',
     projectTitleAr: 'متجر سول للأحذية (SOLE)',
     projectTitleEn: 'SOLE Footwear Marketplace',
-    href: `/${locale}/projects/remix-sole-marketplace#engineering-deep-dive`,
-    titleAr: 'حماية المتجر من الملفات الخبيثة المنتحلة واستهلاك حصص الصور السحابية',
-    titleEn: 'Blocking Spoofed File Uploads & Protecting Cloud Media Quotas',
-    problemAr: 'الاعتماد على امتداد الصورة فقط يسمح برفع ملفات برمجية خبيثة متنكرة كصور، كما أن فحص السحابة مع كل زائر يبطئ المتجر.',
-    problemEn: 'Trusting file extensions allows disguised SVG/EXE uploads, while scanning cloud folders on every visitor request exhausts API quotas.',
-    decisionAr: 'فحص البايتات الثنائية الأولى (Magic Bytes) لكل صورة مرفوعة، وفصل زيارات العملاء لتقرأ من قاعدة البيانات والنسخة الاحتياطية فقط.',
-    decisionEn: 'Implemented binary Magic-Byte header verification on uploads and isolated visitor traffic to database/static fallback reads.',
-    outcomeAr: 'صد 100% للملفات المزيفة في اختبارات الأمان الآلية وعرض 506 منتجًا بسرعة عالية دون استهلاك حصة الـ API.',
-    outcomeEn: '100% automated test rejection of spoofed files and zero live Cloudinary Admin API scans on customer visits.',
-  },
-];
-
-// F. About / Approach
-const approachSteps = [
-  {
-    step: '01',
-    titleAr: 'فهم المشكلة والقيود الواقعية أولًا',
-    titleEn: 'Start From the Problem & Real Constraints',
-    bodyAr: 'أبدأ بتحديد أين تضيع ساعات العمل أو أين يفشل النظام في الواقع (مثل انقطاع الشبكة، أو بيانات الإدخال غير المنظمة، أو تعارض القيود) قبل اختيار الأداة.',
-    bodyEn: 'I begin by identifying where manual time is lost or where edge cases break in reality (network drops, messy inputs, conflicting rules) before choosing tools.',
-  },
-  {
-    step: '02',
-    titleAr: 'تصميم معماري يعزل الأخطاء ويحمي البيانات',
-    titleEn: 'Design Boundaries That Isolate Faults',
-    bodyAr: 'أقسم النظام إلى مراحل واضحة بعقود بيانات محددة؛ بحيث إذا تعثرت خطوة واحدة يسهل تشخيصها وإعادتها دون إتلاف المخرجات المعتمدة.',
-    bodyEn: 'Systems are structured around clear data contracts and isolated execution scopes so partial failures never corrupt approved data.',
-  },
-  {
-    step: '03',
-    titleAr: 'التحقق المستقل والقياس الفعلي',
-    titleEn: 'Verify Output Independently & Measure',
-    bodyAr: 'أبني أدوات فحص واختبارات آلية تتحقق من النتيجة النهائية (سواء كانت جدولًا مدرسيًا، أو فيديو مرندرًا، أو واجهة متجر) قبل اعتبار العمل مكتملًا.',
-    bodyEn: 'Automated validators and test suites verify the final artifact — whether a timetable, rendered video, or API response — before shipping.',
+    href: `/${locale}/projects/remix-sole-marketplace`,
+    titleAr: 'حماية المتجر من الملفات الخبيثة المنتحلة وإيقاف استنزاف باقة الصور السحابية',
+    titleEn: 'Stopping Disguised Malicious Uploads & Cloud Quota Exhaustion',
+    problemAr: 'قبول الصور بناءً على اسمها فقط يفتح ثغرة لرفع ملفات خبيثة، كما أن فحص السحابة مع كل زائر يبطئ المتجر ويستهلك الباقة.',
+    problemEn: 'Checking only file extensions allows disguised malicious uploads, while scanning cloud folders per visitor kills speed and quota.',
+    decisionAr: 'فحص البصمة الثنائية الحقيقية لكل صورة قبل قبولها، وجعل تصفح العملاء يقرأ فورًا من قاعدة البيانات السريعة والنسخة الاحتياطية.',
+    decisionEn: 'Enforced binary header verification on every upload and isolated customer browsing to fast database & static catalog reads.',
+    outcomeAr: 'صد 100% للملفات المزيفة، وتصفح فوري لـ 506 منتجًا حتى لو تعطل الاتصال بالسحابة الخارجية.',
+    outcomeEn: '100% rejection of spoofed files and instant browsing of 506 products with zero cloud quota drain.',
   },
 ];
 
@@ -145,16 +129,18 @@ const pageDesc = locale === 'ar' ? SITE_CONFIG.heroSubheadingAr : SITE_CONFIG.he
 ---
 
 <BaseLayout title={pageTitle} description={pageDesc} locale={locale} currentPath={`/${locale}/`}>
-  <!-- B. HERO / ABOVE THE FOLD (Clean, Human, Value-First + Studio Portrait) -->
+  <!-- B. HERO / ABOVE THE FOLD (Direct Value, Fast Access, Studio Portrait) -->
   <section class="relative border-b border-white/10 overflow-hidden">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
         <!-- Text Column (7 Cols) -->
         <div class="lg:col-span-7 space-y-5">
-          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.06] border border-white/15 text-xs font-semibold text-blue-300">
-            <span class="w-2 h-2 rounded-full bg-amber-400" aria-hidden="true"></span>
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.07] border border-white/15 text-xs font-bold text-amber-300">
+            <span class="w-2 h-2 rounded-full bg-emerald-400" aria-hidden="true"></span>
             <span>
-              {locale === 'ar' ? SITE_CONFIG.roleTitleAr : SITE_CONFIG.roleTitleEn}
+              {locale === 'ar'
+                ? `${SITE_CONFIG.ownerNameAr} · ${SITE_CONFIG.roleTitleAr}`
+                : `${SITE_CONFIG.ownerNameEn} · ${SITE_CONFIG.roleTitleEn}`}
             </span>
           </div>
 
@@ -162,45 +148,58 @@ const pageDesc = locale === 'ar' ? SITE_CONFIG.heroSubheadingAr : SITE_CONFIG.he
             {locale === 'ar' ? SITE_CONFIG.heroHeadingAr : SITE_CONFIG.heroHeadingEn}
           </h1>
 
-          <p class="text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl">
-            {locale === 'ar' ? SITE_CONFIG.heroSubheadingAr : SITE_CONFIG.heroSubheadingEn}
+          <p class="text-base sm:text-lg text-slate-200 leading-relaxed max-w-2xl">
+            {locale === 'ar'
+              ? 'أحوّل العمليات اليدوية المعقدة والمشكلات التقنية المرهقة إلى أنظمة ذكية وتطبيقات سريعة ومستقرة — معروضة أمامك هنا بوضوح: ما المعاناة التي واجهناها، كيف حسمناها، وما النتيجة الفعلية.'
+              : 'I turn painful manual workflows and complex operational bottlenecks into reliable, high-speed software systems — presented clearly with the real struggle, the breakthrough solution, and measurable impact.'}
           </p>
 
-          <div class="pt-2 flex flex-wrap items-center gap-3.5">
+          <!-- Direct Simplified Access Buttons -->
+          <div class="pt-1 flex flex-wrap items-center gap-3">
             <a
               href="#featured-work"
               class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm shadow-lg shadow-blue-600/25 transition-colors min-h-[46px]"
             >
-              <span>{t.heroPrimaryCta}</span>
+              <span>{locale === 'ar' ? 'استكشف المشاريع السبعة الآن' : 'Explore All 7 Projects'}</span>
             </a>
             <a
-              href={`/${locale}/expertise`}
-              class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white/[0.06] hover:bg-white/10 text-slate-100 font-semibold text-sm border border-white/15 transition-colors min-h-[46px]"
+              href="#struggle-stories"
+              class="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-200 font-bold text-sm border border-amber-400/30 transition-colors min-h-[46px]"
             >
-              <span>{t.heroSecondaryCta}</span>
+              <span>{locale === 'ar' ? '🔥 معاناة حقيقية وكيف حسمناها' : '🔥 Real Struggles & Breakthroughs'}</span>
+            </a>
+            <a
+              href={`/${locale}/contact`}
+              class="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-white/[0.06] hover:bg-white/10 text-slate-100 font-semibold text-sm border border-white/15 transition-colors min-h-[46px]"
+            >
+              <span>{locale === 'ar' ? 'تواصل مباشر' : 'Direct Contact'}</span>
             </a>
           </div>
 
-          <!-- Concise Real Proof Highlights (Understandable in 5 Seconds) -->
-          <div class="pt-5 grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
-            <div class="p-3 rounded-xl bg-white/[0.04] border border-white/10">
-              <strong class="text-white block text-sm">7 {locale === 'ar' ? 'مشاريع حقيقية' : 'Real Systems'}</strong>
-              <span class="text-slate-400">
-                {locale === 'ar' ? 'مفحوصة وموثقة بالكود' : 'Documented with code proof'}
+          <!-- 3 Crisp Client-Value Pillars -->
+          <div class="pt-4 grid grid-cols-3 gap-2.5 sm:gap-3 text-xs">
+            <div class="p-3 rounded-xl bg-white/[0.05] border border-white/10">
+              <strong class="text-amber-300 block text-sm sm:text-base font-extrabold">
+                {locale === 'ar' ? '7 أنظمة كاملة' : '7 Real Systems'}
+              </strong>
+              <span class="text-slate-300">
+                {locale === 'ar' ? 'معروضة بالكامل أمامك' : 'All shown below'}
               </span>
             </div>
-            <div class="p-3 rounded-xl bg-white/[0.04] border border-white/10">
-              <strong class="text-white block text-sm">Web · Mobile · AI</strong>
-              <span class="text-slate-400">
-                {locale === 'ar' ? 'تطبيقات ومحركات أتمتة' : 'Full-stack & automation'}
+            <div class="p-3 rounded-xl bg-white/[0.05] border border-white/10">
+              <strong class="text-blue-300 block text-sm sm:text-base font-extrabold">
+                {locale === 'ar' ? '0% تضارب' : '0% Conflict'}
+              </strong>
+              <span class="text-slate-300">
+                {locale === 'ar' ? 'حلول حتمية ومفحوصة' : 'Verified outcomes'}
               </span>
             </div>
-            <div class="col-span-2 sm:col-span-1 p-3 rounded-xl bg-white/[0.04] border border-white/10">
-              <strong class="text-amber-300 block text-sm">
+            <div class="p-3 rounded-xl bg-white/[0.05] border border-white/10">
+              <strong class="text-emerald-300 block text-sm sm:text-base font-extrabold">
                 {locale === 'ar' ? 'عربي / English' : 'Arabic & English'}
               </strong>
-              <span class="text-slate-400">
-                {locale === 'ar' ? 'واجهات وتقارير RTL أصلية' : 'Native RTL & bilingual UX'}
+              <span class="text-slate-300">
+                {locale === 'ar' ? 'واجهات وتجربة أصيلة' : 'Native RTL/LTR UX'}
               </span>
             </div>
           </div>
@@ -208,7 +207,7 @@ const pageDesc = locale === 'ar' ? SITE_CONFIG.heroSubheadingAr : SITE_CONFIG.he
 
         <!-- Studio Portrait Column (5 Cols — Matches Fixed Background Gradient) -->
         <div class="lg:col-span-5 flex justify-center">
-          <div class="relative w-full max-w-[330px] sm:max-w-[370px]">
+          <div class="relative w-full max-w-[310px] sm:max-w-[360px]">
             <div
               class="absolute -inset-2 rounded-[28px] bg-gradient-to-tr from-blue-600/40 via-transparent to-amber-500/35 blur-xl opacity-80"
               aria-hidden="true"
@@ -230,15 +229,15 @@ const pageDesc = locale === 'ar' ? SITE_CONFIG.heroSubheadingAr : SITE_CONFIG.he
                   decoding="async"
                   class="w-full h-full object-cover object-top"
                 />
-                <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#050914] via-[#050914]/70 to-transparent"></div>
+                <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#050914] via-[#050914]/75 to-transparent"></div>
 
                 <div class="absolute bottom-3.5 inset-x-4 flex items-end justify-between gap-2">
                   <div>
-                    <span class="block font-extrabold text-white text-base leading-tight">
+                    <span class="block font-extrabold text-white text-base sm:text-lg leading-tight">
                       {locale === 'ar' ? SITE_CONFIG.ownerNameAr : SITE_CONFIG.ownerNameEn}
                     </span>
-                    <span class="text-xs text-blue-300">
-                      {locale === 'ar' ? 'برمجة · أتمتة · ذكاء اصطناعي' : 'Software · Automation · AI'}
+                    <span class="text-xs text-amber-300 font-semibold">
+                      {locale === 'ar' ? 'مهندس برمجيات ومعماري أنظمة ذكية' : 'Software Engineer & Systems Architect'}
                     </span>
                   </div>
                 </div>
@@ -250,69 +249,148 @@ const pageDesc = locale === 'ar' ? SITE_CONFIG.heroSubheadingAr : SITE_CONFIG.he
     </div>
   </section>
 
-  <!-- C. FEATURED WORK — IMMEDIATELY AFTER HERO (3 Strong, Diverse Projects) -->
-  <section id="featured-work" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16">
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
-      <div class="max-w-2xl">
-        <span class="font-mono text-xs uppercase tracking-wider text-amber-400 font-bold">
-          {locale === 'ar' ? 'أبرز الأعمال المختارة' : 'Selected Flagship Projects'}
+  <!-- C. ALL 7 PROJECTS DIRECTLY ACCESSIBLE ON HOMEPAGE (3 Flagships + 4 Specialized Systems) -->
+  <section id="featured-work" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-9">
+      <div class="max-w-3xl">
+        <span class="text-xs uppercase tracking-wider text-amber-400 font-bold">
+          {locale === 'ar' ? 'الأعمال والمشاريع (7 أنظمة حقيقية)' : 'Complete Portfolio (7 Real Systems)'}
         </span>
         <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">
-          {t.featuredSectionTitle}
+          {locale === 'ar'
+            ? 'المعاناة التي واجهناها في كل مشروع وكيف حولناها إلى نظام يعمل'
+            : 'The Real Struggle Behind Each Project & How We Solved It'}
         </h2>
         <p class="text-sm sm:text-base text-slate-300 mt-2 leading-relaxed">
-          {t.featuredSectionSub}
+          {locale === 'ar'
+            ? 'كل بطاقة توضح باختصار: ما الأزمة التي كانت تعطل العمل، كيف حسمناها، وما النتيجة الرقمية — مع إمكانية تكبير الصور أو فتح القصة الكاملة بضغطة واحدة.'
+            : 'Every card summarizes the operational pain, the breakthrough solution, and the measurable result — with 1-click image zoom and full case studies.'}
         </p>
       </div>
       <a
         href={`/${locale}/projects`}
         class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/[0.08] hover:bg-blue-600 text-white text-xs sm:text-sm font-semibold border border-white/15 transition-colors shrink-0 min-h-[42px]"
       >
-        <span>{t.viewAllProjects}</span>
+        <span>{locale === 'ar' ? 'صفحة البحث والتصفية السريعة' : 'Search & Filter View'}</span>
       </a>
     </div>
 
+    <!-- Top 3 Flagship Projects -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
       {featuredProjects.map((entry, idx) => (
         <ProjectCard project={entry.data} locale={locale} index={idx} />
       ))}
     </div>
 
-    <div class="mt-10 text-center">
-      <a
-        href={`/${locale}/projects`}
-        class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white/[0.06] hover:bg-blue-600 text-white text-sm font-semibold border border-white/15 transition-colors min-h-[44px]"
-      >
-        <span>
-          {locale === 'ar'
-            ? 'تصفح جميع المشاريع السبعة مع البحث والتصفية ←'
-            : 'Browse All 7 Projects with Search & Filtering →'}
-        </span>
-      </a>
+    <!-- Remaining 4 Specialized Systems (Immediately Visible — Nothing Hidden!) -->
+    {additionalProjects.length > 0 && (
+      <div class="mt-12 pt-10 border-t border-white/10">
+        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+          <div>
+            <span class="text-xs font-bold text-blue-300 uppercase tracking-wider">
+              {locale === 'ar' ? 'أنظمة تخصصية وأدوات أتمتة إضافية (4 مشاريع)' : 'Additional Specialized Systems & Automation Suites (4 Projects)'}
+            </span>
+            <h3 class="text-xl sm:text-2xl font-extrabold text-white mt-1">
+              {locale === 'ar'
+                ? 'منظومات طبية، تحكم بالهواتف، وأتمتة بصرية'
+                : 'Medical Platforms, Mobile Control & Visual Automation'}
+            </h3>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-7">
+          {additionalProjects.map((entry, idx) => (
+            <ProjectCard project={entry.data} locale={locale} index={idx + 3} />
+          ))}
+        </div>
+      </div>
+    )}
+  </section>
+
+  <!-- E. DRAMATIC STRUGGLE & BREAKTHROUGH HIGHLIGHTS -->
+  <section id="struggle-stories" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="max-w-3xl mb-9">
+      <span class="text-xs uppercase tracking-wider text-amber-400 font-bold">
+        {locale === 'ar' ? 'معارك تقنية حقيقية' : 'Real Engineering Battles'}
+      </span>
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">
+        {locale === 'ar'
+          ? 'أصعب 3 أزمات واجهتنا وكيف حسمناها جذريًا'
+          : '3 Tough Operational Crises & How We Solved Them'}
+      </h2>
+      <p class="text-sm text-slate-300 mt-2">
+        {locale === 'ar'
+          ? 'قيمة المهندس الحقيقية تظهر حين تتعقد الأمور في الواقع؛ إليك كيف تعاملنا مع أعقد التحديات باختصار.'
+          : 'Real engineering value shows when edge cases break in production. Here is how we turned three painful bottlenecks into reliable outcomes.'}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {engineeringStories.map((st) => (
+        <article class="reveal-item interactive-card glass-panel rounded-2xl p-6 flex flex-col justify-between gap-5">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between gap-2 flex-wrap">
+              <span class:list={['px-2.5 py-1 rounded-full text-[11px] font-bold border', st.badgeStyle]}>
+                {locale === 'ar' ? st.badgeAr : st.badgeEn}
+              </span>
+              <span class="text-xs font-bold text-slate-300">
+                {locale === 'ar' ? st.projectTitleAr : st.projectTitleEn}
+              </span>
+            </div>
+
+            <h3 class="text-base sm:text-lg font-extrabold text-white leading-snug">
+              {locale === 'ar' ? st.titleAr : st.titleEn}
+            </h3>
+
+            <div class="space-y-2.5 text-xs sm:text-sm">
+              <div class="p-3 rounded-xl bg-rose-950/35 border border-rose-500/25">
+                <strong class="text-rose-300 block mb-0.5">{locale === 'ar' ? '🔥 المعاناة:' : '🔥 The Pain:'}</strong>
+                <span class="text-slate-200">{locale === 'ar' ? st.problemAr : st.problemEn}</span>
+              </div>
+              <div class="p-3 rounded-xl bg-blue-950/35 border border-blue-500/25">
+                <strong class="text-blue-300 block mb-0.5">{locale === 'ar' ? '⚡ الحل الحاسم:' : '⚡ The Fix:'}</strong>
+                <span class="text-slate-200">{locale === 'ar' ? st.decisionAr : st.decisionEn}</span>
+              </div>
+              <div class="p-3 rounded-xl bg-emerald-950/35 border border-emerald-500/25">
+                <strong class="text-emerald-300 block mb-0.5">{locale === 'ar' ? '✅ النتيجة:' : '✅ The Result:'}</strong>
+                <span class="text-slate-100 font-semibold">{locale === 'ar' ? st.outcomeAr : st.outcomeEn}</span>
+              </div>
+            </div>
+          </div>
+
+          <a
+            href={st.href}
+            class="inline-flex items-center justify-between px-4 py-2.5 rounded-xl bg-white/[0.06] hover:bg-blue-600 text-xs font-bold text-white border border-white/10 transition-colors"
+          >
+            <span>{locale === 'ar' ? 'استعرض المشروع بالكامل' : 'View Full Project'}</span>
+            <span>{locale === 'ar' ? '←' : '→'}</span>
+          </a>
+        </article>
+      ))}
     </div>
   </section>
 
   <!-- D. WHAT I BUILD / EXPERTISE (4 Understandable Value Groups) -->
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="max-w-3xl mb-10">
-      <span class="font-mono text-xs uppercase tracking-wider text-blue-400 font-bold">
-        {locale === 'ar' ? 'ماذا أبني؟' : 'What I Build'}
+    <div class="max-w-3xl mb-9">
+      <span class="text-xs uppercase tracking-wider text-blue-400 font-bold">
+        {locale === 'ar' ? 'ماذا أقدم لعملك؟' : 'How I Help Clients & Teams'}
       </span>
       <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">
         {locale === 'ar'
-          ? 'مجالات الخبرة والقيمة التي أقدمها'
-          : 'Core Capabilities & Practical Engineering Value'}
+          ? 'حلول عملية مصممة لتوفير الوقت وحماية استقرار عملك'
+          : 'Practical Solutions Built to Save Time & Protect Operations'}
       </h2>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {expertiseGroups.map((grp, idx) => (
-        <div
-          style={`--reveal-delay: ${idx * 60}ms`}
-          class="reveal-item interactive-card glass-panel rounded-2xl p-6 sm:p-7 flex flex-col justify-between gap-4"
-        >
-          <div>
-            <h3 class="text-lg sm:text-xl font-bold text-white mb-2">
+      {expertiseGroups.map((grp) => (
+        <div class="reveal-item interactive-card glass-panel rounded-2xl p-6 flex flex-col justify-between gap-4">
+          <div class="space-y-2.5">
+            <span class="inline-block px-2.5 py-1 rounded-lg bg-blue-500/15 text-blue-300 text-xs font-bold border border-blue-400/25">
+              {locale === 'ar' ? grp.badgeAr : grp.badgeEn}
+            </span>
+            <h3 class="text-lg sm:text-xl font-extrabold text-white">
               {locale === 'ar' ? grp.titleAr : grp.titleEn}
             </h3>
             <p class="text-sm text-slate-300 leading-relaxed">
@@ -320,7 +398,7 @@ const pageDesc = locale === 'ar' ? SITE_CONFIG.heroSubheadingAr : SITE_CONFIG.he
             </p>
           </div>
           <div class="pt-3 border-t border-white/10 flex items-center justify-between gap-2 text-xs">
-            <a href={grp.exampleHref} class="text-amber-300 hover:text-amber-200 font-semibold hover:underline">
+            <a href={grp.exampleHref} class="text-amber-300 hover:text-amber-200 font-bold hover:underline">
               {locale === 'ar' ? grp.exampleLabelAr : grp.exampleLabelEn}
             </a>
           </div>
@@ -329,117 +407,8 @@ const pageDesc = locale === 'ar' ? SITE_CONFIG.heroSubheadingAr : SITE_CONFIG.he
     </div>
   </section>
 
-  <!-- E. PROBLEM SOLVING / ENGINEERING HIGHLIGHTS (3 Verified Stories) -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
-      <div class="max-w-3xl">
-        <span class="font-mono text-xs uppercase tracking-wider text-amber-400 font-bold">
-          {locale === 'ar' ? 'نماذج من حل المشكلات الهندسية' : 'Engineering Problem-Solving Highlights'}
-        </span>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">
-          {locale === 'ar'
-            ? 'مشكلات حقيقية واجهتها وكيف عالجتها بالدليل'
-            : 'Real Engineering Bottlenecks & Verified Solutions'}
-        </h2>
-        <p class="text-sm text-slate-300 mt-2">
-          {locale === 'ar'
-            ? 'أمثلة موثقة من الكود المصدري توضح طريقة التعامل مع الأعطال المعقدة وتصميم الحواجز الوقائية.'
-            : 'Documented examples from source repositories showing root-cause fixes and preventive architectural choices.'}
-        </p>
-      </div>
-      <a
-        href={`/${locale}/expertise`}
-        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.06] hover:bg-blue-600 text-white text-xs font-semibold border border-white/15 transition-colors shrink-0"
-      >
-        <span>{locale === 'ar' ? 'مصفوفة الخبرات والأدلة الكاملة' : 'Full Expertise & Proof Matrix'}</span>
-      </a>
-    </div>
-
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      {engineeringStories.map((st, idx) => (
-        <article
-          style={`--reveal-delay: ${idx * 70}ms`}
-          class="reveal-item interactive-card glass-panel rounded-2xl p-6 flex flex-col justify-between gap-5"
-        >
-          <div class="space-y-4">
-            <div class="flex items-center justify-between gap-2 flex-wrap">
-              <span class:list={['px-2.5 py-1 rounded-full text-[11px] font-semibold border', st.badgeStyle]}>
-                {locale === 'ar' ? st.badgeAr : st.badgeEn}
-              </span>
-              <span class="text-xs font-mono text-slate-400">
-                {locale === 'ar' ? st.projectTitleAr : st.projectTitleEn}
-              </span>
-            </div>
-
-            <h3 class="text-base sm:text-lg font-bold text-white leading-snug">
-              {locale === 'ar' ? st.titleAr : st.titleEn}
-            </h3>
-
-            <div class="space-y-2.5 text-xs sm:text-sm">
-              <div class="p-3 rounded-xl bg-rose-950/30 border border-rose-500/20">
-                <strong class="text-rose-300 block mb-0.5">{locale === 'ar' ? 'المشكلة:' : 'Problem:'}</strong>
-                <span class="text-slate-200">{locale === 'ar' ? st.problemAr : st.problemEn}</span>
-              </div>
-              <div class="p-3 rounded-xl bg-blue-950/30 border border-blue-500/20">
-                <strong class="text-blue-300 block mb-0.5">{locale === 'ar' ? 'القرار الهندسي:' : 'Engineering Decision:'}</strong>
-                <span class="text-slate-200">{locale === 'ar' ? st.decisionAr : st.decisionEn}</span>
-              </div>
-              <div class="p-3 rounded-xl bg-emerald-950/30 border border-emerald-500/20">
-                <strong class="text-emerald-300 block mb-0.5">{locale === 'ar' ? 'النتيجة الموثقة:' : 'Verified Outcome:'}</strong>
-                <span class="text-slate-200">{locale === 'ar' ? st.outcomeAr : st.outcomeEn}</span>
-              </div>
-            </div>
-          </div>
-
-          <a
-            href={st.href}
-            class="inline-flex items-center justify-between px-4 py-2 rounded-xl bg-white/[0.05] hover:bg-blue-600 text-xs font-semibold text-white border border-white/10 transition-colors"
-          >
-            <span>{locale === 'ar' ? 'اقرأ التفاصيل والدليل في دراسة الحالة' : 'Read Case Study & Code Proof'}</span>
-            <span>{locale === 'ar' ? '←' : '→'}</span>
-          </a>
-        </article>
-      ))}
-    </div>
-  </section>
-
-  <!-- F. ABOUT / APPROACH -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="glass-panel rounded-3xl p-7 sm:p-10">
-      <div class="max-w-3xl mb-8">
-        <span class="font-mono text-xs uppercase tracking-wider text-blue-400 font-bold">
-          {locale === 'ar' ? 'منهجية العمل' : 'Working Approach'}
-        </span>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">
-          {locale === 'ar'
-            ? 'كيف أعمل على بناء الأنظمة وحل المشكلات؟'
-            : 'How I Approach Complex Engineering Problems'}
-        </h2>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {approachSteps.map((step, idx) => (
-          <div
-            style={`--reveal-delay: ${idx * 70}ms`}
-            class="reveal-item bg-white/[0.04] rounded-2xl p-6 border border-white/10"
-          >
-            <span class="font-mono text-xs font-bold px-2.5 py-1 rounded-lg bg-blue-600/25 text-amber-300 border border-amber-400/30">
-              {step.step}
-            </span>
-            <h3 class="text-lg font-bold text-white mt-4 mb-2">
-              {locale === 'ar' ? step.titleAr : step.titleEn}
-            </h3>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              {locale === 'ar' ? step.bodyAr : step.bodyEn}
-            </p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
   <!-- G. CONTACT CTA -->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
     <CTA locale={locale} />
   </div>
 </BaseLayout>
