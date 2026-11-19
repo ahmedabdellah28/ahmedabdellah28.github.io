@@ -19,10 +19,10 @@ const { screenshots, locale } = Astro.props;
 
 const kindLabels = {
   ar: {
-    real_screenshot: 'لقطة شاشة فعلية من النظام (Real Output)',
-    architecture_diagram: 'مخطط معماري موثق (Architecture Diagram)',
+    real_screenshot: 'لقطة شاشة فعلية من النظام (Verified System Output)',
+    architecture_diagram: 'مخطط معماري توضيحي (Architecture Diagram)',
     illustrative_demo: 'نموذج توضيحي (Illustrative Demo)',
-    diagnostic_output: 'مخرج تشخيصي فعلي (Diagnostic Proof)',
+    diagnostic_output: 'مخرج تشخيصي فعلي (Diagnostic Output)',
   },
   en: {
     real_screenshot: 'Verified Real System Screenshot',
@@ -33,17 +33,17 @@ const kindLabels = {
 };
 ---
 
-<section aria-label={locale === 'ar' ? 'معرض الوسائط والأدلة البصرية' : 'Visual Proof & Architecture Gallery'} class="space-y-6">
+<section aria-label={locale === 'ar' ? 'معرض الوسائط والمخططات' : 'Visual Walkthrough & Architecture Gallery'} class="space-y-6">
   <div class="grid grid-cols-1 gap-6">
     {screenshots.map((item, idx) => {
       const altText = locale === 'ar' ? item.altAr : item.altEn;
       const capText = locale === 'ar' ? item.captionAr : item.captionEn;
       const badgeText = kindLabels[locale][item.kind];
       return (
-        <figure class="reveal-item bg-[#0B1220] rounded-3xl border border-[#182438] overflow-hidden shadow-lg group">
-          <div class="px-5 py-3 bg-[#182438] border-b border-slate-800 flex items-center justify-between gap-2 flex-wrap">
-            <span class="inline-flex items-center gap-2 text-xs font-mono text-[#18B8A7] font-semibold">
-              <span class="w-2 h-2 rounded-full bg-[#18B8A7]" aria-hidden="true"></span>
+        <figure class="reveal-item glass-panel rounded-2xl overflow-hidden shadow-lg group">
+          <div class="px-5 py-3 bg-white/[0.04] border-b border-white/10 flex items-center justify-between gap-2 flex-wrap">
+            <span class="inline-flex items-center gap-2 text-xs font-mono text-amber-300 font-semibold">
+              <span class="w-2 h-2 rounded-full bg-amber-400" aria-hidden="true"></span>
               {badgeText}
             </span>
             <div class="flex items-center gap-3">
@@ -56,23 +56,17 @@ const kindLabels = {
                 data-lightbox-alt={altText}
                 data-lightbox-caption={capText}
                 data-lightbox-badge={badgeText}
-                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#2663EB] hover:bg-blue-500 text-white text-xs font-mono font-semibold transition-colors cursor-pointer"
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-mono font-semibold transition-colors cursor-pointer min-h-[34px]"
               >
                 <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16zM11 8v6M8 11h6" />
                 </svg>
-                <span>{locale === 'ar' ? 'تكبير بالحجم الكامل' : 'Expand Fullscreen'}</span>
+                <span>{locale === 'ar' ? 'تكبير الصورة' : 'Expand Image'}</span>
               </button>
             </div>
           </div>
 
-          <div
-            data-lightbox-src={item.src}
-            data-lightbox-alt={altText}
-            data-lightbox-caption={capText}
-            data-lightbox-badge={badgeText}
-            class="p-3 sm:p-6 flex items-center justify-center bg-[#0B1220] cursor-zoom-in relative"
-          >
+          <div class="p-3 sm:p-6 flex items-center justify-center bg-[#040812]/80">
             <img
               src={item.src}
               alt={altText}
@@ -80,11 +74,11 @@ const kindLabels = {
               height={item.height}
               loading={idx === 0 ? 'eager' : 'lazy'}
               decoding="async"
-              class="max-h-[560px] w-auto rounded-xl border border-slate-800/80 object-contain group-hover:scale-[1.01] transition-transform duration-300"
+              class="max-h-[540px] w-auto rounded-xl border border-white/10 object-contain"
             />
           </div>
 
-          <figcaption class="px-6 py-4 bg-[#111C2D] border-t border-slate-800/80 text-xs sm:text-sm text-slate-300 leading-relaxed">
+          <figcaption class="px-6 py-4 bg-white/[0.03] border-t border-white/10 text-xs sm:text-sm text-slate-300 leading-relaxed">
             {capText}
           </figcaption>
         </figure>

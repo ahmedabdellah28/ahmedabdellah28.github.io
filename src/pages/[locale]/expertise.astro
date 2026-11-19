@@ -19,27 +19,27 @@ for (const p of published) {
 
 const pageTitle =
   locale === 'ar'
-    ? 'مصفوفة الخبرات والأدلة التقنية — مهارات مثبتة بالكود'
-    : 'Skills & Evidence Matrix — Capabilities Proven by Source Code';
+    ? 'الخبرات والقدرات الهندسية — أحمد عبد الله'
+    : 'Engineering Expertise & Capabilities — Ahmed Abdellah';
 const pageDesc =
   locale === 'ar'
-    ? 'كل مهارة في هذه المصفوفة مستنتجة من قرارات وحلول برمجية موثقة بالملف والسطر عبر 7 مشاريع حقيقية.'
-    : 'Every engineering capability in this matrix is backed by concrete architectural decisions, tests, and file/line references across 7 codebases.';
+    ? 'مصفوفة الخبرات الهندسية المرتبطة بالمشاريع الحقيقية والأدلة البرمجية عبر 7 أنظمة.'
+    : 'Engineering capabilities backed by concrete architectural decisions, tests, and source-code evidence across 7 codebases.';
 ---
 
 <BaseLayout title={pageTitle} description={pageDesc} locale={locale} currentPath={`/${locale}/expertise`}>
-  <section class="bg-[#0B1220] text-white border-b border-[#182438] py-14">
+  <section class="border-b border-white/10 py-12 sm:py-14">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <span class="font-mono text-xs uppercase tracking-wider text-[#18B8A7]">
-        {locale === 'ar' ? 'الدليل قبل الادعاء · 6 مجالات هندسية' : 'Evidence Before Claim · 6 Core Domains'}
+      <span class="font-mono text-xs uppercase tracking-wider text-amber-400">
+        {locale === 'ar' ? 'الخبرات الهندسية الموثقة · 6 مجالات' : 'Verified Engineering Domains · 6 Areas'}
       </span>
-      <h1 class="text-3xl sm:text-4xl font-extrabold mt-2">
-        {locale === 'ar' ? 'مصفوفة الخبرات والأدلة التقنية' : 'Engineering Expertise & Proof Matrix'}
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-white mt-2">
+        {locale === 'ar' ? 'الخبرات والأدلة التقنية' : 'Engineering Expertise & Proof Matrix'}
       </h1>
       <p class="text-sm sm:text-base text-slate-300 mt-3 max-w-3xl leading-relaxed">
         {locale === 'ar'
-          ? 'بدلًا من سرد قوائم شعارات عامة، توثق هذه الصفحة القدرات الهندسية التي يثبتها الكود المصدري فعليًا: ماذا تعني لصاحب العمل، وكيف نُفذت تقنيًا، وأي المشاريع والملفات تبرهن عليها.'
-          : 'Rather than listing unverified buzzwords, this matrix links every capability to its business value, technical implementation, supporting projects, and exact source-code evidence.'}
+          ? 'بدلًا من سرد قوائم تقنيات عامة، توثق هذه الصفحة القدرات الهندسية التي يثبتها الكود المصدري فعليًا: ماذا تعني لصاحب العمل، وكيف نُفذت تقنيًا، وأي المشاريع تبرهن عليها.'
+          : 'Rather than listing unverified buzzwords, this matrix links every capability to its practical business value, technical implementation, and supporting projects.'}
       </p>
     </div>
   </section>

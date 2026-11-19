@@ -1,11 +1,11 @@
 {
   "slug": "phone-commander",
-  "titleAr": "تطبيق Phone Commander — محرك رؤية حاسوبية (ZNCC) وأتمتة أندرويد عالية الأداء مع واجهة Flutter",
-  "titleEn": "Phone Commander — Zero-GC ZNCC Computer Vision & Android Accessibility Automation Hub",
+  "titleAr": "Phone Commander — أتمتة الهاتف بالرؤية الحاسوبية",
+  "titleEn": "Phone Commander — Mobile Vision Automation",
   "summaryAr": "تطبيق Flutter وأندرويد أصيل (Kotlin) يجمع بين محرك مطابقة قوالب بصري فائق السرعة (ZNCC) بدون استنزاف للذاكرة (Zero GC Churn) وخدمة Accessibility مع بوابة ترخيص أصلية (NativeLicenseGate) وسجل عمليات حي.",
   "summaryEn": "Hybrid Flutter and native Android (Kotlin) automation platform pairing a custom thread-local, zero-GC-churn ZNCC computer vision engine and ML Kit OCR with an autonomous state-machine loop and native license verification.",
-  "valuePropositionAr": "تنفيذ أتمتة بصرية مستمرة على أجهزة أندرويد بدقة مطابقة 86%–92% وبدون استنزاف ذاكرة المعالج (Zero GC Churn) مع مراقبة حية من داخل واجهة Flutter.",
-  "valuePropositionEn": "Delivers long-running on-device visual automation on Android with 86%–92% ZNCC template precision, zero per-frame bitmap heap churn, and live Flutter console telemetry.",
+  "valuePropositionAr": "تنفيذ أتمتة بصرية مستمرة على أجهزة أندرويد بعتبات ثقة مضبوطة (86%–92%) وبدون استنزاف ذاكرة المعالج (Zero GC Churn) مع مراقبة حية من داخل واجهة Flutter.",
+  "valuePropositionEn": "Delivers long-running on-device visual automation on Android using configured 86%–92% ZNCC confidence thresholds, zero per-frame bitmap heap churn, and live Flutter console telemetry.",
   "category": [
     "mobile",
     "AI",
@@ -13,11 +13,11 @@
   ],
   "status": "functional",
   "visibility": "published",
-  "featured": true,
-  "featuredOrder": 4,
+  "featured": false,
+  "featuredOrder": 5,
   "role": {
-    "ar": "مهندس أنظمة أندرويد الأصيلة (Kotlin) والرؤية الحاسوبية وتطبيق Flutter (يحتاج تأكيد المالك)",
-    "en": "Lead Android Native (Kotlin), Computer Vision & Flutter Systems Engineer (Pending owner confirmation)"
+    "ar": "تطوير أنظمة أندرويد الأصيلة (Kotlin) والرؤية الحاسوبية وواجهة Flutter",
+    "en": "Android Native (Kotlin), Computer Vision & Flutter Systems Engineering"
   },
   "audience": {
     "ar": "المستخدمون الذين يحتاجون أتمتة بصرية ذكية تعمل لفترات طويلة على الهاتف دون انهيار الذاكرة أو استنزاف البطارية.",
@@ -203,9 +203,9 @@
       "sourceRef": "TemplateMatcher.kt:62-85"
     },
     {
-      "metric": "86% – 92%",
-      "labelAr": "نطاق عتبات الثقة المعتمدة في خوارزمية ZNCC لمنع النقرات الخاطئة",
-      "labelEn": "Calibrated ZNCC confidence gates preventing false-positive UI interactions",
+      "metric": "0.86 – 0.92",
+      "labelAr": "عتبات الثقة المضبوطة في خوارزمية ZNCC لقبول المطابقة البصرية",
+      "labelEn": "Configured ZNCC confidence thresholds gating UI template matches",
       "sourceRef": "AUTOMATION_UPGRADE_PLAN.md:76-85"
     },
     {
@@ -215,10 +215,10 @@
       "sourceRef": "AutomationEngine.kt:1-5264"
     },
     {
-      "metric": "1,704 Nodes",
-      "labelAr": "عقدة برمجية مفهرسة عبر طبقات Kotlin الأصيلة وتطبيق Flutter",
-      "labelEn": "Indexed AST symbols across native Android Kotlin and Flutter Dart layers",
-      "sourceRef": ".portfolio-intelligence/project-index/phone-commander.json"
+      "metric": "> 15 Min",
+      "labelAr": "عتبة تصغير التطبيق التلقائي لتوفير البطارية والحرارة أثناء الانتظار الطويل",
+      "labelEn": "Auto-minimize threshold saving battery and thermal load during long waits",
+      "sourceRef": "AutomationEngine.kt:89-95"
     }
   ],
   "skillsProven": [

@@ -1,7 +1,7 @@
 {
   "slug": "school-timetable",
-  "titleAr": "نظام الجدول المدرسي الذكي — محرك استمثال رياضي (OR-Tools CP-SAT) وإصلاح ذكي للتعارضات",
-  "titleEn": "Deterministic School Timetable System — OR-Tools CP-SAT Solver & Smart Conflict Repair",
+  "titleAr": "نظام الجدول المدرسي الذكي",
+  "titleEn": "Smart School Timetable System",
   "summaryAr": "منظومة سطح مكتب وويب سحابية (PyQt6 + FastAPI + React/TS) لبناء جداول الحصص المدرسية بصفر تعارضات حتمية عبر Google OR-Tools CP-SAT، مع محرك تشخيص مسبق للاستحالة وإصلاح موضعي ذكي وتصدير PDF/Excel عربي RTL.",
   "summaryEn": "Desktop (PyQt6) and cloud SaaS (FastAPI + React/TS) school scheduling platform achieving zero hard violations via Google OR-Tools CP-SAT, pre-solve mathematical feasibility diagnostics, minimal-perturbation smart repair, and Arabic RTL PDF/Excel exports.",
   "valuePropositionAr": "حل جداول المدارس المعقدة (حتى 600 حصة) في ثوانٍ بصفر تضارب، مع إتاحة التعديل اليدوي بالسحب والإفلات وإصلاح التعارضات تلقائيًا بأقل تغيير ممكن في الجدول.",
@@ -17,8 +17,8 @@
   "featured": true,
   "featuredOrder": 2,
   "role": {
-    "ar": "مهندس المعمارية، وبحوث العمليات (CP-SAT)، وتطوير الواجهات (يحتاج تأكيد المالك)",
-    "en": "Lead Architect, Operations Research (CP-SAT) & Full-Stack Engineer (Pending owner confirmation)"
+    "ar": "تصميم المعمارية ونمذجة القيود الرياضية وتطوير الواجهات",
+    "en": "System Architecture, Constraint Modeling (CP-SAT) & Full-Stack Development"
   },
   "audience": {
     "ar": "إدارات المدارس ووكلاء شؤون المعلمين الذين يحتاجون جداول عادلة خالية من التضارب وجاهزة للطباعة بالعربية.",
@@ -225,10 +225,10 @@
       "sourceRef": "README.md:82-85"
     },
     {
-      "metric": "5,563 Nodes",
-      "labelAr": "عقدة برمجية مفهرسة عبر واجهة سطح المكتب PyQt6 والخادم السحابي وواجهة الويب",
-      "labelEn": "AST symbols indexed across PyQt6 desktop, FastAPI backend, and TypeScript web client",
-      "sourceRef": ".portfolio-intelligence/project-index/school-timetable.json"
+      "metric": "A4/A3 & XLSX",
+      "labelAr": "تصدير فوري لجداول PDF عربية ثنائية الاتجاه وملفات Excel متعددة الأوراق",
+      "labelEn": "Print-ready Arabic RTL PDFs (A4/A3) and multi-sheet Excel exports",
+      "sourceRef": "README.md:30-33 (Export Services)"
     }
   ],
   "skillsProven": [

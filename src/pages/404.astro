@@ -1,0 +1,46 @@
+---
+import '../styles/global.css';
+import { SITE_CONFIG, SITE_URL } from '../config/site';
+---
+
+<!doctype html>
+<html lang="ar" dir="rtl" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 — الصفحة غير موجودة | Page Not Found — {SITE_CONFIG.ownerNameAr}</title>
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={`${SITE_URL}/404`} />
+    <link rel="alternate" hreflang="ar" href={`${SITE_URL}/ar/`} />
+    <link rel="alternate" hreflang="en" href={`${SITE_URL}/en/`} />
+    <meta property="og:title" content={`404 — ${SITE_CONFIG.ownerNameAr}`} />
+    <meta property="og:description" content="الصفحة المطلوبة غير موجودة — Page Not Found" />
+    <meta property="og:url" content={`${SITE_URL}/404`} />
+  </head>
+  <body class="min-h-screen flex items-center justify-center p-6 text-white">
+    <div class="studio-portrait-backdrop" aria-hidden="true"></div>
+    <main class="max-w-lg w-full glass-panel-elevated rounded-3xl p-8 sm:p-10 text-center space-y-6">
+      <span class="inline-block font-mono text-3xl font-extrabold text-amber-400">404</span>
+      <h1 class="text-2xl font-extrabold text-white">
+        الصفحة غير موجودة · Page Not Found
+      </h1>
+      <p class="text-sm text-slate-300 leading-relaxed">
+        الرابط الذي طلبته غير متاح أو تم نقله. يمكنك العودة إلى الصفحة الرئيسية بالعربية أو الإنجليزية:
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+        <a
+          href="/ar/"
+          class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm transition-colors"
+        >
+          الرئيسية (العربية)
+        </a>
+        <a
+          href="/en/"
+          class="px-5 py-2.5 rounded-xl bg-white/[0.08] hover:bg-white/15 text-white border border-white/15 font-semibold text-sm transition-colors"
+        >
+          English Home
+        </a>
+      </div>
+    </main>
+  </body>
+</html>

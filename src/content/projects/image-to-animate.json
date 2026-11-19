@@ -1,7 +1,7 @@
 {
   "slug": "image-to-animate",
-  "titleAr": "محرك AION Studio V6 — أتمتة إنتاج الموشن جرافيك والوايت بورد بالذكاء الاصطناعي",
-  "titleEn": "AION Studio V6 — Automated Whiteboard Motion Graphics & Shorts Engine",
+  "titleAr": "AION Studio — إنتاج الموشن جرافيك آليًا",
+  "titleEn": "AION Studio — Automated Motion Graphics Engine",
   "summaryAr": "خط إنتاج برمجي متكامل يحوّل النصوص ولوحات القصة (Storyboards) إلى فيديوهات موشن جرافيك 16:9 ومقاطع Shorts 9:16 عبر مترجم رسومي من 10 مراحل (ECGC) ومحرك EffectCraft GPU ومحاذاة صوتية على مستوى الكلمة.",
   "summaryEn": "End-to-end CLI-first production engine converting scripts and storyboards into 16:9 whiteboard explainers and 9:16 shorts via a 10-stage ECGC compiler, EffectCraft GPU renderer, and word-level Faster-Whisper synchronization.",
   "valuePropositionAr": "تحويل النص الخام ولوحة القصة إلى فيديو موشن جرافيك كامل (1080p/720p) متزامن صوتيًا وبصريًا عبر 13 مرحلة محكومة بعقود برمجية دون مونتاج يدوي.",
@@ -17,8 +17,8 @@
   "featured": true,
   "featuredOrder": 1,
   "role": {
-    "ar": "المعماري الرئيسي ومطور خط الإنتاج والمترجم الرسومي (بحاجة لتأكيد الاسم العام من المالك)",
-    "en": "Lead Architect & Pipeline/Compiler Engineer (Owner public display name pending confirmation)"
+    "ar": "تصميم المعمارية وتطوير خط الإنتاج والمترجم الرسومي",
+    "en": "System Architecture, Pipeline & Graphics Compiler Engineering"
   },
   "audience": {
     "ar": "استوديوهات المحتوى التعليمي والوثائقي وصناع الفيديو الذين يحتاجون إنتاجًا متسقًا وقابلًا للتكرار.",
@@ -234,10 +234,10 @@
       "sourceRef": "PIPELINE_CONTRACTS.md:22"
     },
     {
-      "metric": "3,233 Nodes",
-      "labelAr": "عقدة برمجية مفهرسة في الرسم المعرفي للمشروع عبر 146 مجتمعًا وظيفيًا",
-      "labelEn": "Indexed code/doc symbols across 146 functional communities in Graphify",
-      "sourceRef": ".portfolio-intelligence/project-index/image-to-animate.json"
+      "metric": "16:9 & 9:16",
+      "labelAr": "دعم مزدوج لإنتاج الفيديوهات الوثائقية الطويلة ومقاطع Shorts العمودية",
+      "labelEn": "Dual rendering modes for 16:9 explainers and 9:16 vertical shorts",
+      "sourceRef": "README.md:65-75 (Studio Compile & Shorts Pipeline)"
     }
   ],
   "skillsProven": [

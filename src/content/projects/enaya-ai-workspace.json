@@ -1,7 +1,7 @@
 {
   "slug": "enaya-ai-workspace",
-  "titleAr": "منظومة عناية الطبية (Enaya Monorepo & Audit Workspace) — معمارية تطبيقات الرعاية الصحية وحوكمة التدقيق",
-  "titleEn": "Enaya Healthcare Ecosystem & AI Audit Workspace — Multi-App Flutter Monorepo & Governance",
+  "titleAr": "منظومة عناية الطبية وحوكمة التدقيق",
+  "titleEn": "Enaya Healthcare Platform & Audit",
   "summaryAr": "مجمّع برمجي يضم المونوريبو الكامل لتطبيقات عناية الطبية (تطبيق المريض، الطبيب، الصيدلية، المختبر، ولوحة الإدارة) مع إطار تدقيق هندسي مهيكل من 12 دورًا وأداة FigCraft المكتبية.",
   "summaryEn": "Comprehensive healthcare engineering workspace combining the multi-app Enaya Flutter/Supabase monorepo (Patient, Doctor, Pharmacy, Lab, System Admin) with a 12-role evidence-gated architectural audit framework and FigCraft desktop tooling.",
   "valuePropositionAr": "توحيد وإصلاح منظومة رعاية صحية متعددة التطبيقات عبر حوكمة تدقيق صارمة، ومزامنة طوابير العمليات غير المتصلة بالإنترنت (Offline Queue)، وتسعير حجوزات ذري آمن.",
@@ -14,11 +14,11 @@
   ],
   "status": "functional",
   "visibility": "published",
-  "featured": true,
-  "featuredOrder": 3,
+  "featured": false,
+  "featuredOrder": 4,
   "role": {
-    "ar": "معماري الأنظمة ومطور ومراجع تطبيقات Flutter/Supabase (يحتاج تأكيد المالك)",
-    "en": "Systems Architect & Principal Flutter/Supabase Remediation Engineer (Pending owner confirmation)"
+    "ar": "معمارية الأنظمة ومراجعة وتطوير تطبيقات Flutter/Supabase",
+    "en": "Systems Architecture & Flutter/Supabase Remediation Engineering"
   },
   "audience": {
     "ar": "منصات الرعاية الصحية الرقمية التي تربط المرضى والأطباء والمختبرات والصيدليات في بيئة عالية الاعتمادية.",
@@ -206,10 +206,10 @@
       "sourceRef": "MANIFEST.md:21-44"
     },
     {
-      "metric": "47,596 Nodes",
-      "labelAr": "إجمالي عقد الرسم المعرفي ورموز AST المفهرسة عبر المونوريبو والوثائق",
-      "labelEn": "Combined knowledge-graph and AST symbols indexed across workspace and monorepo",
-      "sourceRef": ".portfolio-intelligence/analysis-usage.json"
+      "metric": "0.8x – 1.2x",
+      "labelAr": "معامل العشوائية (Jitter) في إعادة المحاولة التصاعدية لحماية الخادم",
+      "labelEn": "Jitter multiplier on exponential backoff retries for transient faults",
+      "sourceRef": "error_recovery_service.dart:50-56"
     }
   ],
   "skillsProven": [

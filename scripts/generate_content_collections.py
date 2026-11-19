@@ -9,8 +9,8 @@ CONTENT_DIR.mkdir(parents=True, exist_ok=True)
 PROJECTS_CONTENT = [
     {
         "slug": "image-to-animate",
-        "titleAr": "محرك AION Studio V6 — أتمتة إنتاج الموشن جرافيك والوايت بورد بالذكاء الاصطناعي",
-        "titleEn": "AION Studio V6 — Automated Whiteboard Motion Graphics & Shorts Engine",
+        "titleAr": "AION Studio — إنتاج الموشن جرافيك آليًا",
+        "titleEn": "AION Studio — Automated Motion Graphics Engine",
         "summaryAr": "خط إنتاج برمجي متكامل يحوّل النصوص ولوحات القصة (Storyboards) إلى فيديوهات موشن جرافيك 16:9 ومقاطع Shorts 9:16 عبر مترجم رسومي من 10 مراحل (ECGC) ومحرك EffectCraft GPU ومحاذاة صوتية على مستوى الكلمة.",
         "summaryEn": "End-to-end CLI-first production engine converting scripts and storyboards into 16:9 whiteboard explainers and 9:16 shorts via a 10-stage ECGC compiler, EffectCraft GPU renderer, and word-level Faster-Whisper synchronization.",
         "valuePropositionAr": "تحويل النص الخام ولوحة القصة إلى فيديو موشن جرافيك كامل (1080p/720p) متزامن صوتيًا وبصريًا عبر 13 مرحلة محكومة بعقود برمجية دون مونتاج يدوي.",
@@ -21,8 +21,8 @@ PROJECTS_CONTENT = [
         "featured": True,
         "featuredOrder": 1,
         "role": {
-            "ar": "المعماري الرئيسي ومطور خط الإنتاج والمترجم الرسومي (بحاجة لتأكيد الاسم العام من المالك)",
-            "en": "Lead Architect & Pipeline/Compiler Engineer (Owner public display name pending confirmation)"
+            "ar": "تصميم المعمارية وتطوير خط الإنتاج والمترجم الرسومي",
+            "en": "System Architecture, Pipeline & Graphics Compiler Engineering"
         },
         "audience": {
             "ar": "استوديوهات المحتوى التعليمي والوثائقي وصناع الفيديو الذين يحتاجون إنتاجًا متسقًا وقابلًا للتكرار.",
@@ -238,10 +238,10 @@ PROJECTS_CONTENT = [
                 "sourceRef": "PIPELINE_CONTRACTS.md:22"
             },
             {
-                "metric": "3,233 Nodes",
-                "labelAr": "عقدة برمجية مفهرسة في الرسم المعرفي للمشروع عبر 146 مجتمعًا وظيفيًا",
-                "labelEn": "Indexed code/doc symbols across 146 functional communities in Graphify",
-                "sourceRef": ".portfolio-intelligence/project-index/image-to-animate.json"
+                "metric": "16:9 & 9:16",
+                "labelAr": "دعم مزدوج لإنتاج الفيديوهات الوثائقية الطويلة ومقاطع Shorts العمودية",
+                "labelEn": "Dual rendering modes for 16:9 explainers and 9:16 vertical shorts",
+                "sourceRef": "README.md:65-75 (Studio Compile & Shorts Pipeline)"
             }
         ],
         "skillsProven": [
@@ -265,8 +265,8 @@ PROJECTS_CONTENT = [
     },
     {
         "slug": "school-timetable",
-        "titleAr": "نظام الجدول المدرسي الذكي — محرك استمثال رياضي (OR-Tools CP-SAT) وإصلاح ذكي للتعارضات",
-        "titleEn": "Deterministic School Timetable System — OR-Tools CP-SAT Solver & Smart Conflict Repair",
+        "titleAr": "نظام الجدول المدرسي الذكي",
+        "titleEn": "Smart School Timetable System",
         "summaryAr": "منظومة سطح مكتب وويب سحابية (PyQt6 + FastAPI + React/TS) لبناء جداول الحصص المدرسية بصفر تعارضات حتمية عبر Google OR-Tools CP-SAT، مع محرك تشخيص مسبق للاستحالة وإصلاح موضعي ذكي وتصدير PDF/Excel عربي RTL.",
         "summaryEn": "Desktop (PyQt6) and cloud SaaS (FastAPI + React/TS) school scheduling platform achieving zero hard violations via Google OR-Tools CP-SAT, pre-solve mathematical feasibility diagnostics, minimal-perturbation smart repair, and Arabic RTL PDF/Excel exports.",
         "valuePropositionAr": "حل جداول المدارس المعقدة (حتى 600 حصة) في ثوانٍ بصفر تضارب، مع إتاحة التعديل اليدوي بالسحب والإفلات وإصلاح التعارضات تلقائيًا بأقل تغيير ممكن في الجدول.",
@@ -277,8 +277,8 @@ PROJECTS_CONTENT = [
         "featured": True,
         "featuredOrder": 2,
         "role": {
-            "ar": "مهندس المعمارية، وبحوث العمليات (CP-SAT)، وتطوير الواجهات (يحتاج تأكيد المالك)",
-            "en": "Lead Architect, Operations Research (CP-SAT) & Full-Stack Engineer (Pending owner confirmation)"
+            "ar": "تصميم المعمارية ونمذجة القيود الرياضية وتطوير الواجهات",
+            "en": "System Architecture, Constraint Modeling (CP-SAT) & Full-Stack Development"
         },
         "audience": {
             "ar": "إدارات المدارس ووكلاء شؤون المعلمين الذين يحتاجون جداول عادلة خالية من التضارب وجاهزة للطباعة بالعربية.",
@@ -485,10 +485,10 @@ PROJECTS_CONTENT = [
                 "sourceRef": "README.md:82-85"
             },
             {
-                "metric": "5,563 Nodes",
-                "labelAr": "عقدة برمجية مفهرسة عبر واجهة سطح المكتب PyQt6 والخادم السحابي وواجهة الويب",
-                "labelEn": "AST symbols indexed across PyQt6 desktop, FastAPI backend, and TypeScript web client",
-                "sourceRef": ".portfolio-intelligence/project-index/school-timetable.json"
+                "metric": "A4/A3 & XLSX",
+                "labelAr": "تصدير فوري لجداول PDF عربية ثنائية الاتجاه وملفات Excel متعددة الأوراق",
+                "labelEn": "Print-ready Arabic RTL PDFs (A4/A3) and multi-sheet Excel exports",
+                "sourceRef": "README.md:30-33 (Export Services)"
             }
         ],
         "skillsProven": [
@@ -512,8 +512,8 @@ PROJECTS_CONTENT = [
     },
     {
         "slug": "enaya-ai-workspace",
-        "titleAr": "منظومة عناية الطبية (Enaya Monorepo & Audit Workspace) — معمارية تطبيقات الرعاية الصحية وحوكمة التدقيق",
-        "titleEn": "Enaya Healthcare Ecosystem & AI Audit Workspace — Multi-App Flutter Monorepo & Governance",
+        "titleAr": "منظومة عناية الطبية وحوكمة التدقيق",
+        "titleEn": "Enaya Healthcare Platform & Audit",
         "summaryAr": "مجمّع برمجي يضم المونوريبو الكامل لتطبيقات عناية الطبية (تطبيق المريض، الطبيب، الصيدلية، المختبر، ولوحة الإدارة) مع إطار تدقيق هندسي مهيكل من 12 دورًا وأداة FigCraft المكتبية.",
         "summaryEn": "Comprehensive healthcare engineering workspace combining the multi-app Enaya Flutter/Supabase monorepo (Patient, Doctor, Pharmacy, Lab, System Admin) with a 12-role evidence-gated architectural audit framework and FigCraft desktop tooling.",
         "valuePropositionAr": "توحيد وإصلاح منظومة رعاية صحية متعددة التطبيقات عبر حوكمة تدقيق صارمة، ومزامنة طوابير العمليات غير المتصلة بالإنترنت (Offline Queue)، وتسعير حجوزات ذري آمن.",
@@ -521,11 +521,11 @@ PROJECTS_CONTENT = [
         "category": ["mobile", "web", "architecture", "AI"],
         "status": "functional",
         "visibility": "published",
-        "featured": True,
-        "featuredOrder": 3,
+        "featured": False,
+        "featuredOrder": 4,
         "role": {
-            "ar": "معماري الأنظمة ومطور ومراجع تطبيقات Flutter/Supabase (يحتاج تأكيد المالك)",
-            "en": "Systems Architect & Principal Flutter/Supabase Remediation Engineer (Pending owner confirmation)"
+            "ar": "معمارية الأنظمة ومراجعة وتطوير تطبيقات Flutter/Supabase",
+            "en": "Systems Architecture & Flutter/Supabase Remediation Engineering"
         },
         "audience": {
             "ar": "منصات الرعاية الصحية الرقمية التي تربط المرضى والأطباء والمختبرات والصيدليات في بيئة عالية الاعتمادية.",
@@ -713,10 +713,10 @@ PROJECTS_CONTENT = [
                 "sourceRef": "MANIFEST.md:21-44"
             },
             {
-                "metric": "47,596 Nodes",
-                "labelAr": "إجمالي عقد الرسم المعرفي ورموز AST المفهرسة عبر المونوريبو والوثائق",
-                "labelEn": "Combined knowledge-graph and AST symbols indexed across workspace and monorepo",
-                "sourceRef": ".portfolio-intelligence/analysis-usage.json"
+                "metric": "0.8x – 1.2x",
+                "labelAr": "معامل العشوائية (Jitter) في إعادة المحاولة التصاعدية لحماية الخادم",
+                "labelEn": "Jitter multiplier on exponential backoff retries for transient faults",
+                "sourceRef": "error_recovery_service.dart:50-56"
             }
         ],
         "skillsProven": [
@@ -740,20 +740,20 @@ PROJECTS_CONTENT = [
     },
     {
         "slug": "phone-commander",
-        "titleAr": "تطبيق Phone Commander — محرك رؤية حاسوبية (ZNCC) وأتمتة أندرويد عالية الأداء مع واجهة Flutter",
-        "titleEn": "Phone Commander — Zero-GC ZNCC Computer Vision & Android Accessibility Automation Hub",
+        "titleAr": "Phone Commander — أتمتة الهاتف بالرؤية الحاسوبية",
+        "titleEn": "Phone Commander — Mobile Vision Automation",
         "summaryAr": "تطبيق Flutter وأندرويد أصيل (Kotlin) يجمع بين محرك مطابقة قوالب بصري فائق السرعة (ZNCC) بدون استنزاف للذاكرة (Zero GC Churn) وخدمة Accessibility مع بوابة ترخيص أصلية (NativeLicenseGate) وسجل عمليات حي.",
         "summaryEn": "Hybrid Flutter and native Android (Kotlin) automation platform pairing a custom thread-local, zero-GC-churn ZNCC computer vision engine and ML Kit OCR with an autonomous state-machine loop and native license verification.",
-        "valuePropositionAr": "تنفيذ أتمتة بصرية مستمرة على أجهزة أندرويد بدقة مطابقة 86%–92% وبدون استنزاف ذاكرة المعالج (Zero GC Churn) مع مراقبة حية من داخل واجهة Flutter.",
-        "valuePropositionEn": "Delivers long-running on-device visual automation on Android with 86%–92% ZNCC template precision, zero per-frame bitmap heap churn, and live Flutter console telemetry.",
+        "valuePropositionAr": "تنفيذ أتمتة بصرية مستمرة على أجهزة أندرويد بعتبات ثقة مضبوطة (86%–92%) وبدون استنزاف ذاكرة المعالج (Zero GC Churn) مع مراقبة حية من داخل واجهة Flutter.",
+        "valuePropositionEn": "Delivers long-running on-device visual automation on Android using configured 86%–92% ZNCC confidence thresholds, zero per-frame bitmap heap churn, and live Flutter console telemetry.",
         "category": ["mobile", "AI", "automation"],
         "status": "functional",
         "visibility": "published",
-        "featured": True,
-        "featuredOrder": 4,
+        "featured": False,
+        "featuredOrder": 5,
         "role": {
-            "ar": "مهندس أنظمة أندرويد الأصيلة (Kotlin) والرؤية الحاسوبية وتطبيق Flutter (يحتاج تأكيد المالك)",
-            "en": "Lead Android Native (Kotlin), Computer Vision & Flutter Systems Engineer (Pending owner confirmation)"
+            "ar": "تطوير أنظمة أندرويد الأصيلة (Kotlin) والرؤية الحاسوبية وواجهة Flutter",
+            "en": "Android Native (Kotlin), Computer Vision & Flutter Systems Engineering"
         },
         "audience": {
             "ar": "المستخدمون الذين يحتاجون أتمتة بصرية ذكية تعمل لفترات طويلة على الهاتف دون انهيار الذاكرة أو استنزاف البطارية.",
@@ -939,9 +939,9 @@ PROJECTS_CONTENT = [
                 "sourceRef": "TemplateMatcher.kt:62-85"
             },
             {
-                "metric": "86% – 92%",
-                "labelAr": "نطاق عتبات الثقة المعتمدة في خوارزمية ZNCC لمنع النقرات الخاطئة",
-                "labelEn": "Calibrated ZNCC confidence gates preventing false-positive UI interactions",
+                "metric": "0.86 – 0.92",
+                "labelAr": "عتبات الثقة المضبوطة في خوارزمية ZNCC لقبول المطابقة البصرية",
+                "labelEn": "Configured ZNCC confidence thresholds gating UI template matches",
                 "sourceRef": "AUTOMATION_UPGRADE_PLAN.md:76-85"
             },
             {
@@ -951,10 +951,10 @@ PROJECTS_CONTENT = [
                 "sourceRef": "AutomationEngine.kt:1-5264"
             },
             {
-                "metric": "1,704 Nodes",
-                "labelAr": "عقدة برمجية مفهرسة عبر طبقات Kotlin الأصيلة وتطبيق Flutter",
-                "labelEn": "Indexed AST symbols across native Android Kotlin and Flutter Dart layers",
-                "sourceRef": ".portfolio-intelligence/project-index/phone-commander.json"
+                "metric": "> 15 Min",
+                "labelAr": "عتبة تصغير التطبيق التلقائي لتوفير البطارية والحرارة أثناء الانتظار الطويل",
+                "labelEn": "Auto-minimize threshold saving battery and thermal load during long waits",
+                "sourceRef": "AutomationEngine.kt:89-95"
             }
         ],
         "skillsProven": [
@@ -978,8 +978,8 @@ PROJECTS_CONTENT = [
     },
     {
         "slug": "remix-sole-marketplace",
-        "titleAr": "منصة سول (SOLE) — متجر ومعرض أحذية متكامل مع مزامنة Cloudinary وحماية أمنية متعددة الطبقات",
-        "titleEn": "SOLE Footwear Marketplace — Full-Stack React 19 / Express Catalog with Cloudinary & Security Hardening",
+        "titleAr": "متجر سول للأحذية (SOLE)",
+        "titleEn": "SOLE Footwear Marketplace",
         "summaryAr": "تطبيق تجارة إلكترونية وكتالوج رقمي ثنائي اللغة (React 19 + Express + Supabase + Cloudinary) يحوّل أرشيف صور الاستوديو إلى متجر سريع مع لوحة إدارة، فحص Magic Bytes للصور، وحماية ضد حقن PostgREST وPath Traversal.",
         "summaryEn": "Full-stack footwear marketplace (React 19, Express, TypeScript, Supabase, Cloudinary) transforming studio photo archives into a high-speed storefront with an admin panel, binary Magic-Byte upload validation, PostgREST injection guards, and offline static fallback.",
         "valuePropositionAr": "تحويل مجلدات صور المنتجات الملتقطة بالكاميرا أو واتساب تلقائيًا إلى متجر إلكتروني أنيق وسريع ومحصن أمنيًا مع استمرارية عمل حتى عند انقطاع قاعدة البيانات.",
@@ -988,10 +988,10 @@ PROJECTS_CONTENT = [
         "status": "production",
         "visibility": "published",
         "featured": True,
-        "featuredOrder": 5,
+        "featuredOrder": 3,
         "role": {
-            "ar": "مهندس Full-Stack TypeScript وأمن تطبيقات الويب (يحتاج تأكيد المالك)",
-            "en": "Full-Stack TypeScript & Web Application Security Engineer (Pending owner confirmation)"
+            "ar": "تطوير Full-Stack TypeScript وتحصين أمن تطبيقات الويب",
+            "en": "Full-Stack TypeScript & Web Application Security Engineering"
         },
         "audience": {
             "ar": "العلامات التجارية ومتاجر الأحذية والأزياء التي تملك أرشيف صور ضخمًا وتريد واجهة عرض وبيع سريعة وسهلة الإدارة.",
@@ -1179,10 +1179,10 @@ PROJECTS_CONTENT = [
                 "sourceRef": "src/server/security.test.ts:13-95"
             },
             {
-                "metric": "320 Nodes",
-                "labelAr": "عقدة برمجية مفهرسة في الرسم المعرفي عبر React 19 وExpress 4 واختبارات الأمان",
-                "labelEn": "AST symbols indexed across React 19 components, Express server, and test suites",
-                "sourceRef": ".portfolio-intelligence/project-index/remix-sole-marketplace.json"
+                "metric": "400w – 1200w",
+                "labelAr": "توليد تلقائي لروابط صور Cloudinary المتجاوبة (srcset) بصيغ f_auto,q_auto",
+                "labelEn": "Responsive Cloudinary srcset transformations (f_auto,q_auto)",
+                "sourceRef": "src/utils/catalog.test.ts:46-59"
             }
         ],
         "skillsProven": [
@@ -1206,8 +1206,8 @@ PROJECTS_CONTENT = [
     },
     {
         "slug": "gmail-options-suite",
-        "titleAr": "منظومة Scenarios & Browser Slots — أتمتة المتصفح المتعددة وعزل الجلسات والبصمات",
-        "titleEn": "Multi-Slot Browser Automation & Session Isolation Engine (Camoufox / Playwright)",
+        "titleAr": "منظومة أتمتة المتصفح المتعددة",
+        "titleEn": "Multi-Slot Browser Automation Suite",
         "summaryAr": "منصة أتمتة بايثون معيارية مستقلة مع لوحة إدارة، تدير سلوتات متصفح متوازية معزولة كليًا (BrowserContext + Proxy Locking + Humanization) وتتعامل مع حالات الفشل والتصنيف الذري للملفات.",
         "summaryEn": "Modular standalone Python browser automation suite with an admin panel, managing isolated multi-slot Camoufox/Playwright contexts, proxy locking, Bezier humanization, thread-safe atomic result routing, and deep forensic stealth auditing.",
         "valuePropositionAr": "تشغيل مهام متصفح متوازية بعزل 100% للجلسات والبروكسيات مع تحديث ذري آمن للملفات وتدقيق جنائي عميق لسطح الكشف.",
@@ -1218,8 +1218,8 @@ PROJECTS_CONTENT = [
         "featured": False,
         "featuredOrder": 6,
         "role": {
-            "ar": "معماري أنظمة الأتمتة ومحلل التدقيق الجنائي للمتصفحات (يحتاج تأكيد المالك)",
-            "en": "Automation Systems Architect & Browser Forensics Analyst (Pending owner confirmation)"
+            "ar": "تصميم معمارية الأتمتة والتدقيق الجنائي للمتصفحات",
+            "en": "Automation Systems Architecture & Browser Forensics Analysis"
         },
         "audience": {
             "ar": "فرق هندسة الأتمتة واختبار الأنظمة التي تحتاج تشغيل جلسات متصفح متعددة دون تداخل في الكوكيز أو البروكسيات.",
@@ -1407,10 +1407,10 @@ PROJECTS_CONTENT = [
                 "sourceRef": "camoufox_forensic_audit.md:16-28"
             },
             {
-                "metric": "1,757 Nodes",
-                "labelAr": "عقدة برمجية مفهرسة عبر محرك المتصفح، السيناريوهات، ولوحة الإدارة",
-                "labelEn": "Indexed AST symbols across browser engine, scenarios, and admin panel",
-                "sourceRef": ".portfolio-intelligence/project-index/gmail-options-suite.json"
+                "metric": "Atomic Lock",
+                "labelAr": "حذف وتصنيف ذري للسجلات المعالجة عبر threading.Lock لمنع التضارب",
+                "labelEn": "Thread-safe atomic input pruning and output routing via threading.Lock",
+                "sourceRef": "scenarios/recovery/failure_handler.py:31-75"
             }
         ],
         "skillsProven": [
@@ -1433,8 +1433,8 @@ PROJECTS_CONTENT = [
     },
     {
         "slug": "rok-vision-controller",
-        "titleAr": "محرك RoK Universal Controller — معايرة الإحداثيات الديناميكية متعددة الأبعاد عبر ADB",
-        "titleEn": "RoK Universal Controller — Anchor-Based Multi-Resolution ADB Automation Engine",
+        "titleAr": "محرك معايرة الشاشات عبر ADB",
+        "titleEn": "Universal ADB Screen Controller",
         "summaryAr": "أداة تحكم بايثون عبر `uiautomator2` وADB تحل مشكلة اختلاف أبعاد ونسب الشاشات (16:9، 20:9، الأجهزة اللوحية) عبر خوارزمية تحويل إحداثيات مرتكزة على نقاط الإرساء (`ScreenScaler`).",
         "summaryEn": "Python ADB automation controller using `uiautomator2` that solves multi-device aspect-ratio drift (16:9, 19.5:9, 20:9, tablets) via an anchor-based geometric coordinate transformer (`ScreenScaler`).",
         "valuePropositionAr": "تشغيل نفس سيناريو التحكم عبر ADB على أي هاتف أو جهاز لوحي مهما اختلفت دقة الشاشة أو نسبة العرض إلى الارتفاع دون إعادة معايرة يدوية.",
@@ -1445,8 +1445,8 @@ PROJECTS_CONTENT = [
         "featured": False,
         "featuredOrder": 7,
         "role": {
-            "ar": "مطور خوارزمية التحويل الهندسي وأتمتة ADB (يحتاج تأكيد المالك)",
-            "en": "ADB Automation & Geometric UI Scaling Engineer (Pending owner confirmation)"
+            "ar": "تطوير خوارزمية التحويل الهندسي وأتمتة ADB",
+            "en": "Geometric UI Scaling & ADB Automation Engineering"
         },
         "audience": {
             "ar": "مطورو أتمتة الهواتف واختبار الواجهات الأفقية عبر أجهزة ومحاكي أندرويد متعددة الأحجام.",
@@ -1592,10 +1592,10 @@ PROJECTS_CONTENT = [
                 "sourceRef": "rok_controller.py:84-86"
             },
             {
-                "metric": "64 Nodes",
-                "labelAr": "عقدة برمجية مفهرسة في الرسم المعرفي لوحدتي التحكم",
-                "labelEn": "AST symbols indexed across both controller implementations",
-                "sourceRef": ".portfolio-intelligence/project-index/rok-vision-controller.json"
+                "metric": "16:9 – 20:9",
+                "labelAr": "دعم مختلف نسب العرض إلى الارتفاع للهواتف والأجهزة اللوحية دون انحراف",
+                "labelEn": "Aspect-ratio compatibility across phones and tablets without drift",
+                "sourceRef": "rok_universal_controller.py:5-26"
             }
         ],
         "skillsProven": [

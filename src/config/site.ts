@@ -1,8 +1,10 @@
+export const SITE_URL = 'https://ahmedabdellah28.github.io';
+
 export interface SiteOwnerConfig {
   ownerNameAr: string;
   ownerNameEn: string;
-  ownerNameConfirmed: boolean;
-  brandName: string | null;
+  roleTitleAr: string;
+  roleTitleEn: string;
   taglineAr: string;
   taglineEn: string;
   heroHeadingAr: string;
@@ -10,88 +12,75 @@ export interface SiteOwnerConfig {
   heroSubheadingAr: string;
   heroSubheadingEn: string;
   contact: {
-    email: string;
+    email: string | null;
+    emailStatus: 'verified' | 'needs_owner_input';
     formEndpoint: string | null;
     whatsapp: string | null;
     github: string;
     linkedin: string | null;
     domain: string;
   };
-  stats: {
-    projectsAudited: number;
-    graphNodesIndexed: number;
-    verifiedEvidenceClaims: number;
-    coreDomains: number;
-  };
 }
 
-/**
- * Owner Configuration configured for GitHub Pages (https://ahmed-abdellah.github.io)
- * - Uses zero-backend static mailto: + optional Formspree endpoint (no secret keys in client bundle).
- */
 export const SITE_CONFIG: SiteOwnerConfig = {
-  ownerNameAr: 'أحمد عبد الله — مهندس برمجيات ومعماري أنظمة ذكية',
-  ownerNameEn: 'Ahmed Abdellah — Systems Architect & Creative AI Engineer',
-  ownerNameConfirmed: true,
-  brandName: null,
+  ownerNameAr: 'أحمد عبد الله',
+  ownerNameEn: 'Ahmed Abdellah',
+  roleTitleAr: 'مهندس برمجيات ومعماري أنظمة ذكية وأتمتة',
+  roleTitleEn: 'Software Engineer · AI & Automation Systems Architect',
   taglineAr:
-    'أبني تطبيقات وأنظمة أتمتة وحلولًا مدعومة بالذكاء الاصطناعي، وأحوّل المشكلات المعقدة إلى تجارب عملية واضحة.',
+    'أحوّل الأفكار المعقدة إلى تطبيقات وأنظمة ذكية قابلة للاستخدام.',
   taglineEn:
-    'I build applications, automation engines, and AI-powered systems — turning complex engineering problems into clear, dependable products.',
+    'Turning complex problems into intelligent, usable software and automation systems.',
   heroHeadingAr:
-    'أبني تطبيقات وأنظمة أتمتة وحلولًا مدعومة بالذكاء الاصطناعي، وأحوّل المشكلات المعقدة إلى تجارب عملية واضحة.',
+    'أحوّل الأفكار المعقدة إلى تطبيقات وأنظمة ذكية قابلة للاستخدام.',
   heroHeadingEn:
-    'Building deterministic automation, computer-vision engines, and full-stack AI systems backed by verifiable code evidence.',
+    'Turning Complex Problems into Intelligent, Usable Software & Automation Systems.',
   heroSubheadingAr:
-    'بورتفوليو هندسي مبني مباشرةً من الفحص الجنائي للكود المصدري عبر 7 مشاريع حقيقية (أكثر من 60,000 عقدة برمجية مفهرسة) — يجمع بين وضوح القيمة لصاحب العمل وعمق البرهان التقني لمديري الهندسة.',
+    'أصمّم وأبني تطبيقات ويب وموبايل، ومحركات أتمتة، وأنظمة مدعومة بالذكاء الاصطناعي والرؤية الحاسوبية — بتركيز كامل على الاعتمادية، والسرعة، والقيمة العملية الواضحة.',
   heroSubheadingEn:
-    'An evidence-driven engineering portfolio synthesized directly from source-code analysis across 7 systems (60,000+ AST graph nodes indexed) — bridging clear business outcomes for clients with traceable architectural proof for engineering leaders.',
+    'I architect and build web & mobile applications, deterministic automation engines, and AI/computer-vision workflows designed for real-world reliability and clear business impact.',
   contact: {
-    email: 'ahmed.abdellah@users.noreply.github.com',
-    formEndpoint: null, // Optional: e.g. 'https://formspree.io/f/your_form_id' (public endpoint only, no secret keys)
+    // Strictly null until owner provides a real public inbox (never expose users.noreply.github.com)
+    email: null,
+    emailStatus: 'needs_owner_input',
+    formEndpoint: null,
     whatsapp: null,
     github: 'https://github.com/ahmedabdellah28',
     linkedin: null,
-    domain: 'https://ahmedabdellah28.github.io',
-  },
-  stats: {
-    projectsAudited: 7,
-    graphNodesIndexed: 60137,
-    verifiedEvidenceClaims: 24,
-    coreDomains: 6,
+    domain: SITE_URL,
   },
 };
 
 export const UI_LABELS = {
   ar: {
     navHome: 'الرئيسية',
-    navProjects: 'المشاريع ودراسات الحالة',
-    navExpertise: 'الخبرات والأدلة التقنية',
-    navAbout: 'منهجية العمل',
+    navProjects: 'الأعمال',
+    navExpertise: 'الخبرات',
+    navAbout: 'عنّي',
     navContact: 'التواصل',
     switchLang: 'English',
     switchLangHref: '/en/',
-    heroPrimaryCta: 'استكشف المشاريع البارزة',
-    heroSecondaryCta: 'مصفوفة المهارات والأدلة',
-    featuredSectionTitle: 'مشاريع مختارة بعناية — القيمة العملية والبرهان الهندسي',
+    heroPrimaryCta: 'شاهد أعمالي',
+    heroSecondaryCta: 'تعرّف على خبرتي',
+    featuredSectionTitle: 'أعمال مختارة',
     featuredSectionSub:
-      'تم اختيار هذه الأنظمة الخمسة بناءً على اكتمال التنفيذ، عمق القرارات المعمارية، وتنوع المجالات بين الذكاء الاصطناعي، الاستمثال الرياضي، الرؤية الحاسوبية، والتطبيقات المتكاملة.',
-    otherProjectsTitle: 'أعمال وأنظمة إضافية',
-    viewAllProjects: 'تصفح جميع المشاريع (7)',
-    readCaseStudy: 'دراسة الحالة والأدلة',
-    clientOverviewTab: 'نظرة العميل والقيمة العملية',
-    engineeringDeepDiveTab: 'التعمق الهندسي والمعمارية',
-    challengesTitle: 'قصص التحديات والقرارات الهندسية الموثقة',
-    evidenceTitle: 'سجل الأدلة البرمجية (Evidence Manifest)',
-    architectureTitle: 'معمارية النظام وتدفق البيانات',
-    capabilitiesTitle: 'القدرات والوظائف الأساسية',
-    resultsTitle: 'النتائج المثبتة في المشروع',
-    ctaProjectHeading: 'هل تبحث عن نظام مشابه أو حل لمشكلة معقدة؟',
-    ctaProjectBody: 'ناقش معي متطلبات مشروعك وكيف يمكن تصميم حل موثوق وقابل للتوسع.',
-    ctaProjectBtn: 'تواصل لمناقشة الحل',
+      'ثلاثة مشاريع متنوعة توضح كيف تتحول المشكلات المعقدة في إنتاج الوسائط، والجدولة الرياضية، والتجارة الإلكترونية إلى أنظمة عملية موثوقة.',
+    otherProjectsTitle: 'مشاريع وأنظمة إضافية',
+    viewAllProjects: 'عرض جميع المشاريع (7)',
+    readCaseStudy: 'استكشف المشروع',
+    clientOverviewTab: 'نظرة عامة والقيمة العملية',
+    engineeringDeepDiveTab: 'التفاصيل الهندسية والمعمارية',
+    challengesTitle: 'ماذا واجهت وكيف حللته؟ (قصص هندسية موثقة)',
+    evidenceTitle: 'الأدلة والنتائج الموثقة',
+    architectureTitle: 'القرارات المعمارية وتدفق النظام',
+    capabilitiesTitle: 'القدرات والوظائف المنفذة',
+    resultsTitle: 'مخرجات وقدرات مثبتة',
+    ctaProjectHeading: 'هل لديك مشروع أو تحدٍ تقني تريد مناقشته؟',
+    ctaProjectBody: 'تصفح قنوات التواصل المتاحة أو جهّز ملخصًا سريعًا لمتطلباتك.',
+    ctaProjectBtn: 'تواصل معي',
     statusLabels: {
-      production: 'إنتاجي / جاهز للتشغيل',
-      functional: 'وظيفي مكتمل النواة',
+      production: 'نظام مكتمل وقابل للتشغيل',
+      functional: 'نواة وظيفية عاملة',
       prototype: 'نموذج أولي',
       in_progress: 'قيد التطوير',
       concept: 'تصور معماري',
@@ -100,39 +89,39 @@ export const UI_LABELS = {
     challengeTypeLabels: {
       verified_fix: 'إصلاح موثق بالدليل (Verified Fix)',
       preventive_design: 'تصميم وقائي (Preventive Design)',
-      possible_risk: 'خطر مرصود بالتدقيق (Forensic Risk Audit)',
-      unverified_story: 'يحتاج تأكيد المالك',
+      possible_risk: 'مخاطر مرصودة بالتدقيق (Forensic Audit Finding)',
+      unverified_story: 'قيد المراجعة',
     },
   },
   en: {
     navHome: 'Home',
-    navProjects: 'Projects & Case Studies',
-    navExpertise: 'Expertise & Proof Matrix',
-    navAbout: 'Methodology & About',
+    navProjects: 'Work',
+    navExpertise: 'Expertise',
+    navAbout: 'About',
     navContact: 'Contact',
     switchLang: 'العربية',
     switchLangHref: '/ar/',
-    heroPrimaryCta: 'Explore Featured Case Studies',
-    heroSecondaryCta: 'Skills & Evidence Matrix',
-    featuredSectionTitle: 'Featured Engineering Systems — Business Value & Technical Proof',
+    heroPrimaryCta: 'View My Work',
+    heroSecondaryCta: 'Explore Expertise',
+    featuredSectionTitle: 'Featured Work',
     featuredSectionSub:
-      'Selected across 7 audited codebases based on implementation completeness, architectural depth, automated verification suites, and domain diversity.',
+      'Three selected systems demonstrating how complex challenges in media production, mathematical scheduling, and e-commerce become reliable products.',
     otherProjectsTitle: 'Additional Systems & Tooling',
-    viewAllProjects: 'Browse All Projects (7)',
-    readCaseStudy: 'Case Study & Evidence',
-    clientOverviewTab: 'Client Overview & Business Value',
-    engineeringDeepDiveTab: 'Engineering Deep Dive & Architecture',
-    challengesTitle: 'Verified Engineering Challenges & Decisions',
-    evidenceTitle: 'Traceable Code Evidence Manifest',
-    architectureTitle: 'System Architecture & Pipeline Flow',
-    capabilitiesTitle: 'Core Capabilities & Workflows',
-    resultsTitle: 'Proven Engineering Outcomes',
-    ctaProjectHeading: 'Need a similar system or facing a complex engineering bottleneck?',
-    ctaProjectBody: 'Discuss your architecture, automation, or product requirements directly.',
-    ctaProjectBtn: 'Discuss Your Solution',
+    viewAllProjects: 'View All Projects (7)',
+    readCaseStudy: 'Explore Case Study',
+    clientOverviewTab: 'Overview & Practical Value',
+    engineeringDeepDiveTab: 'Technical Deep Dive & Architecture',
+    challengesTitle: 'What Went Wrong & How I Solved It',
+    evidenceTitle: 'Verified Evidence & Outcomes',
+    architectureTitle: 'Architectural Decisions & System Flow',
+    capabilitiesTitle: 'Implemented Capabilities & Workflows',
+    resultsTitle: 'Verified Capabilities & Outcomes',
+    ctaProjectHeading: 'Have a project or engineering challenge to discuss?',
+    ctaProjectBody: 'Connect through verified channels or prepare a concise project brief.',
+    ctaProjectBtn: 'Get in Touch',
     statusLabels: {
-      production: 'Production-Ready',
-      functional: 'Functional Core',
+      production: 'Production-Ready System',
+      functional: 'Functional Core System',
       prototype: 'Prototype',
       in_progress: 'In Progress',
       concept: 'Architecture Concept',
@@ -141,8 +130,8 @@ export const UI_LABELS = {
     challengeTypeLabels: {
       verified_fix: 'Verified Fix (Code/Git Proven)',
       preventive_design: 'Preventive Architecture Design',
-      possible_risk: 'Forensic Risk Discovery',
-      unverified_story: 'Needs Owner Confirmation',
+      possible_risk: 'Forensic Audit Finding',
+      unverified_story: 'Under Review',
     },
   },
 } as const;

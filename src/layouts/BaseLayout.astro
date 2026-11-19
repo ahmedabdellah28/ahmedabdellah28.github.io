@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { SITE_CONFIG, UI_LABELS } from '../config/site';
+import { SITE_CONFIG, SITE_URL, UI_LABELS } from '../config/site';
 
 interface Props {
   title: string;
@@ -27,7 +27,7 @@ const t = UI_LABELS[locale];
 // Compute language switch URL preserving internal route equivalent
 const cleanSubPath = currentPath.replace(/^\/(ar|en)(\/|$)/, '/');
 const switchHref = `/${otherLocale}${cleanSubPath.startsWith('/') ? cleanSubPath : '/' + cleanSubPath}`;
-const siteOrigin = Astro.site ? Astro.site.origin : 'https://ahmedabdellah28.github.io';
+const siteOrigin = Astro.site ? Astro.site.origin : SITE_URL;
 const canonicalUrl = `${siteOrigin}${canonicalPath || `/${locale}${cleanSubPath}`}`;
 const altArUrl = `${siteOrigin}/ar${cleanSubPath}`;
 const altEnUrl = `${siteOrigin}/en${cleanSubPath}`;
@@ -49,6 +49,7 @@ const defaultSchema = {
   mainEntity: {
     '@type': 'Person',
     name: locale === 'ar' ? SITE_CONFIG.ownerNameAr : SITE_CONFIG.ownerNameEn,
+    jobTitle: locale === 'ar' ? SITE_CONFIG.roleTitleAr : SITE_CONFIG.roleTitleEn,
     image: `${siteOrigin}/media/profile/ahmed-abdellah.webp`,
     description: locale === 'ar' ? SITE_CONFIG.taglineAr : SITE_CONFIG.taglineEn,
     url: siteOrigin,
@@ -66,7 +67,7 @@ const defaultSchema = {
 ---
 
 <!doctype html>
-<html lang={locale} dir={dir}>
+<html lang={locale} dir={dir} class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -94,24 +95,21 @@ const defaultSchema = {
       document.documentElement.classList.add('js-enabled');
     </script>
   </head>
-  <body class="min-h-screen flex flex-col bg-[#F5F7FA] text-[#0B1220] antialiased selection:bg-[#2663EB] selection:text-white">
-    <!-- Top Reading Progress Indicator -->
-    <div
-      id="scroll-progress"
-      class="fixed top-0 inset-x-0 h-1 bg-gradient-to-r from-[#2663EB] via-[#18B8A7] to-[#60A5FA] z-50 origin-left scale-x-0 transition-transform duration-75"
-      aria-hidden="true"
-    ></div>
+  <body class="min-h-screen flex flex-col text-[#F8FAFC] antialiased selection:bg-[#3B82F6] selection:text-white">
+    <!-- Fixed Full-Viewport Studio Portrait Gradient Backdrop -->
+    <div class="studio-portrait-backdrop" aria-hidden="true"></div>
 
     <a
       href="#main-content"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:start-3 focus:z-50 focus:bg-[#0B1220] focus:text-white focus:px-4 focus:py-2.5 focus:rounded-lg focus:shadow-lg"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:start-3 focus:z-50 focus:bg-[#3B82F6] focus:text-white focus:px-4 focus:py-2.5 focus:rounded-xl focus:shadow-lg font-bold"
     >
       {locale === 'ar' ? 'تخطي إلى المحتوى الرئيسي' : 'Skip to main content'}
     </a>
 
     <!-- Top Glassmorphic Navigation Header -->
-    <header class="sticky top-0 z-40 bg-[#0B1220]/90 backdrop-blur-xl border-b border-slate-800/80 text-[#F5F7FA] shadow-md">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between gap-4">
+    <header class="sticky top-0 z-40 bg-[#050914]/85 backdrop-blur-xl border-b border-white/10 text-[#F8FAFC]">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+        <!-- Brand Identity -->
         <a
           href={`/${locale}/`}
           class="flex items-center gap-3 group focus-visible:rounded-xl"
@@ -120,29 +118,26 @@ const defaultSchema = {
           <div class="relative shrink-0">
             <img
               src="/media/profile/ahmed-abdellah-thumb.webp"
-              alt={locale === 'ar' ? 'صورة أحمد عبد الله' : 'Ahmed Abdellah Portrait'}
-              width="42"
-              height="42"
-              class="w-10 h-10 rounded-full object-cover border-2 border-[#2663EB] group-hover:border-[#18B8A7] transition-colors shadow-sm"
+              alt={locale === 'ar' ? 'أحمد عبد الله' : 'Ahmed Abdellah'}
+              width="40"
+              height="40"
+              class="w-10 h-10 rounded-full object-cover border border-blue-400/60 group-hover:border-amber-400 transition-colors shadow-sm"
             />
-            <span
-              class="absolute -bottom-0.5 -end-0.5 w-3 h-3 rounded-full bg-[#18B8A7] ring-2 ring-[#0B1220]"
-              title={locale === 'ar' ? 'متاح للمشاريع والأدوار الهندسية' : 'Available for Projects & Engineering Roles'}
-            ></span>
           </div>
           <div class="flex flex-col">
-            <span class="font-extrabold text-sm sm:text-base tracking-tight text-white group-hover:text-[#18B8A7] transition-colors">
-              {locale === 'ar' ? 'أحمد عبد الله' : 'Ahmed Abdellah'}
+            <span class="font-extrabold text-sm sm:text-base tracking-tight text-white group-hover:text-blue-400 transition-colors">
+              {locale === 'ar' ? SITE_CONFIG.ownerNameAr : SITE_CONFIG.ownerNameEn}
             </span>
-            <span class="text-[11px] font-mono text-slate-400 hidden sm:inline">
-              {locale === 'ar' ? 'معماري أنظمة ذكية وأتمتة' : 'Systems Architect & AI Engineer'}
+            <span class="text-[11px] text-slate-400 hidden sm:inline">
+              {locale === 'ar' ? 'تطبيقات · ذكاء اصطناعي · أتمتة' : 'Software · AI · Automation'}
             </span>
           </div>
         </a>
 
+        <!-- Desktop Navigation -->
         <nav
           aria-label={locale === 'ar' ? 'التنقل الرئيسي' : 'Primary Navigation'}
-          class="hidden md:flex items-center gap-1 bg-[#182438]/70 p-1.5 rounded-2xl border border-slate-800"
+          class="hidden md:flex items-center gap-1 bg-white/[0.04] p-1 rounded-xl border border-white/10"
         >
           {navItems.map((item) => {
             const isActive =
@@ -153,10 +148,10 @@ const defaultSchema = {
                 href={item.href}
                 aria-current={isActive ? 'page' : undefined}
                 class:list={[
-                  'px-3.5 py-1.5 rounded-xl text-xs lg:text-sm font-semibold transition-all duration-200',
+                  'px-3.5 py-1.5 rounded-lg text-xs lg:text-sm font-semibold transition-colors',
                   isActive
-                    ? 'bg-gradient-to-r from-[#2663EB] to-[#1D4ED8] text-white shadow-xs'
-                    : 'text-slate-300 hover:text-white hover:bg-[#0B1220]/50',
+                    ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-xs'
+                    : 'text-slate-300 hover:text-white hover:bg-white/[0.06]',
                 ]}
               >
                 {item.label}
@@ -165,32 +160,42 @@ const defaultSchema = {
           })}
         </nav>
 
-        <div class="flex items-center gap-2.5">
-          <a
-            href={`/${locale}/contact`}
-            class="hidden lg:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-[#18B8A7]/15 hover:bg-[#18B8A7] text-[#18B8A7] hover:text-[#0B1220] border border-[#18B8A7]/40 transition-all"
-          >
-            <span class="w-1.5 h-1.5 rounded-full bg-current"></span>
-            <span>{locale === 'ar' ? 'تواصل الآن' : 'Hire / Discuss'}</span>
-          </a>
-
+        <!-- Actions: Language Switcher & Mobile Menu Button -->
+        <div class="flex items-center gap-2">
           <a
             href={switchHref}
-            class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-[#182438] hover:bg-[#2663EB] text-white border border-slate-700 transition-colors"
+            class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white/[0.06] hover:bg-blue-600 text-white border border-white/15 transition-colors min-h-[40px]"
             aria-label={locale === 'ar' ? 'التبديل إلى الإنجليزية' : 'Switch language to Arabic'}
           >
-            <svg class="w-4 h-4 text-[#18B8A7]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <svg class="w-4 h-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
             </svg>
             <span>{t.switchLang}</span>
           </a>
+
+          <button
+            id="mobile-menu-toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="mobile-nav-drawer"
+            aria-label={locale === 'ar' ? 'فتح القائمة' : 'Toggle navigation menu'}
+            class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-xl bg-white/[0.06] hover:bg-white/10 text-white border border-white/15 transition-colors cursor-pointer"
+          >
+            <svg id="menu-icon-open" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <svg id="menu-icon-close" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
       </div>
 
-      <!-- Mobile Horizontal Navigation Bar -->
+      <!-- Accessible Collapsible Mobile Navigation Drawer -->
       <nav
-        aria-label={locale === 'ar' ? 'التنقل للهواتف' : 'Mobile Navigation'}
-        class="md:hidden flex items-center gap-1.5 overflow-x-auto px-4 py-2 bg-[#182438]/95 border-t border-slate-800 text-xs"
+        id="mobile-nav-drawer"
+        aria-label={locale === 'ar' ? 'قائمة الهاتف' : 'Mobile Navigation'}
+        class="hidden md:hidden bg-[#070D1D]/98 border-t border-white/10 px-4 py-3 space-y-1"
       >
         {navItems.map((item) => {
           const isActive =
@@ -199,9 +204,10 @@ const defaultSchema = {
           return (
             <a
               href={item.href}
+              aria-current={isActive ? 'page' : undefined}
               class:list={[
-                'whitespace-nowrap px-3 py-1.5 rounded-lg font-semibold transition-colors',
-                isActive ? 'bg-[#2663EB] text-white' : 'text-slate-300 hover:text-white',
+                'block px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors',
+                isActive ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-white/[0.06] hover:text-white',
               ]}
             >
               {item.label}
@@ -216,59 +222,59 @@ const defaultSchema = {
       <slot />
     </main>
 
-    <!-- Global Interactive Lightbox Modal for Screenshots & Architecture Diagrams -->
+    <!-- Accessible Global Lightbox Modal (Focus Trap, Escape, Backdrop Click, Focus Restore) -->
     <div
       id="global-lightbox"
-      class="fixed inset-0 z-50 hidden bg-[#0B1220]/95 backdrop-blur-xl p-4 sm:p-8 flex-col items-center justify-center"
+      class="fixed inset-0 z-50 hidden bg-[#03060E]/95 backdrop-blur-xl p-4 sm:p-8 flex-col items-center justify-center"
       role="dialog"
       aria-modal="true"
-      aria-label={locale === 'ar' ? 'معاينة الصورة بالحجم الكامل' : 'Full-resolution visual preview'}
+      aria-labelledby="lightbox-badge"
+      aria-describedby="lightbox-caption"
+      tabindex="-1"
     >
       <div class="w-full max-w-6xl flex items-center justify-between gap-4 mb-3 text-white">
-        <div class="flex items-center gap-2">
-          <span id="lightbox-badge" class="px-2.5 py-1 rounded-md bg-[#182438] text-[#18B8A7] font-mono text-xs border border-[#18B8A7]/30"></span>
-        </div>
+        <span id="lightbox-badge" class="px-3 py-1 rounded-lg bg-white/10 text-amber-300 font-mono text-xs border border-amber-400/30"></span>
         <button
           id="lightbox-close"
           type="button"
-          class="px-3.5 py-1.5 rounded-xl bg-[#182438] hover:bg-rose-600 text-white font-mono text-xs font-bold border border-slate-700 transition-colors cursor-pointer"
+          class="px-4 py-2 rounded-xl bg-white/10 hover:bg-rose-600 text-white font-mono text-xs font-bold border border-white/20 transition-colors cursor-pointer min-h-[40px]"
         >
           {locale === 'ar' ? 'إغلاق (ESC) ✕' : 'Close (ESC) ✕'}
         </button>
       </div>
 
-      <div class="relative flex-1 w-full max-w-6xl flex items-center justify-center overflow-hidden rounded-2xl bg-[#070C17] border border-slate-800 p-2 sm:p-4">
+      <div class="relative flex-1 w-full max-w-6xl flex items-center justify-center overflow-hidden rounded-2xl bg-[#050914] border border-white/15 p-2 sm:p-4">
         <img
           id="lightbox-img"
           src="/media/profile/ahmed-abdellah.webp"
           alt="Preview"
-          class="max-h-[78vh] max-w-full w-auto h-auto object-contain rounded-lg"
+          class="max-h-[76vh] max-w-full w-auto h-auto object-contain rounded-lg"
         />
       </div>
 
       <p id="lightbox-caption" class="mt-3 max-w-4xl text-center text-xs sm:text-sm text-slate-300 leading-relaxed"></p>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-[#0B1220] text-slate-300 border-t border-[#182438] mt-20">
+    <!-- Clean Footer -->
+    <footer class="bg-[#040711]/90 backdrop-blur-lg text-slate-300 border-t border-white/10 mt-20">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
           <div class="space-y-3">
             <div class="flex items-center gap-3">
               <img
                 src="/media/profile/ahmed-abdellah-thumb.webp"
-                alt={locale === 'ar' ? 'أحمد عبد الله' : 'Ahmed Abdellah'}
+                alt={locale === 'ar' ? SITE_CONFIG.ownerNameAr : SITE_CONFIG.ownerNameEn}
                 width="38"
                 height="38"
                 loading="lazy"
-                class="w-9 h-9 rounded-full object-cover border border-[#18B8A7]"
+                class="w-9 h-9 rounded-full object-cover border border-blue-400/60"
               />
               <div>
                 <span class="font-bold text-white text-base block">
-                  {locale === 'ar' ? 'أحمد عبد الله' : 'Ahmed Abdellah'}
+                  {locale === 'ar' ? SITE_CONFIG.ownerNameAr : SITE_CONFIG.ownerNameEn}
                 </span>
-                <span class="text-xs font-mono text-[#18B8A7]">
-                  ahmed-abdellah.github.io
+                <span class="text-xs font-mono text-blue-400">
+                  ahmedabdellah28.github.io
                 </span>
               </div>
             </div>
@@ -278,13 +284,13 @@ const defaultSchema = {
           </div>
 
           <div>
-            <h2 class="text-xs font-mono uppercase tracking-wider text-[#18B8A7] mb-3">
-              {locale === 'ar' ? 'خريطة البورتفوليو' : 'Portfolio Navigation'}
+            <h2 class="text-xs font-mono uppercase tracking-wider text-amber-400 mb-3">
+              {locale === 'ar' ? 'روابط سريعة' : 'Quick Links'}
             </h2>
             <ul class="space-y-2 text-sm">
               {navItems.map((item) => (
                 <li>
-                  <a href={item.href} class="text-slate-400 hover:text-white transition-colors">
+                  <a href={item.href} class="text-slate-300 hover:text-white transition-colors">
                     {item.label}
                   </a>
                 </li>
@@ -292,49 +298,60 @@ const defaultSchema = {
             </ul>
           </div>
 
-          <div class="bg-[#182438] rounded-2xl p-5 border border-slate-800">
-            <h2 class="text-xs font-mono uppercase tracking-wider text-[#18B8A7] mb-2">
-              {locale === 'ar' ? 'معيار الصدق والأدلة (Graph-First)' : 'Graph-First Verification Standard'}
+          <div class="space-y-3">
+            <h2 class="text-xs font-mono uppercase tracking-wider text-amber-400">
+              {locale === 'ar' ? 'الحساب الرسمي على GitHub' : 'Verified GitHub Profile'}
             </h2>
-            <p class="text-xs text-slate-300 leading-relaxed">
+            <a
+              href={SITE_CONFIG.contact.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.06] hover:bg-blue-600 text-white text-xs font-mono border border-white/15 transition-colors"
+            >
+              <span>github.com/ahmedabdellah28</span>
+            </a>
+            <p class="text-xs text-slate-400 leading-relaxed">
               {locale === 'ar'
-                ? 'جميع المشاريع والمهارات والتحديات المعروضة في هذا الموقع مستخرجة وموثقة مباشرةً من الكود المصدري وسجلات Git والاختبارات الآلية دون أرقام مختلقة أو أسرار منشورة.'
-                : 'Every project, architectural claim, and challenge story on this site is directly extracted and verified from source files, git commits, and test suites — zero fabricated metrics or exposed secrets.'}
+                ? 'جميع المشاريع والنتائج الموثقة في هذا الموقع مبنية على كود مصدري واختبارات فعلية.'
+                : 'All featured systems and engineering case studies are grounded in real source repositories and tests.'}
             </p>
           </div>
         </div>
 
-        <div class="mt-8 pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
+        <div class="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
           <span>
             {locale === 'ar'
-              ? '© أحمد عبد الله — بورتفوليو هندسي مبني بـ Astro SSG وTypeScript وTailwind CSS'
-              : '© Ahmed Abdellah — Engineering Portfolio built with Astro SSG, TypeScript & Tailwind CSS'}
+              ? '© أحمد عبد الله (ahmedabdellah28.github.io) — جميع الحقوق محفوظة'
+              : '© Ahmed Abdellah (ahmedabdellah28.github.io) — All rights reserved'}
           </span>
-          <div class="flex items-center gap-4 font-mono">
-            <span>7 {locale === 'ar' ? 'مشاريع مفحوصة' : 'Audited Systems'}</span>
-            <span>·</span>
-            <span>60,137 {locale === 'ar' ? 'عقدة برمجية' : 'AST Nodes'}</span>
-          </div>
+          <a href={switchHref} class="text-blue-400 hover:underline font-semibold">
+            {locale === 'ar' ? 'View in English' : 'النسخة العربية'}
+          </a>
         </div>
       </div>
     </footer>
 
-    <!-- Global 2027 Interactive Choreography Script (Scroll Progress, Reveal, Spotlight & Lightbox) -->
+    <!-- Global Interactions: Mobile Menu, Scroll Reveal, Synchronized Media Toggle & Accessible Lightbox -->
     <script is:inline>
       function initPortfolioInteractions() {
-        // 1. Scroll Progress Bar
-        const progressBar = document.getElementById('scroll-progress');
-        const updateProgress = () => {
-          if (!progressBar) return;
-          const scrollTop = window.scrollY || document.documentElement.scrollTop;
-          const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-          const pct = docHeight > 0 ? Math.min(1, Math.max(0, scrollTop / docHeight)) : 0;
-          progressBar.style.transform = `scaleX(${pct})`;
-        };
-        window.addEventListener('scroll', updateProgress, { passive: true });
-        updateProgress();
+        // 1. Mobile Navigation Drawer (Accessible aria-expanded + Escape)
+        const menuBtn = document.getElementById('mobile-menu-toggle');
+        const menuDrawer = document.getElementById('mobile-nav-drawer');
+        const iconOpen = document.getElementById('menu-icon-open');
+        const iconClose = document.getElementById('menu-icon-close');
 
-        // 2. Scroll Reveal Observer
+        if (menuBtn && menuDrawer) {
+          menuBtn.onclick = () => {
+            const expanded = menuBtn.getAttribute('aria-expanded') === 'true';
+            const nextState = !expanded;
+            menuBtn.setAttribute('aria-expanded', String(nextState));
+            menuDrawer.classList.toggle('hidden', !nextState);
+            iconOpen?.classList.toggle('hidden', nextState);
+            iconClose?.classList.toggle('hidden', !nextState);
+          };
+        }
+
+        // 2. Modest Scroll-Reveal Observer
         const revealEls = document.querySelectorAll('.reveal-item');
         if ('IntersectionObserver' in window) {
           const io = new IntersectionObserver(
@@ -346,87 +363,114 @@ const defaultSchema = {
                 }
               });
             },
-            { threshold: 0.08, rootMargin: '0px 0px -30px 0px' }
+            { threshold: 0.06, rootMargin: '0px 0px -20px 0px' }
           );
           revealEls.forEach((el) => io.observe(el));
         } else {
           revealEls.forEach((el) => el.classList.add('is-visible'));
         }
 
-        // 3. Mouse Spotlight Tracking on Cards
-        document.querySelectorAll('.spotlight-card').forEach((card) => {
-          card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-            card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
-          });
-        });
-
-        // 3b. In-Card Media Preview Switcher (Screenshot <-> Architecture Diagram)
+        // 3. Synchronized In-Card Media Preview Switcher (Updates img src, alt, width, height AND Lightbox Zoom trigger!)
         document.querySelectorAll('[data-switch-target]').forEach((btn) => {
-          btn.addEventListener('click', (e) => {
+          btn.onclick = (e) => {
             e.preventDefault();
             e.stopPropagation();
             const targetId = btn.getAttribute('data-switch-target');
             const newSrc = btn.getAttribute('data-switch-src');
+            const newAlt = btn.getAttribute('data-switch-alt');
+            const newCap = btn.getAttribute('data-switch-caption');
+            const newW = btn.getAttribute('data-switch-width');
+            const newH = btn.getAttribute('data-switch-height');
+
             const imgEl = targetId ? document.getElementById(targetId) : null;
+            const zoomBtn = targetId ? document.getElementById(`zoom-${targetId}`) : null;
+
             if (imgEl && newSrc) {
               imgEl.setAttribute('src', newSrc);
-              const parent = btn.parentElement;
-              parent?.querySelectorAll('.card-media-btn').forEach((sib) => {
-                const active = sib === btn;
-                sib.classList.toggle('bg-[#2663EB]', active);
-                sib.classList.toggle('text-white', active);
-                sib.classList.toggle('bg-[#0B1220]/85', !active);
-                sib.classList.toggle('text-slate-300', !active);
-              });
+              if (newAlt) imgEl.setAttribute('alt', newAlt);
+              if (newW) imgEl.setAttribute('width', newW);
+              if (newH) imgEl.setAttribute('height', newH);
             }
-          });
+            if (zoomBtn && newSrc) {
+              zoomBtn.setAttribute('data-lightbox-src', newSrc);
+              if (newAlt) zoomBtn.setAttribute('data-lightbox-alt', newAlt);
+              if (newCap) zoomBtn.setAttribute('data-lightbox-caption', newCap);
+            }
+
+            const parent = btn.parentElement;
+            parent?.querySelectorAll('.card-media-btn').forEach((sib) => {
+              const active = sib === btn;
+              sib.setAttribute('aria-pressed', String(active));
+              sib.classList.toggle('bg-blue-600', active);
+              sib.classList.toggle('text-white', active);
+              sib.classList.toggle('border-blue-400', active);
+              sib.classList.toggle('bg-[#050914]/85', !active);
+              sib.classList.toggle('text-slate-300', !active);
+              sib.classList.toggle('border-white/15', !active);
+            });
+          };
         });
 
-        // 4. Interactive Lightbox Modal
+        // 4. Accessible Lightbox Modal with Focus Management & Keyboard Trap
         const modal = document.getElementById('global-lightbox');
         const modalImg = document.getElementById('lightbox-img');
         const modalCap = document.getElementById('lightbox-caption');
         const modalBadge = document.getElementById('lightbox-badge');
         const closeBtn = document.getElementById('lightbox-close');
+        let lastFocusedTrigger = null;
 
-        const openLightbox = (src, alt, caption, badge) => {
+        const openLightbox = (trigger) => {
           if (!modal || !modalImg) return;
-          modalImg.setAttribute('src', src);
+          lastFocusedTrigger = trigger;
+          const src = trigger.getAttribute('data-lightbox-src');
+          const alt = trigger.getAttribute('data-lightbox-alt');
+          const caption = trigger.getAttribute('data-lightbox-caption');
+          const badge = trigger.getAttribute('data-lightbox-badge');
+
+          modalImg.setAttribute('src', src || '');
           modalImg.setAttribute('alt', alt || 'Preview');
           if (modalCap) modalCap.textContent = caption || alt || '';
-          if (modalBadge) modalBadge.textContent = badge || 'Visual Proof';
+          if (modalBadge) modalBadge.textContent = badge || 'Visual Preview';
           modal.classList.remove('hidden');
           modal.classList.add('flex');
           document.body.style.overflow = 'hidden';
+          closeBtn?.focus();
         };
 
         const closeLightbox = () => {
-          if (!modal) return;
+          if (!modal || modal.classList.contains('hidden')) return;
           modal.classList.add('hidden');
           modal.classList.remove('flex');
           document.body.style.overflow = '';
+          if (lastFocusedTrigger && typeof lastFocusedTrigger.focus === 'function') {
+            lastFocusedTrigger.focus();
+          }
         };
 
         document.querySelectorAll('[data-lightbox-src]').forEach((trigger) => {
-          trigger.addEventListener('click', () => {
-            openLightbox(
-              trigger.getAttribute('data-lightbox-src'),
-              trigger.getAttribute('data-lightbox-alt'),
-              trigger.getAttribute('data-lightbox-caption'),
-              trigger.getAttribute('data-lightbox-badge')
-            );
-          });
+          trigger.onclick = () => openLightbox(trigger);
         });
 
-        closeBtn?.addEventListener('click', closeLightbox);
-        modal?.addEventListener('click', (e) => {
-          if (e.target === modal) closeLightbox();
-        });
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape') closeLightbox();
-        });
+        if (closeBtn) closeBtn.onclick = closeLightbox;
+        if (modal) {
+          modal.onclick = (e) => {
+            if (e.target === modal) closeLightbox();
+          };
+        }
+
+        document.onkeydown = (e) => {
+          if (e.key === 'Escape') {
+            closeLightbox();
+            if (menuBtn && menuBtn.getAttribute('aria-expanded') === 'true') {
+              menuBtn.click();
+              menuBtn.focus();
+            }
+          } else if (e.key === 'Tab' && modal && !modal.classList.contains('hidden')) {
+            // Trap focus inside lightbox close button
+            e.preventDefault();
+            closeBtn?.focus();
+          }
+        };
       }
 
       initPortfolioInteractions();

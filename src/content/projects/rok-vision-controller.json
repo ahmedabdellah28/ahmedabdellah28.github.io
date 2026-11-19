@@ -1,7 +1,7 @@
 {
   "slug": "rok-vision-controller",
-  "titleAr": "محرك RoK Universal Controller — معايرة الإحداثيات الديناميكية متعددة الأبعاد عبر ADB",
-  "titleEn": "RoK Universal Controller — Anchor-Based Multi-Resolution ADB Automation Engine",
+  "titleAr": "محرك معايرة الشاشات عبر ADB",
+  "titleEn": "Universal ADB Screen Controller",
   "summaryAr": "أداة تحكم بايثون عبر `uiautomator2` وADB تحل مشكلة اختلاف أبعاد ونسب الشاشات (16:9، 20:9، الأجهزة اللوحية) عبر خوارزمية تحويل إحداثيات مرتكزة على نقاط الإرساء (`ScreenScaler`).",
   "summaryEn": "Python ADB automation controller using `uiautomator2` that solves multi-device aspect-ratio drift (16:9, 19.5:9, 20:9, tablets) via an anchor-based geometric coordinate transformer (`ScreenScaler`).",
   "valuePropositionAr": "تشغيل نفس سيناريو التحكم عبر ADB على أي هاتف أو جهاز لوحي مهما اختلفت دقة الشاشة أو نسبة العرض إلى الارتفاع دون إعادة معايرة يدوية.",
@@ -15,8 +15,8 @@
   "featured": false,
   "featuredOrder": 7,
   "role": {
-    "ar": "مطور خوارزمية التحويل الهندسي وأتمتة ADB (يحتاج تأكيد المالك)",
-    "en": "ADB Automation & Geometric UI Scaling Engineer (Pending owner confirmation)"
+    "ar": "تطوير خوارزمية التحويل الهندسي وأتمتة ADB",
+    "en": "Geometric UI Scaling & ADB Automation Engineering"
   },
   "audience": {
     "ar": "مطورو أتمتة الهواتف واختبار الواجهات الأفقية عبر أجهزة ومحاكي أندرويد متعددة الأحجام.",
@@ -162,10 +162,10 @@
       "sourceRef": "rok_controller.py:84-86"
     },
     {
-      "metric": "64 Nodes",
-      "labelAr": "عقدة برمجية مفهرسة في الرسم المعرفي لوحدتي التحكم",
-      "labelEn": "AST symbols indexed across both controller implementations",
-      "sourceRef": ".portfolio-intelligence/project-index/rok-vision-controller.json"
+      "metric": "16:9 – 20:9",
+      "labelAr": "دعم مختلف نسب العرض إلى الارتفاع للهواتف والأجهزة اللوحية دون انحراف",
+      "labelEn": "Aspect-ratio compatibility across phones and tablets without drift",
+      "sourceRef": "rok_universal_controller.py:5-26"
     }
   ],
   "skillsProven": [

@@ -1,32 +1,34 @@
 ---
 import '../styles/global.css';
-import { SITE_CONFIG } from '../config/site';
+import { SITE_CONFIG, SITE_URL } from '../config/site';
 ---
 
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{SITE_CONFIG.ownerNameAr} — البورتفوليو الهندسي</title>
+    <title>{SITE_CONFIG.ownerNameAr} — {SITE_CONFIG.roleTitleAr}</title>
+    <meta name="description" content={SITE_CONFIG.heroSubheadingAr} />
     <meta http-equiv="refresh" content="0;url=/ar/" />
-    <link rel="canonical" href="https://ahmedabdellah28.github.io/ar/" />
-    <link rel="alternate" hreflang="ar" href="https://ahmedabdellah28.github.io/ar/" />
-    <link rel="alternate" hreflang="en" href="https://ahmedabdellah28.github.io/en/" />
-    <meta property="og:title" content={`${SITE_CONFIG.ownerNameAr} — البورتفوليو الهندسي`} />
-    <meta property="og:description" content={SITE_CONFIG.taglineAr} />
-    <meta property="og:url" content="https://ahmedabdellah28.github.io/" />
+    <link rel="canonical" href={`${SITE_URL}/ar/`} />
+    <link rel="alternate" hreflang="ar" href={`${SITE_URL}/ar/`} />
+    <link rel="alternate" hreflang="en" href={`${SITE_URL}/en/`} />
+    <meta property="og:title" content={`${SITE_CONFIG.ownerNameAr} — ${SITE_CONFIG.roleTitleAr}`} />
+    <meta property="og:description" content={SITE_CONFIG.heroSubheadingAr} />
+    <meta property="og:url" content={`${SITE_URL}/`} />
     <meta property="og:type" content="website" />
   </head>
-  <body class="min-h-screen bg-[#0B1220] text-[#F5F7FA] flex items-center justify-center p-6">
-    <div class="max-w-md w-full bg-[#182438] border border-slate-700 rounded-2xl p-8 text-center space-y-5">
+  <body class="min-h-screen text-[#F8FAFC] flex items-center justify-center p-6">
+    <div class="studio-portrait-backdrop" aria-hidden="true"></div>
+    <div class="max-w-md w-full glass-panel-elevated rounded-3xl p-8 text-center space-y-5">
       <h1 class="text-xl font-bold text-white">{SITE_CONFIG.ownerNameAr}</h1>
       <p class="text-sm text-slate-300">{SITE_CONFIG.taglineAr}</p>
       <div class="flex items-center justify-center gap-3 pt-2">
-        <a href="/ar/" class="px-5 py-2.5 rounded-xl bg-[#2663EB] text-white font-semibold text-sm">
+        <a href="/ar/" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm transition-colors">
           العربية (الرئيسية)
         </a>
-        <a href="/en/" class="px-5 py-2.5 rounded-xl bg-[#0B1220] text-slate-200 border border-slate-700 font-semibold text-sm">
+        <a href="/en/" class="px-5 py-2.5 rounded-xl bg-white/[0.08] hover:bg-white/15 text-slate-200 border border-white/15 font-semibold text-sm transition-colors">
           English
         </a>
       </div>

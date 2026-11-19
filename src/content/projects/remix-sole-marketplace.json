@@ -1,7 +1,7 @@
 {
   "slug": "remix-sole-marketplace",
-  "titleAr": "منصة سول (SOLE) — متجر ومعرض أحذية متكامل مع مزامنة Cloudinary وحماية أمنية متعددة الطبقات",
-  "titleEn": "SOLE Footwear Marketplace — Full-Stack React 19 / Express Catalog with Cloudinary & Security Hardening",
+  "titleAr": "متجر سول للأحذية (SOLE)",
+  "titleEn": "SOLE Footwear Marketplace",
   "summaryAr": "تطبيق تجارة إلكترونية وكتالوج رقمي ثنائي اللغة (React 19 + Express + Supabase + Cloudinary) يحوّل أرشيف صور الاستوديو إلى متجر سريع مع لوحة إدارة، فحص Magic Bytes للصور، وحماية ضد حقن PostgREST وPath Traversal.",
   "summaryEn": "Full-stack footwear marketplace (React 19, Express, TypeScript, Supabase, Cloudinary) transforming studio photo archives into a high-speed storefront with an admin panel, binary Magic-Byte upload validation, PostgREST injection guards, and offline static fallback.",
   "valuePropositionAr": "تحويل مجلدات صور المنتجات الملتقطة بالكاميرا أو واتساب تلقائيًا إلى متجر إلكتروني أنيق وسريع ومحصن أمنيًا مع استمرارية عمل حتى عند انقطاع قاعدة البيانات.",
@@ -14,10 +14,10 @@
   "status": "production",
   "visibility": "published",
   "featured": true,
-  "featuredOrder": 5,
+  "featuredOrder": 3,
   "role": {
-    "ar": "مهندس Full-Stack TypeScript وأمن تطبيقات الويب (يحتاج تأكيد المالك)",
-    "en": "Full-Stack TypeScript & Web Application Security Engineer (Pending owner confirmation)"
+    "ar": "تطوير Full-Stack TypeScript وتحصين أمن تطبيقات الويب",
+    "en": "Full-Stack TypeScript & Web Application Security Engineering"
   },
   "audience": {
     "ar": "العلامات التجارية ومتاجر الأحذية والأزياء التي تملك أرشيف صور ضخمًا وتريد واجهة عرض وبيع سريعة وسهلة الإدارة.",
@@ -205,10 +205,10 @@
       "sourceRef": "src/server/security.test.ts:13-95"
     },
     {
-      "metric": "320 Nodes",
-      "labelAr": "عقدة برمجية مفهرسة في الرسم المعرفي عبر React 19 وExpress 4 واختبارات الأمان",
-      "labelEn": "AST symbols indexed across React 19 components, Express server, and test suites",
-      "sourceRef": ".portfolio-intelligence/project-index/remix-sole-marketplace.json"
+      "metric": "400w – 1200w",
+      "labelAr": "توليد تلقائي لروابط صور Cloudinary المتجاوبة (srcset) بصيغ f_auto,q_auto",
+      "labelEn": "Responsive Cloudinary srcset transformations (f_auto,q_auto)",
+      "sourceRef": "src/utils/catalog.test.ts:46-59"
     }
   ],
   "skillsProven": [

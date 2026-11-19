@@ -7,7 +7,7 @@ export function getStaticPaths() {
 }
 
 const { locale } = Astro.params as { locale: 'ar' | 'en' };
-const contactEmail = SITE_CONFIG.contact.email;
+const verifiedEmail = SITE_CONFIG.contact.emailStatus === 'verified' ? SITE_CONFIG.contact.email : null;
 const formEndpoint = SITE_CONFIG.contact.formEndpoint;
 
 const pageTitle =
@@ -16,114 +16,106 @@ const pageTitle =
     : 'Contact & Project Brief — Ahmed Abdellah';
 const pageDesc =
   locale === 'ar'
-    ? 'تواصل مباشرة عبر البريد الإلكتروني أو GitHub وجهّز ملخص مشروعك لمناقشة بناء نظام جديد أو مراجعة معمارية.'
-    : 'Connect directly via email or GitHub and prepare a structured project brief for your architecture or automation needs.';
+    ? 'تواصل مع أحمد عبد الله عبر القنوات الرسمية المتحققة وجهّز ملخص مشروعك أو متطلباتك الهندسية.'
+    : 'Connect with Ahmed Abdellah via verified channels and prepare a structured project or engineering brief.';
 ---
 
 <BaseLayout title={pageTitle} description={pageDesc} locale={locale} currentPath={`/${locale}/contact`}>
-  <section class="bg-[#0B1220] text-white border-b border-[#182438] py-14">
+  <section class="border-b border-white/10 py-12 sm:py-14">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <span class="font-mono text-xs uppercase tracking-wider text-[#18B8A7]">
-        {locale === 'ar' ? 'تواصل مباشر بدون خادم وسيط (Static-First)' : 'Zero-Backend Static-First Contact'}
+      <span class="font-mono text-xs uppercase tracking-wider text-amber-400">
+        {locale === 'ar' ? 'تواصل مباشر' : 'Direct Contact'}
       </span>
-      <h1 class="text-3xl sm:text-4xl font-extrabold mt-2">
-        {locale === 'ar' ? 'ناقش معي مشروعك أو احتياجك الهندسي' : 'Discuss Your System or Engineering Role'}
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-white mt-2">
+        {locale === 'ar' ? 'ناقش معي مشروعك أو احتياجك الهندسي' : 'Discuss Your Project or Engineering Role'}
       </h1>
       <p class="text-sm sm:text-base text-slate-300 mt-3 max-w-3xl leading-relaxed">
         {locale === 'ar'
-          ? 'يعمل هذا البورتفوليو بنظام Static Site Generation (SSG) على GitHub Pages دون الحاجة إلى خادم خلفي دائم. يمكنك مراسلتي مباشرة عبر البريد الإلكتروني أو تجهيز ملخص مشروعك بضغطة واحدة.'
-          : 'Hosted statically on GitHub Pages with zero backend dependencies. Reach out directly via email or generate a pre-formatted engineering brief below.'}
+          ? 'يمكنك التواصل عبر حساب GitHub الرسمي الموثق أدناه، واستخدام أداة تحضير الملخص السريع لتنسيق تفاصيل مشروعك ونسخها مباشرة.'
+          : 'Connect via the verified GitHub profile below, and use the quick brief formatter to structure and copy your project requirements.'}
       </p>
     </div>
   </section>
 
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
-    <!-- Left Column: Direct Static Contact Links -->
+    <!-- Left Column: Verified Channels Only -->
     <div class="space-y-6">
-      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-2xs space-y-4">
-        <h2 class="text-lg font-bold text-[#0B1220]">
-          {locale === 'ar' ? 'قنوات التواصل المباشر' : 'Direct Contact Channels'}
+      <div class="glass-panel rounded-2xl p-6 space-y-4">
+        <h2 class="text-lg font-bold text-white">
+          {locale === 'ar' ? 'القنوات الرسمية المتاحة' : 'Verified Contact Channels'}
         </h2>
 
         <ul class="space-y-3 text-sm">
-          {contactEmail && (
-            <li class="p-3.5 rounded-xl bg-[#F5F7FA] border border-slate-200 flex flex-col gap-1">
-              <span class="text-xs font-mono text-slate-500">
-                {locale === 'ar' ? 'البريد الإلكتروني المباشر:' : 'Direct Email:'}
+          <li class="p-4 rounded-xl bg-white/[0.04] border border-white/10 flex flex-col gap-1.5">
+            <span class="text-xs font-mono text-amber-300">GitHub (Verified):</span>
+            <a
+              href={SITE_CONFIG.contact.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-blue-400 font-mono font-semibold hover:underline break-all"
+            >
+              {SITE_CONFIG.contact.github}
+            </a>
+          </li>
+
+          {verifiedEmail && (
+            <li class="p-4 rounded-xl bg-white/[0.04] border border-white/10 flex flex-col gap-1.5">
+              <span class="text-xs font-mono text-amber-300">
+                {locale === 'ar' ? 'البريد الإلكتروني:' : 'Direct Email:'}
               </span>
               <a
-                href={`mailto:${contactEmail}`}
-                class="text-[#2663EB] font-mono font-semibold hover:underline break-all"
+                href={`mailto:${verifiedEmail}`}
+                class="text-blue-400 font-mono font-semibold hover:underline break-all"
               >
-                {contactEmail}
+                {verifiedEmail}
               </a>
             </li>
           )}
 
-          {SITE_CONFIG.contact.github && (
-            <li class="p-3.5 rounded-xl bg-[#F5F7FA] border border-slate-200 flex flex-col gap-1">
-              <span class="text-xs font-mono text-slate-500">GitHub:</span>
+          {SITE_CONFIG.contact.linkedin && (
+            <li class="p-4 rounded-xl bg-white/[0.04] border border-white/10 flex flex-col gap-1.5">
+              <span class="text-xs font-mono text-amber-300">LinkedIn:</span>
               <a
-                href={SITE_CONFIG.contact.github}
+                href={SITE_CONFIG.contact.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="text-[#2663EB] font-mono font-semibold hover:underline break-all"
+                class="text-blue-400 font-mono font-semibold hover:underline break-all"
               >
-                {SITE_CONFIG.contact.github}
-              </a>
-            </li>
-          )}
-
-          {SITE_CONFIG.contact.domain && (
-            <li class="p-3.5 rounded-xl bg-[#F5F7FA] border border-slate-200 flex flex-col gap-1">
-              <span class="text-xs font-mono text-slate-500">
-                {locale === 'ar' ? 'النطاق الرسمي (GitHub Pages):' : 'Official Domain (GitHub Pages):'}
-              </span>
-              <a
-                href={SITE_CONFIG.contact.domain}
-                class="text-[#0B1220] font-mono font-semibold hover:underline break-all"
-              >
-                {SITE_CONFIG.contact.domain}
+                {SITE_CONFIG.contact.linkedin}
               </a>
             </li>
           )}
         </ul>
-
-        <p class="text-xs text-slate-500 leading-relaxed pt-2 border-t border-slate-100">
-          {locale === 'ar'
-            ? 'ملاحظة: يمكن تحديث عنوان البريد أو إضافة نقطة نهاية خارجية (مثل Formspree) في `src/config/site.ts` دون كشف أي مفاتيح سرية.'
-            : 'Note: Email address or an optional external form endpoint (e.g., Formspree) can be updated in `src/config/site.ts` with zero secret keys exposed.'}
-        </p>
       </div>
 
-      <div class="bg-[#0B1220] text-slate-200 rounded-2xl border border-[#182438] p-6 space-y-3">
-        <span class="font-mono text-xs uppercase tracking-wider text-[#18B8A7]">
-          {locale === 'ar' ? 'المجالات المتاحة للتعاون' : 'Collaboration Scope'}
+      <div class="glass-panel rounded-2xl p-6 space-y-3">
+        <span class="font-mono text-xs uppercase tracking-wider text-amber-400">
+          {locale === 'ar' ? 'مجالات التعاون' : 'Collaboration Scope'}
         </span>
         <ul class="space-y-2 text-xs sm:text-sm text-slate-300">
           <li>• {locale === 'ar' ? 'بناء خطوط إنتاج وأتمتة بالذكاء الاصطناعي' : 'AI Production & Media Automation Pipelines'}</li>
-          <li>• {locale === 'ar' ? 'أنظمة الجدولة والاستمثال الرياضي (OR-Tools CP-SAT)' : 'Mathematical Scheduling & Constraint Solvers (CP-SAT)'}</li>
-          <li>• {locale === 'ar' ? 'الرؤية الحاسوبية وأتمتة الهواتف والمتصفحات' : 'Computer Vision (ZNCC/OCR) & Device/Browser Automation'}</li>
-          <li>• {locale === 'ar' ? 'تطبيقات Flutter وReact/TypeScript المحصنة أمنيًا' : 'Hardened Flutter Monorepos & Full-Stack TypeScript Apps'}</li>
+          <li>• {locale === 'ar' ? 'أنظمة الجدولة والاستمثال الرياضي (OR-Tools CP-SAT)' : 'Mathematical Scheduling & Constraint Solvers'}</li>
+          <li>• {locale === 'ar' ? 'الرؤية الحاسوبية وأتمتة الهواتف والمتصفحات' : 'Computer Vision (ZNCC/OCR) & Device Automation'}</li>
+          <li>• {locale === 'ar' ? 'تطبيقات Flutter وReact/TypeScript المحصنة أمنيًا' : 'Hardened Flutter & Full-Stack TypeScript Apps'}</li>
         </ul>
       </div>
     </div>
 
-    <!-- Right Column: Static Project Brief & Direct Mailto / Optional Formspree Dispatch -->
-    <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-2xs">
+    <!-- Right Column: Local Project Brief Formatter (Honest UX: never pretends to submit without a verified endpoint) -->
+    <div class="lg:col-span-2 glass-panel rounded-2xl p-6 sm:p-8">
       <div class="mb-6">
-        <span class="font-mono text-xs uppercase tracking-wider text-[#2663EB] font-bold">
-          {locale === 'ar' ? 'تجهيز وإرسال ملخص المشروع (بدون Backend)' : 'Static Project Brief & Direct Email Dispatch'}
+        <span class="font-mono text-xs uppercase tracking-wider text-blue-400 font-bold">
+          {locale === 'ar' ? 'مُنسق ملخص المشروع السريع' : 'Quick Project Brief Formatter'}
         </span>
-        <h2 class="text-xl sm:text-2xl font-extrabold text-[#0B1220] mt-1">
+        <h2 class="text-xl sm:text-2xl font-extrabold text-white mt-1">
           {locale === 'ar'
-            ? 'جهّز تفاصيل مشروعك وأرسلها فورًا عبر البريد أو انسخها'
-            : 'Prepare Your Technical Brief & Send via Email or Copy'}
+            ? 'جهّز ملخصًا واضحًا لمشروعك لنسخه ومشاركته'
+            : 'Prepare a Structured Technical Brief to Copy & Share'}
         </h2>
-        <p class="text-xs sm:text-sm text-slate-600 mt-1">
+        <p class="text-xs sm:text-sm text-slate-300 mt-1">
           {locale === 'ar'
-            ? 'لا يتطلب هذا النموذج خادمًا خلفيًا ولا يخزن بياناتك؛ يفتح تطبيق البريد لديك بالرسالة المنسقة جاهزة للإرسال.'
-            : 'Requires no backend database and exposes zero API keys; opens your default email client pre-filled with your structured brief.'}
+            ? 'تساعدك هذه الأداة على ترتيب فكرتك أو متطلباتك التقنية في رسالة منظمة جاهزة للنسخ بضغطة زر.'
+            : 'This local helper structures your requirements into a clean brief ready to copy in one click.'}
         </p>
       </div>
 
@@ -135,10 +127,10 @@ const pageDesc =
       >
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label for="brief-type" class="block text-xs font-bold text-slate-700 mb-1.5">
+            <label for="brief-type" class="block text-xs font-bold text-slate-200 mb-1.5">
               {locale === 'ar' ? 'نوع التعاون المطلوب' : 'Engagement Type'}
             </label>
-            <select id="brief-type" name="engagement_type" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm bg-[#F5F7FA]">
+            <select id="brief-type" name="engagement_type" class="w-full px-3.5 py-2.5 rounded-xl border border-white/15 text-sm bg-[#050914]/85 text-white">
               <option value={locale === 'ar' ? 'بناء نظام أو مشروع جديد' : 'Build a New System / Product'}>
                 {locale === 'ar' ? 'بناء نظام أو مشروع جديد' : 'Build a New System / Product'}
               </option>
@@ -148,29 +140,29 @@ const pageDesc =
               <option value={locale === 'ar' ? 'تدقيق معماري أو إصلاح أعطال حرجة' : 'Architectural Audit & Remediation'}>
                 {locale === 'ar' ? 'تدقيق معماري أو إصلاح أعطال حرجة' : 'Architectural Audit & Remediation'}
               </option>
-              <option value={locale === 'ar' ? 'فرصة توظيف / دور هندسي قيادي' : 'Engineering Role / Hiring Opportunity'}>
-                {locale === 'ar' ? 'فرصة توظيف / دور هندسي قيادي' : 'Engineering Role / Hiring Opportunity'}
+              <option value={locale === 'ar' ? 'فرصة توظيف / دور هندسي' : 'Engineering Role / Hiring Opportunity'}>
+                {locale === 'ar' ? 'فرصة توظيف / دور هندسي' : 'Engineering Role / Hiring Opportunity'}
               </option>
             </select>
           </div>
 
           <div>
-            <label for="brief-ref" class="block text-xs font-bold text-slate-700 mb-1.5">
+            <label for="brief-ref" class="block text-xs font-bold text-slate-200 mb-1.5">
               {locale === 'ar' ? 'أقرب مشروع مشابه في البورتفوليو' : 'Closest Reference Project'}
             </label>
-            <select id="brief-ref" name="reference_project" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm bg-[#F5F7FA]">
-              <option value="AION Studio V6 (AI / Media Pipeline)">AION Studio V6 (AI / Media Pipeline)</option>
-              <option value="School Timetable (OR-Tools CP-SAT Solver)">School Timetable (OR-Tools CP-SAT Solver)</option>
-              <option value="Enaya Monorepo (Flutter / Supabase / Audit)">Enaya Monorepo (Flutter / Supabase / Audit)</option>
-              <option value="Phone Commander (Kotlin ZNCC Vision / Flutter)">Phone Commander (Kotlin ZNCC Vision / Flutter)</option>
-              <option value="SOLE Marketplace (React 19 / Express / Security)">SOLE Marketplace (React 19 / Express / Security)</option>
-              <option value="Multi-Slot Browser Engine (Playwright / Camoufox)">Multi-Slot Browser Engine (Playwright / Camoufox)</option>
+            <select id="brief-ref" name="reference_project" class="w-full px-3.5 py-2.5 rounded-xl border border-white/15 text-sm bg-[#050914]/85 text-white">
+              <option value="AION Studio (AI & Motion Graphics)">AION Studio (AI & Motion Graphics)</option>
+              <option value="Smart School Timetable (CP-SAT Solver)">Smart School Timetable (CP-SAT Solver)</option>
+              <option value="SOLE Marketplace (Full-Stack & Security)">SOLE Marketplace (Full-Stack & Security)</option>
+              <option value="Enaya Platform (Flutter Monorepo)">Enaya Platform (Flutter Monorepo)</option>
+              <option value="Phone Commander (Mobile Vision ZNCC)">Phone Commander (Mobile Vision ZNCC)</option>
+              <option value="Multi-Slot Browser Automation Suite">Multi-Slot Browser Automation Suite</option>
             </select>
           </div>
         </div>
 
         <div>
-          <label for="brief-goal" class="block text-xs font-bold text-slate-700 mb-1.5">
+          <label for="brief-goal" class="block text-xs font-bold text-slate-200 mb-1.5">
             {locale === 'ar' ? 'وصف مختصر للمشكلة أو الهدف' : 'Brief Description of Problem or Goal'}
           </label>
           <textarea
@@ -179,54 +171,58 @@ const pageDesc =
             rows="3"
             placeholder={
               locale === 'ar'
-                ? 'اكتب باختصار ما الذي تريد أتمتته أو بناءه...'
-                : 'Briefly describe what you want to build, optimize, or audit...'
+                ? 'اكتب باختصار ما الذي تريد بناءه أو أتمتته...'
+                : 'Briefly describe what you want to build, optimize, or automate...'
             }
-            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm bg-[#F5F7FA] focus:bg-white"
+            class="w-full px-3.5 py-2.5 rounded-xl border border-white/15 text-sm bg-[#050914]/85 text-white placeholder:text-slate-500"
           ></textarea>
         </div>
 
         <div class="pt-2 space-y-3">
           <div class="flex items-center justify-between flex-wrap gap-2">
-            <span class="text-xs font-mono font-semibold text-slate-600">
-              {locale === 'ar' ? 'معاينة الرسالة المنسقة:' : 'Formatted Brief Preview:'}
+            <span class="text-xs font-mono font-semibold text-slate-300">
+              {locale === 'ar' ? 'الرسالة الجاهزة للنسخ:' : 'Formatted Brief Preview:'}
             </span>
             <div class="flex items-center gap-2.5 flex-wrap">
-              <a
-                id="mailto-brief-btn"
-                href={`mailto:${contactEmail}`}
-                class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#2663EB] hover:bg-blue-600 text-white text-xs font-semibold transition-colors"
-              >
-                <span>{locale === 'ar' ? 'إرسال عبر البريد الإلكتروني (mailto)' : 'Send via Email App (mailto)'}</span>
-              </a>
-              {formEndpoint && (
-                <button
-                  type="submit"
-                  class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition-colors cursor-pointer"
-                >
-                  {locale === 'ar' ? 'إرسال مباشر عبر الخدمة الخارجية' : 'Submit via External Form Service'}
-                </button>
-              )}
               <button
                 id="copy-brief-btn"
                 type="button"
-                class="px-4 py-2 rounded-lg bg-[#0B1220] hover:bg-[#182438] text-white text-xs font-semibold transition-colors cursor-pointer"
+                class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-colors cursor-pointer min-h-[40px]"
               >
-                {locale === 'ar' ? 'نسخ الملخص' : 'Copy Brief'}
+                {locale === 'ar' ? 'نسخ الملخص إلى الحافظة' : 'Copy Brief to Clipboard'}
               </button>
+              {verifiedEmail && (
+                <a
+                  id="mailto-brief-btn"
+                  href={`mailto:${verifiedEmail}`}
+                  class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white/[0.08] hover:bg-white/15 text-white text-xs font-semibold border border-white/15 transition-colors min-h-[40px]"
+                >
+                  <span>{locale === 'ar' ? 'فتح في تطبيق البريد' : 'Open in Email App'}</span>
+                </a>
+              )}
+              <a
+                href={SITE_CONFIG.contact.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white/[0.08] hover:bg-white/15 text-white text-xs font-semibold border border-white/15 transition-colors min-h-[40px]"
+              >
+                <span>{locale === 'ar' ? 'زيارة حساب GitHub' : 'Open GitHub Profile'}</span>
+              </a>
             </div>
           </div>
 
           <pre
             id="brief-preview"
-            class="p-4 rounded-xl bg-[#0B1220] text-[#18B8A7] font-mono text-xs whitespace-pre-wrap leading-relaxed border border-[#182438]"
+            dir={locale === 'ar' ? 'rtl' : 'ltr'}
+            style={`direction: ${locale === 'ar' ? 'rtl' : 'ltr'}; unicode-bidi: plaintext;`}
+            class="p-4 rounded-xl bg-[#050914] text-amber-300 font-sans text-xs sm:text-sm whitespace-pre-wrap leading-relaxed border border-white/10 text-start"
           ></pre>
         </div>
       </form>
     </div>
   </section>
 
-  <script is:inline define:vars={{ locale, contactEmail }}>
+  <script is:inline define:vars={{ locale, verifiedEmail }}>
     const typeEl = document.getElementById('brief-type');
     const refEl = document.getElementById('brief-ref');
     const goalEl = document.getElementById('brief-goal');
@@ -252,10 +248,10 @@ const pageDesc =
       if (previewEl) {
         previewEl.textContent = bodyText;
       }
-      if (mailtoBtn && contactEmail) {
+      if (mailtoBtn && verifiedEmail) {
         mailtoBtn.setAttribute(
           'href',
-          `mailto:${contactEmail}?subject=${encodeURIComponent(subjectText)}&body=${encodeURIComponent(bodyText)}`
+          `mailto:${verifiedEmail}?subject=${encodeURIComponent(subjectText)}&body=${encodeURIComponent(bodyText)}`
         );
       }
     }
@@ -270,7 +266,7 @@ const pageDesc =
       try {
         await navigator.clipboard.writeText(previewEl.textContent);
         const orig = copyBtn.textContent;
-        copyBtn.textContent = locale === 'ar' ? '✓ تم النسخ' : '✓ Copied';
+        copyBtn.textContent = locale === 'ar' ? '✓ تم النسخ بنجاح' : '✓ Copied to Clipboard';
         setTimeout(() => {
           copyBtn.textContent = orig;
         }, 2000);

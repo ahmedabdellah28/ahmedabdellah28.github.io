@@ -1,7 +1,7 @@
 {
   "slug": "gmail-options-suite",
-  "titleAr": "منظومة Scenarios & Browser Slots — أتمتة المتصفح المتعددة وعزل الجلسات والبصمات",
-  "titleEn": "Multi-Slot Browser Automation & Session Isolation Engine (Camoufox / Playwright)",
+  "titleAr": "منظومة أتمتة المتصفح المتعددة",
+  "titleEn": "Multi-Slot Browser Automation Suite",
   "summaryAr": "منصة أتمتة بايثون معيارية مستقلة مع لوحة إدارة، تدير سلوتات متصفح متوازية معزولة كليًا (BrowserContext + Proxy Locking + Humanization) وتتعامل مع حالات الفشل والتصنيف الذري للملفات.",
   "summaryEn": "Modular standalone Python browser automation suite with an admin panel, managing isolated multi-slot Camoufox/Playwright contexts, proxy locking, Bezier humanization, thread-safe atomic result routing, and deep forensic stealth auditing.",
   "valuePropositionAr": "تشغيل مهام متصفح متوازية بعزل 100% للجلسات والبروكسيات مع تحديث ذري آمن للملفات وتدقيق جنائي عميق لسطح الكشف.",
@@ -17,8 +17,8 @@
   "featured": false,
   "featuredOrder": 6,
   "role": {
-    "ar": "معماري أنظمة الأتمتة ومحلل التدقيق الجنائي للمتصفحات (يحتاج تأكيد المالك)",
-    "en": "Automation Systems Architect & Browser Forensics Analyst (Pending owner confirmation)"
+    "ar": "تصميم معمارية الأتمتة والتدقيق الجنائي للمتصفحات",
+    "en": "Automation Systems Architecture & Browser Forensics Analysis"
   },
   "audience": {
     "ar": "فرق هندسة الأتمتة واختبار الأنظمة التي تحتاج تشغيل جلسات متصفح متعددة دون تداخل في الكوكيز أو البروكسيات.",
@@ -206,10 +206,10 @@
       "sourceRef": "camoufox_forensic_audit.md:16-28"
     },
     {
-      "metric": "1,757 Nodes",
-      "labelAr": "عقدة برمجية مفهرسة عبر محرك المتصفح، السيناريوهات، ولوحة الإدارة",
-      "labelEn": "Indexed AST symbols across browser engine, scenarios, and admin panel",
-      "sourceRef": ".portfolio-intelligence/project-index/gmail-options-suite.json"
+      "metric": "Atomic Lock",
+      "labelAr": "حذف وتصنيف ذري للسجلات المعالجة عبر threading.Lock لمنع التضارب",
+      "labelEn": "Thread-safe atomic input pruning and output routing via threading.Lock",
+      "sourceRef": "scenarios/recovery/failure_handler.py:31-75"
     }
   ],
   "skillsProven": [

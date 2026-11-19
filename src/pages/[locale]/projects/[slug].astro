@@ -10,7 +10,6 @@ import CTA from '../../../components/CTA.astro';
 import { UI_LABELS } from '../../../config/site';
 
 export async function getStaticPaths() {
-  // Strictly generate routes ONLY for published projects (draft and private are never exposed)
   const publishedProjects = await getCollection('projects', ({ data }) => data.visibility === 'published');
   const locales: Array<'ar' | 'en'> = ['ar', 'en'];
 
@@ -29,6 +28,9 @@ const t = UI_LABELS[locale];
 const title = locale === 'ar' ? project.titleAr : project.titleEn;
 const summary = locale === 'ar' ? project.summaryAr : project.summaryEn;
 const valueProp = locale === 'ar' ? project.valuePropositionAr : project.valuePropositionEn;
+const heroMedia = project.screenshots[0];
+const heroMediaAlt = heroMedia ? (locale === 'ar' ? heroMedia.altAr : heroMedia.altEn) : title;
+const heroMediaCap = heroMedia ? (locale === 'ar' ? heroMedia.captionAr : heroMedia.captionEn) : '';
 
 const relatedProjects = allPublished
   .filter((p) => p.slug !== project.slug)
@@ -52,58 +54,199 @@ const structuredData = {
 ---
 
 <BaseLayout
-  title={`${title} — ${locale === 'ar' ? 'دراسة حالة هندسية' : 'Engineering Case Study'}`}
+  title={`${title} — ${locale === 'ar' ? 'دراسة حالة' : 'Case Study'}`}
   description={summary}
   locale={locale}
   currentPath={`/${locale}/projects/${slug}`}
   structuredData={structuredData}
 >
-  <!-- Case Study Hero Header -->
-  <section class="relative bg-[#0B1220] text-[#F5F7FA] border-b border-[#182438] py-12 sm:py-16 overflow-hidden">
-    <div
-      class="pointer-events-none absolute -top-24 end-0 w-[420px] h-[420px] rounded-full bg-[#2663EB]/15 blur-[120px]"
-      aria-hidden="true"
-    ></div>
-
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <!-- 1. HERO: Title, Value Proposition, Role, Status, and Primary Large Visual First (§6) -->
+  <section class="border-b border-white/10 py-10 sm:py-14">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
       <!-- Breadcrumb -->
-      <nav aria-label="Breadcrumb" class="mb-6 text-xs font-mono text-slate-400 flex items-center gap-2 flex-wrap">
+      <nav aria-label="Breadcrumb" class="text-xs font-mono text-slate-400 flex items-center gap-2 flex-wrap">
         <a href={`/${locale}/`} class="hover:text-white transition-colors">{t.navHome}</a>
         <span>/</span>
         <a href={`/${locale}/projects`} class="hover:text-white transition-colors">{t.navProjects}</a>
         <span>/</span>
-        <span class="text-[#18B8A7]">{project.slug}</span>
+        <span class="text-amber-300">{title}</span>
       </nav>
 
-      <!-- Top Meta Badges -->
-      <div class="flex items-center gap-2.5 flex-wrap mb-4">
-        <span class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-950 text-[#18B8A7] border border-[#18B8A7]/40">
-          {t.statusLabels[project.status]}
-        </span>
-        {project.category.map((cat) => (
-          <span class="px-2.5 py-1 rounded-md bg-[#182438] text-slate-200 font-mono text-xs uppercase border border-slate-700">
-            {cat}
+      <div class="max-w-4xl space-y-4">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/40">
+            {t.statusLabels[project.status]}
           </span>
-        ))}
-        <span class="px-2.5 py-1 rounded-md bg-[#182438] text-[#93C5FD] font-mono text-xs border border-[#2663EB]/40">
-          {project.graphStats.nodes.toLocaleString()} {locale === 'ar' ? 'عقدة برمجية' : 'AST Nodes'} · {project.graphStats.edges.toLocaleString()} {locale === 'ar' ? 'علاقة' : 'Edges'}
-        </span>
+          {project.category.map((cat) => (
+            <span class="px-2.5 py-1 rounded-md bg-white/[0.06] text-blue-300 font-mono text-xs uppercase border border-white/10">
+              {cat}
+            </span>
+          ))}
+          <span class="px-3 py-1 rounded-md bg-white/[0.04] text-slate-300 text-xs border border-white/10">
+            <strong class="text-amber-300">{locale === 'ar' ? 'الدور: ' : 'Role: '}</strong>
+            {project.role[locale]}
+          </span>
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+          {title}
+        </h1>
+
+        <p class="text-base sm:text-lg text-slate-200 leading-relaxed">
+          {valueProp}
+        </p>
+
+        <!-- Layer Quick Jump Links -->
+        <div class="pt-2 flex items-center gap-2.5 flex-wrap">
+          <a
+            href="#challenge-solution"
+            class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs sm:text-sm transition-colors"
+          >
+            {locale === 'ar' ? 'المشكلة والحل العملي' : 'The Challenge & Solution'}
+          </a>
+          <a
+            href="#engineering-deep-dive"
+            class="px-4 py-2 rounded-xl bg-white/[0.07] hover:bg-white/15 text-amber-300 font-semibold text-xs sm:text-sm border border-white/15 transition-colors"
+          >
+            {locale === 'ar' ? 'التفاصيل الهندسية والأدلة ↓' : 'Technical Deep Dive & Evidence ↓'}
+          </a>
+        </div>
       </div>
 
-      <h1 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight max-w-4xl">
-        {title}
-      </h1>
+      <!-- Primary Featured Visual Immediately Visible in Hero -->
+      {heroMedia && (
+        <figure class="glass-panel-elevated rounded-2xl overflow-hidden shadow-2xl">
+          <div class="px-5 py-3 bg-white/[0.04] border-b border-white/10 flex items-center justify-between gap-2 flex-wrap">
+            <span class="text-xs font-mono text-amber-300 font-semibold">
+              {heroMedia.kind === 'real_screenshot'
+                ? (locale === 'ar' ? 'لقطة شاشة فعلية من النظام' : 'Verified System Screenshot')
+                : (locale === 'ar' ? 'مخطط معماري للنظام' : 'System Architecture Diagram')}
+            </span>
+            <button
+              type="button"
+              data-lightbox-src={heroMedia.src}
+              data-lightbox-alt={heroMediaAlt}
+              data-lightbox-caption={heroMediaCap}
+              data-lightbox-badge={title}
+              class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-mono font-semibold transition-colors cursor-pointer"
+            >
+              <span>{locale === 'ar' ? 'تكبير بالحجم الكامل' : 'Expand Fullscreen'}</span>
+            </button>
+          </div>
+          <div class="p-3 sm:p-6 flex items-center justify-center bg-[#040812]/85">
+            <img
+              src={heroMedia.src}
+              alt={heroMediaAlt}
+              width={heroMedia.width}
+              height={heroMedia.height}
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+              class="max-h-[520px] w-auto rounded-xl border border-white/10 object-contain"
+            />
+          </div>
+          {heroMediaCap && (
+            <figcaption class="px-6 py-3.5 bg-white/[0.03] border-t border-white/10 text-xs sm:text-sm text-slate-300">
+              {heroMediaCap}
+            </figcaption>
+          )}
+        </figure>
+      )}
+    </div>
+  </section>
 
-      <p class="text-base sm:text-lg text-slate-300 mt-4 max-w-3xl leading-relaxed">
-        {valueProp}
-      </p>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
+    <!-- 2 & 3. THE CHALLENGE & THE SOLUTION (Plain Client Language First) -->
+    <section id="challenge-solution" class="scroll-mt-24 space-y-8">
+      <div class="border-b border-white/10 pb-4">
+        <span class="font-mono text-xs uppercase tracking-wider text-blue-400 font-bold">
+          {locale === 'ar' ? 'نظرة عامة والقيمة العملية' : 'Practical Overview & Business Value'}
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">
+          {locale === 'ar' ? 'لماذا بُني هذا المشروع وماذا يقدّم عمليًا؟' : 'Why This System Exists & What It Delivers'}
+        </h2>
+      </div>
 
-      <!-- Verified Results Strip -->
-      <div class="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="reveal-item glass-panel rounded-2xl p-6">
+          <h3 class="text-sm font-bold uppercase tracking-wider text-rose-300 mb-2">
+            {locale === 'ar' ? '1. التحدي والمشكلة الواقعية' : '1. The Challenge'}
+          </h3>
+          <p class="text-sm sm:text-base text-slate-200 leading-relaxed">
+            {project.problem[locale]}
+          </p>
+        </div>
+
+        <div class="reveal-item glass-panel rounded-2xl p-6">
+          <h3 class="text-sm font-bold uppercase tracking-wider text-blue-300 mb-2">
+            {locale === 'ar' ? '2. الحل العملي' : '2. The Solution'}
+          </h3>
+          <p class="text-sm sm:text-base text-slate-200 leading-relaxed">
+            {project.solution[locale]}
+          </p>
+        </div>
+
+        <div class="reveal-item glass-panel rounded-2xl p-6">
+          <h3 class="text-sm font-bold uppercase tracking-wider text-emerald-300 mb-2">
+            {locale === 'ar' ? '3. القيمة مقارنةً بالعمل اليدوي' : '3. Manual vs. Automated Value'}
+          </h3>
+          <p class="text-sm sm:text-base text-slate-200 leading-relaxed">
+            {project.manualVsAutomated[locale]}
+          </p>
+        </div>
+      </div>
+
+      <!-- Capabilities & Target Beneficiary -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="reveal-item glass-panel rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <span class="font-mono text-xs uppercase tracking-wider text-amber-300">
+              {locale === 'ar' ? 'المستفيدون من النظام' : 'Target Users'}
+            </span>
+            <h3 class="text-lg font-bold text-white mt-2 mb-2">
+              {locale === 'ar' ? 'لمن صُمم هذا الحل؟' : 'Who Benefits'}
+            </h3>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              {project.audience[locale]}
+            </p>
+          </div>
+          <div class="pt-4 mt-6 border-t border-white/10">
+            <span class="block text-xs font-mono text-slate-400 mb-1">
+              {locale === 'ar' ? 'التقنيات الأساسية:' : 'Core Technologies:'}
+            </span>
+            <div class="flex flex-wrap gap-1.5 mt-1.5">
+              {project.technologies.map((tech) => (
+                <span class="px-2.5 py-1 rounded-md bg-white/[0.06] text-slate-200 font-mono text-xs border border-white/10">
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal-item lg:col-span-2 glass-panel rounded-2xl p-6">
+          <h3 class="text-lg font-bold text-white mb-4">
+            {t.capabilitiesTitle}
+          </h3>
+          <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {project.capabilities.map((cap, i) => (
+              <li class="flex items-start gap-3 p-3.5 rounded-xl bg-white/[0.04] border border-white/10">
+                <span class="w-6 h-6 rounded-md bg-blue-600 text-white font-mono text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
+                  0{i + 1}
+                </span>
+                <span class="text-sm text-slate-200 leading-relaxed">{cap[locale]}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <!-- Verified Outcomes & Capabilities Strip -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {project.results.map((res) => (
-          <div class="bg-[#182438]/90 rounded-2xl p-4 sm:p-5 border border-slate-700/80">
-            <div class="font-mono text-xl sm:text-2xl font-extrabold text-[#18B8A7]">{res.metric}</div>
-            <div class="text-xs sm:text-sm text-slate-200 mt-1 leading-snug">
+          <div class="reveal-item glass-panel rounded-2xl p-5">
+            <div class="font-mono text-xl sm:text-2xl font-extrabold text-amber-300">{res.metric}</div>
+            <div class="text-xs sm:text-sm text-slate-200 mt-1.5 leading-snug">
               {locale === 'ar' ? res.labelAr : res.labelEn}
             </div>
             <div class="text-[11px] font-mono text-slate-400 mt-2 truncate" title={res.sourceRef}>
@@ -112,179 +255,31 @@ const structuredData = {
           </div>
         ))}
       </div>
-
-      <!-- 3-Audience Executive Digest (Client / HR / CTO) -->
-      <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="bg-[#182438]/60 rounded-2xl p-4 border border-blue-500/30">
-          <span class="text-xs font-mono font-bold text-[#60A5FA] block mb-1">
-            {locale === 'ar' ? '💼 ملخص العميل (10 ثوانٍ)' : '💼 Client 10-Second Summary'}
-          </span>
-          <p class="text-xs text-slate-200 leading-relaxed">
-            {project.manualVsAutomated[locale]}
-          </p>
-        </div>
-
-        <div class="bg-[#182438]/60 rounded-2xl p-4 border border-emerald-500/30">
-          <span class="text-xs font-mono font-bold text-[#18B8A7] block mb-1">
-            {locale === 'ar' ? '🎯 ملخص مسؤولي التوظيف (HR)' : '🎯 HR & Recruiter Snapshot'}
-          </span>
-          <p class="text-xs text-slate-200 leading-relaxed">
-            <strong>{locale === 'ar' ? 'الدور: ' : 'Role: '}</strong>{project.role[locale]}<br />
-            <strong>{locale === 'ar' ? 'التقنيات: ' : 'Stack: '}</strong>{project.technologies.slice(0, 5).join(' · ')}
-          </p>
-        </div>
-
-        <div class="bg-[#182438]/60 rounded-2xl p-4 border border-amber-500/30">
-          <span class="text-xs font-mono font-bold text-amber-300 block mb-1">
-            {locale === 'ar' ? '⚙️ ملخص المدير التقني (CTO)' : '⚙️ CTO & Engineering Proof'}
-          </span>
-          <p class="text-xs text-slate-200 leading-relaxed">
-            {locale === 'ar'
-              ? `${publicEvidence.length} أدلة كود مصدرية موثقة بالسطر والملف · ${project.challenges.length} قصص تحدٍ وإصلاح سبب جذري.`
-              : `${publicEvidence.length} file/line verified code claims · ${project.challenges.length} documented root-cause & architecture challenges.`}
-          </p>
-        </div>
-      </div>
-
-      <!-- Dual-Layer Navigation Bar (Overview vs Engineering Deep Dive) -->
-      <div class="mt-8 pt-6 border-t border-slate-800 flex items-center gap-3 flex-wrap">
-        <a
-          href="#client-overview"
-          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#2663EB] text-white font-semibold text-xs sm:text-sm shadow-xs"
-        >
-          <span>1. {t.clientOverviewTab}</span>
-        </a>
-        <a
-          href="#visual-proof"
-          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#182438] hover:bg-slate-800 text-slate-200 font-semibold text-xs sm:text-sm border border-slate-700 transition-colors"
-        >
-          <span>2. {locale === 'ar' ? 'الوسائط والمخططات التفاعلية' : 'Interactive Visuals & Diagrams'}</span>
-        </a>
-        <a
-          href="#engineering-deep-dive"
-          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#182438] hover:bg-slate-800 text-[#18B8A7] font-semibold text-xs sm:text-sm border border-[#18B8A7]/40 transition-colors"
-        >
-          <span>3. {t.engineeringDeepDiveTab}</span>
-        </a>
-        <a
-          href="#evidence-manifest"
-          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#182438] hover:bg-slate-800 text-slate-200 font-semibold text-xs sm:text-sm border border-slate-700 transition-colors"
-        >
-          <span>4. {t.evidenceTitle} ({publicEvidence.length})</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
-    <!-- LAYER 1: Client Overview & Practical Business Value -->
-    <section id="client-overview" class="scroll-mt-24 space-y-8">
-      <div class="border-b border-slate-200 pb-4">
-        <span class="font-mono text-xs uppercase tracking-wider text-[#2663EB] font-bold">
-          {locale === 'ar' ? 'الطبقة الأولى · مسار القيمة السريع لصاحب العمل' : 'Layer 01 · Client & Product Value Overview'}
-        </span>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0B1220] mt-1">
-          {t.clientOverviewTab}
-        </h2>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- The Problem -->
-        <div class="reveal-item spotlight-card bg-white rounded-3xl p-6 border border-slate-200 shadow-2xs">
-          <h3 class="text-sm font-bold uppercase tracking-wider text-rose-700 mb-2">
-            {locale === 'ar' ? 'المشكلة الواقعية' : 'The Core Problem'}
-          </h3>
-          <p class="text-sm sm:text-base text-slate-700 leading-relaxed">
-            {project.problem[locale]}
-          </p>
-        </div>
-
-        <!-- The Solution -->
-        <div class="reveal-item spotlight-card bg-white rounded-3xl p-6 border border-slate-200 shadow-2xs">
-          <h3 class="text-sm font-bold uppercase tracking-wider text-[#2663EB] mb-2">
-            {locale === 'ar' ? 'الحل الذي يقدمه النظام' : 'The Engineered Solution'}
-          </h3>
-          <p class="text-sm sm:text-base text-slate-700 leading-relaxed">
-            {project.solution[locale]}
-          </p>
-        </div>
-
-        <!-- Why Better Than Manual Work -->
-        <div class="reveal-item spotlight-card bg-white rounded-3xl p-6 border border-slate-200 shadow-2xs">
-          <h3 class="text-sm font-bold uppercase tracking-wider text-emerald-700 mb-2">
-            {locale === 'ar' ? 'الفرق عن الحل اليدوي التقليدي' : 'Manual vs. Automated Advantage'}
-          </h3>
-          <p class="text-sm sm:text-base text-slate-700 leading-relaxed">
-            {project.manualVsAutomated[locale]}
-          </p>
-        </div>
-      </div>
-
-      <!-- Target Audience & Core Capabilities -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="reveal-item bg-[#0B1220] text-white rounded-3xl p-6 border border-[#182438] flex flex-col justify-between">
-          <div>
-            <span class="font-mono text-xs uppercase tracking-wider text-[#18B8A7]">
-              {locale === 'ar' ? 'المستفيدون والدور الهندسي' : 'Target Beneficiary & Role'}
-            </span>
-            <h3 class="text-lg font-bold mt-2 mb-2">
-              {locale === 'ar' ? 'من يستفيد من هذا النظام؟' : 'Who Benefits'}
-            </h3>
-            <p class="text-sm text-slate-300 leading-relaxed mb-6">
-              {project.audience[locale]}
-            </p>
-          </div>
-          <div class="pt-4 border-t border-slate-800">
-            <span class="block text-xs font-mono text-slate-400 mb-1">
-              {locale === 'ar' ? 'الدور في المشروع:' : 'Personal Role:'}
-            </span>
-            <span class="text-xs sm:text-sm font-semibold text-[#18B8A7]">
-              {project.role[locale]}
-            </span>
-          </div>
-        </div>
-
-        <div class="reveal-item lg:col-span-2 bg-white rounded-3xl p-6 border border-slate-200 shadow-2xs">
-          <h3 class="text-lg font-bold text-[#0B1220] mb-4">
-            {t.capabilitiesTitle}
-          </h3>
-          <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {project.capabilities.map((cap, i) => (
-              <li class="flex items-start gap-3 p-3.5 rounded-2xl bg-[#F5F7FA] border border-slate-200/70">
-                <span class="w-6 h-6 rounded-lg bg-[#2663EB] text-white font-mono text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
-                  0{i + 1}
-                </span>
-                <span class="text-sm text-slate-700 leading-relaxed">{cap[locale]}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
     </section>
 
-    <!-- Visual Proof & Architecture Gallery -->
-    <section id="visual-proof" class="scroll-mt-24 space-y-6">
-      <div class="border-b border-slate-200 pb-4 flex items-end justify-between flex-wrap gap-2">
-        <div>
-          <span class="font-mono text-xs uppercase tracking-wider text-[#2663EB] font-bold">
-            {locale === 'ar' ? 'إثباتات بصرية ومخططات معمارية (اضغط للتكبير)' : 'Visual Proof & Architectural Diagrams (Click to Zoom)'}
+    <!-- 4. VISUAL WALKTHROUGH (Additional Screenshots & Architecture Diagrams) -->
+    {project.screenshots.length > 1 && (
+      <section id="visual-walkthrough" class="scroll-mt-24 space-y-6">
+        <div class="border-b border-white/10 pb-4">
+          <span class="font-mono text-xs uppercase tracking-wider text-amber-400 font-bold">
+            {locale === 'ar' ? 'جولة بصرية ومخططات النظام' : 'Visual Walkthrough & System Diagrams'}
           </span>
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0B1220] mt-1">
-            {locale === 'ar' ? 'شاشات النظام الفعلية ومخطط تدفق العمليات' : 'System Screenshots & Pipeline Architecture'}
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">
+            {locale === 'ar' ? 'معرض الوسائط والمخططات المعمارية' : 'Screenshots & Architectural Diagrams'}
           </h2>
         </div>
-      </div>
 
-      <ProjectGallery screenshots={project.screenshots} locale={locale} />
-    </section>
+        <ProjectGallery screenshots={project.screenshots.slice(1)} locale={locale} />
+      </section>
+    )}
 
-    <!-- LAYER 2: Engineering Deep Dive -->
+    <!-- 5, 6 & 7. TECHNICAL DEEP DIVE (Engineering Decisions, Challenges Solved, & Evidence Manifest) -->
     <section id="engineering-deep-dive" class="scroll-mt-24 space-y-10">
-      <div class="border-b border-slate-200 pb-4">
-        <span class="font-mono text-xs uppercase tracking-wider text-[#18B8A7] bg-[#0B1220] px-2.5 py-1 rounded">
-          {locale === 'ar' ? 'الطبقة الثانية · التعمق الهندسي لمديري التقنية والمهندسين' : 'Layer 02 · Engineering Deep Dive for Technical Reviewers'}
+      <div class="border-b border-white/10 pb-4">
+        <span class="font-mono text-xs uppercase tracking-wider text-amber-300 bg-white/[0.06] px-3 py-1 rounded-md border border-white/10">
+          {locale === 'ar' ? 'الطبقة التقنية للمهندسين ومديري التقنية (Technical Deep Dive)' : 'Technical Deep Dive for Engineers & CTOs'}
         </span>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0B1220] mt-2">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-2">
           {t.engineeringDeepDiveTab}
         </h2>
       </div>
@@ -299,98 +294,75 @@ const structuredData = {
         locale={locale}
       />
 
-      <!-- Verified Technology Stack & Proven Skills -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="reveal-item bg-white rounded-3xl p-6 border border-slate-200">
-          <h3 class="text-base font-bold text-[#0B1220] mb-3">
-            {locale === 'ar' ? 'التقنيات المستخدمة فعليًا في الكود' : 'Verified Technologies in Source'}
-          </h3>
-          <div class="flex flex-wrap gap-2">
-            {project.technologies.map((tech) => (
-              <span class="px-3 py-1.5 rounded-xl bg-[#F5F7FA] text-[#0B1220] font-mono text-xs font-semibold border border-slate-200">
-                {tech}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <div class="reveal-item bg-white rounded-3xl p-6 border border-slate-200">
-          <h3 class="text-base font-bold text-[#0B1220] mb-3">
-            {locale === 'ar' ? 'القدرات الهندسية التي يثبتها هذا المشروع' : 'Engineering Capabilities Proven'}
-          </h3>
-          <div class="flex flex-wrap gap-2">
-            {project.skillsProven.map((sk) => (
-              <span class="px-3 py-1.5 rounded-xl bg-blue-50 text-[#2663EB] text-xs font-semibold border border-blue-200">
-                {sk}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <!-- Challenge Stories -->
+      <!-- What Went Wrong & How I Solved It -->
       <div class="space-y-6">
-        <h3 class="text-xl sm:text-2xl font-extrabold text-[#0B1220]">
+        <h3 class="text-xl sm:text-2xl font-extrabold text-white">
           {t.challengesTitle}
         </h3>
         <ChallengeTimeline challenges={project.challenges} locale={locale} />
       </div>
-    </section>
 
-    <!-- Traceable Code Evidence Manifest -->
-    <section id="evidence-manifest" class="scroll-mt-24 space-y-6">
-      <div class="border-b border-slate-200 pb-4">
-        <span class="font-mono text-xs uppercase tracking-wider text-[#2663EB] font-bold">
-          {locale === 'ar' ? 'سجل الإثباتات المرجعية · Graph-First Evidence' : 'Traceable Source Verification · Evidence Manifest'}
-        </span>
-        <h2 class="text-2xl font-extrabold text-[#0B1220] mt-1">
-          {t.evidenceTitle}
-        </h2>
-        <p class="text-sm text-slate-600 mt-1">
-          {locale === 'ar'
-            ? 'كل حقيقة هندسية في هذه الصفحة مرتبطة بالملف والسطر أو الرمز البرمجي الذي يثبتها.'
-            : 'Every engineering claim on this page is mapped to the exact repository file, line range, or commit hash that proves it.'}
-        </p>
-      </div>
+      <!-- Collapsible / Progressive Source Evidence Table -->
+      <details class="glass-panel rounded-2xl overflow-hidden group" open>
+        <summary class="px-6 py-4 cursor-pointer flex items-center justify-between gap-4 bg-white/[0.04] hover:bg-white/[0.07] transition-colors">
+          <div>
+            <span class="font-mono text-xs uppercase tracking-wider text-blue-400 block">
+              {locale === 'ar' ? 'مرجع التحقق المصدري' : 'Source Verification Reference'}
+            </span>
+            <strong class="text-base sm:text-lg font-bold text-white">
+              {t.evidenceTitle} ({publicEvidence.length})
+            </strong>
+          </div>
+          <span class="text-xs font-mono text-amber-300 px-3 py-1 rounded-lg bg-white/[0.06] border border-white/10">
+            {locale === 'ar' ? 'عرض / طي الجدول' : 'Toggle Evidence Table'}
+          </span>
+        </summary>
 
-      <div class="bg-[#0B1220] text-slate-200 rounded-3xl border border-[#182438] overflow-hidden shadow-md">
-        <div class="overflow-x-auto">
-          <table class="w-full text-start border-collapse text-xs sm:text-sm">
-            <thead>
-              <tr class="bg-[#182438] text-slate-300 font-mono text-xs border-b border-slate-700">
-                <th class="py-3.5 px-4 text-start">{locale === 'ar' ? 'المعرّف والنوع' : 'Claim & Relation'}</th>
-                <th class="py-3.5 px-4 text-start">{locale === 'ar' ? 'الادعاء الهندسي الموثق' : 'Verified Engineering Claim'}</th>
-                <th class="py-3.5 px-4 text-start">{locale === 'ar' ? 'مسار الملف / الدليل' : 'Evidence Path'}</th>
-                <th class="py-3.5 px-4 text-start">{locale === 'ar' ? 'السطر أو الرمز' : 'Line / Symbol'}</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-800/80">
-              {publicEvidence.map((ev) => (
-                <tr class="hover:bg-[#182438]/50 transition-colors">
-                  <td class="py-3.5 px-4 whitespace-nowrap">
-                    <EvidenceBadge
-                      claimId={ev.claimId}
-                      relationType={ev.relationType}
-                      verificationStatus={ev.verificationStatus}
-                      confidence={ev.confidence}
-                      locale={locale}
-                    />
-                  </td>
-                  <td class="py-3.5 px-4 text-slate-200 leading-relaxed max-w-md">
-                    {locale === 'ar' ? ev.claimAr : ev.claimEn}
-                  </td>
-                  <td class="py-3.5 px-4 font-mono text-xs text-[#93C5FD]">
-                    <code>{ev.evidencePath}</code>
-                  </td>
-                  <td class="py-3.5 px-4 font-mono text-xs text-[#18B8A7]">
-                    <code>{ev.lineOrSymbol}</code>
-                  </td>
+        <div class="p-6 space-y-4 border-t border-white/10">
+          <p class="text-xs sm:text-sm text-slate-300">
+            {locale === 'ar'
+              ? 'يربط هذا الجدول كل ادعاء هندسي في دراسة الحالة بالملف أو الاختبار أو سجل التغيير الذي يثبته في المستودع المصدري.'
+              : 'This manifest links each engineering claim in this case study to the verifying source file, unit test, or commit record.'}
+          </p>
+
+          <div class="overflow-x-auto rounded-xl border border-white/10">
+            <table class="w-full text-start border-collapse text-xs sm:text-sm">
+              <thead>
+                <tr class="bg-white/[0.06] text-slate-200 font-mono text-xs border-b border-white/10">
+                  <th class="py-3.5 px-4 text-start">{locale === 'ar' ? 'المعرّف والنوع' : 'Claim & Relation'}</th>
+                  <th class="py-3.5 px-4 text-start">{locale === 'ar' ? 'الادعاء الهندسي الموثق' : 'Verified Engineering Claim'}</th>
+                  <th class="py-3.5 px-4 text-start">{locale === 'ar' ? 'الملف المرجعي' : 'Reference File'}</th>
+                  <th class="py-3.5 px-4 text-start">{locale === 'ar' ? 'الموضع / الرمز' : 'Location / Symbol'}</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody class="divide-y divide-white/10">
+                {publicEvidence.map((ev) => (
+                  <tr class="hover:bg-white/[0.03] transition-colors">
+                    <td class="py-3.5 px-4 whitespace-nowrap">
+                      <EvidenceBadge
+                        claimId={ev.claimId}
+                        relationType={ev.relationType}
+                        verificationStatus={ev.verificationStatus}
+                        confidence={ev.confidence}
+                        locale={locale}
+                      />
+                    </td>
+                    <td class="py-3.5 px-4 text-slate-200 leading-relaxed max-w-md">
+                      {locale === 'ar' ? ev.claimAr : ev.claimEn}
+                    </td>
+                    <td class="py-3.5 px-4 font-mono text-xs text-blue-300">
+                      <code>{ev.evidencePath}</code>
+                    </td>
+                    <td class="py-3.5 px-4 font-mono text-xs text-emerald-300">
+                      <code>{ev.lineOrSymbol}</code>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      </details>
     </section>
 
     <!-- Project-Specific CTA -->
@@ -398,21 +370,21 @@ const structuredData = {
       locale={locale}
       heading={
         locale === 'ar'
-          ? `هل تحتاج نظامًا بمستوى «${project.titleAr.split('—')[0].trim()}»؟`
-          : `Need an architecture like "${project.titleEn.split('—')[0].trim()}"?`
+          ? `هل تحتاج نظامًا بمستوى «${title}»؟`
+          : `Need an architecture like "${title}"?`
       }
       body={
         locale === 'ar'
-          ? 'سواء كنت تحتاج أتمتة خط إنتاج، أو محرك استمثال رياضي، أو تطبيق ويب/موبايل عالي الاعتمادية — دعنا نناقش تفاصيل مشروعك.'
+          ? 'سواء كنت تحتاج أتمتة خط إنتاج، أو محرك جدولة رياضي، أو تطبيق ويب/موبايل عالي الاعتمادية — دعنا نناقش تفاصيل مشروعك.'
           : 'Whether you need a deterministic automation pipeline, mathematical solver, computer-vision engine, or hardened web/mobile product — let us discuss your requirements.'
       }
     />
 
     <!-- Related Case Studies -->
     {relatedProjects.length > 0 && (
-      <section class="pt-6 border-t border-slate-200 space-y-6">
-        <h2 class="text-xl sm:text-2xl font-extrabold text-[#0B1220]">
-          {locale === 'ar' ? 'دراسات حالة أخرى ذات صلة' : 'Related Engineering Case Studies'}
+      <section class="pt-6 border-t border-white/10 space-y-6">
+        <h2 class="text-xl sm:text-2xl font-extrabold text-white">
+          {locale === 'ar' ? 'مشاريع أخرى ذات صلة' : 'Related Case Studies'}
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-7">
           {relatedProjects.map((rel, idx) => (
