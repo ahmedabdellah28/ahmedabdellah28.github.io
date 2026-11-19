@@ -1,0 +1,187 @@
+{
+  "slug": "rok-vision-controller",
+  "titleAr": "محرك RoK Universal Controller — معايرة الإحداثيات الديناميكية متعددة الأبعاد عبر ADB",
+  "titleEn": "RoK Universal Controller — Anchor-Based Multi-Resolution ADB Automation Engine",
+  "summaryAr": "أداة تحكم بايثون عبر `uiautomator2` وADB تحل مشكلة اختلاف أبعاد ونسب الشاشات (16:9، 20:9، الأجهزة اللوحية) عبر خوارزمية تحويل إحداثيات مرتكزة على نقاط الإرساء (`ScreenScaler`).",
+  "summaryEn": "Python ADB automation controller using `uiautomator2` that solves multi-device aspect-ratio drift (16:9, 19.5:9, 20:9, tablets) via an anchor-based geometric coordinate transformer (`ScreenScaler`).",
+  "valuePropositionAr": "تشغيل نفس سيناريو التحكم عبر ADB على أي هاتف أو جهاز لوحي مهما اختلفت دقة الشاشة أو نسبة العرض إلى الارتفاع دون إعادة معايرة يدوية.",
+  "valuePropositionEn": "Runs ADB UI automation accurately across arbitrary screen resolutions and aspect ratios (16:9, 19.5:9, 20:9, tablets) without per-device coordinate recalibration.",
+  "category": [
+    "automation",
+    "CLI"
+  ],
+  "status": "functional",
+  "visibility": "published",
+  "featured": false,
+  "featuredOrder": 7,
+  "role": {
+    "ar": "مطور خوارزمية التحويل الهندسي وأتمتة ADB (يحتاج تأكيد المالك)",
+    "en": "ADB Automation & Geometric UI Scaling Engineer (Pending owner confirmation)"
+  },
+  "audience": {
+    "ar": "مطورو أتمتة الهواتف واختبار الواجهات الأفقية عبر أجهزة ومحاكي أندرويد متعددة الأحجام.",
+    "en": "Mobile automation engineers testing or running landscape UI workflows across diverse Android viewports."
+  },
+  "problem": {
+    "ar": "النسب المئوية البسيطة `(X%, Y%)` تنحرف عن مواقع الأزرار عند الانتقال من شاشة 16:9 إلى شاشة هاتف عريضة 20:9 (2400x1080)، لأن محركات الواجهات الأفقية تحجّم العناصر نسبةً لارتفاع الشاشة فقط وتثبتها في زوايا الشاشة.",
+    "en": "Flat `(X%, Y%)` screen percentages miss button targets when moving between 16:9 tablets and 20:9 phones (2400x1080), because landscape UI engines scale elements by screen height (`H`) while pinning HUD clusters to viewport corners."
+  },
+  "solution": {
+    "ar": "تطوير فئة `ScreenScaler` في `rok_universal_controller.py` التي تقفل معامل التحجيم على ارتفاع الشاشة (`scale = h / 1080.0`) وتحسب الإحداثيات نسبةً إلى 5 نقاط إرساء (`center`, `bottom_left`, `top_left`, `bottom_center`, `top_right`) مع فرض الاتجاه الأفقي تلقائيًا.",
+    "en": "Built `ScreenScaler` in `rok_universal_controller.py` locking the scale factor to screen height (`scale = h / 1080.0`) and projecting reference coordinates from 5 semantic HUD anchors (`center`, `bottom_left`, `top_left`, `bottom_center`, `top_right`)."
+  },
+  "manualVsAutomated": {
+    "ar": "بدلًا من قياس وحفظ جدول إحداثيات منفصل لكل جهاز، يُعرّف العنصر مرة واحدة على الشاشة المرجعية (2400x1080) مع نقطة إرسائه، ويتكفل `ScreenScaler` بحساب الموقع الدقيق على أي شاشة.",
+    "en": "Eliminates per-device coordinate tables by defining each UI element once in 2400x1080 reference space with its anchor tag and transforming coordinates dynamically at runtime."
+  },
+  "capabilities": [
+    {
+      "ar": "محول إحداثيات هندسي (`ScreenScaler`) يدعم 5 مناطق إرساء (`center`, `bottom_left`, `top_left`, `bottom_center`, `top_right`).",
+      "en": "Anchor-based geometric coordinate transformer (`ScreenScaler`) supporting 5 viewport anchor zones."
+    },
+    {
+      "ar": "تطبيع تلقائي للاتجاه الأفقي (`w = max(raw_w, raw_h)`, `h = min(raw_w, raw_h)`) عبر `uiautomator2`.",
+      "en": "Automatic landscape orientation normalization (`w = max(raw_w, raw_h)`) on ADB connection."
+    },
+    {
+      "ar": "جدول شبكة ديناميكي ثنائي الأعمدة (`CHAR_GRID_CONFIG`) للتنقل بين الشخصيات مع التمرير التلقائي.",
+      "en": "Dynamic 2-column character grid geometry (`CHAR_GRID_CONFIG`) with scroll-adjusted row targeting."
+    },
+    {
+      "ar": "تأخير زمني عشوائي يحاكي السلوك البشري (5.0 إلى 10.0 ثوانٍ) بين النقرات المتتالية.",
+      "en": "Human-like randomized post-click delay envelope (5.0s–10.0s) with live cycle countdowns."
+    }
+  ],
+  "architecture": {
+    "overviewAr": "يتكون المشروع من نسختين توثقان تطور الحل الهندسي: `rok_controller.py` (النسب المئوية المباشرة) و`rok_universal_controller.py` (التحويل الهندسي المعتمد على نقاط الإرساء `ScreenScaler`).",
+    "overviewEn": "Demonstrates clear architectural evolution from `rok_controller.py` (flat percentage ratios) to `rok_universal_controller.py` (anchor-aware `ScreenScaler` geometric projection).",
+    "pipelineSteps": [
+      {
+        "step": "01",
+        "titleAr": "الاتصال عبر ADB وتطبيع الأبعاد (ADB Connect & Landscape Lock)",
+        "titleEn": "ADB Connection & Landscape Dimension Normalization",
+        "detailAr": "الاتصال بالجهاز عبر `uiautomator2` وقراءة أبعاد النافذة مع ضمان `w > h`.",
+        "detailEn": "Connects via `uiautomator2` and enforces landscape width/height ordering."
+      },
+      {
+        "step": "02",
+        "titleAr": "التحويل الهندسي بنقاط الإرساء (Anchor-Based Projection)",
+        "titleEn": "Height-Locked Anchor Coordinate Transformation",
+        "detailAr": "حساب `scale = h / 1080.0` وإسقاط الإحداثيات المرجعية من الزاوية أو المركز المرتبط بالعنصر.",
+        "detailEn": "Computes `scale = h / 1080.0` and projects `(ref_x, ref_y)` relative to the element's semantic anchor."
+      },
+      {
+        "step": "03",
+        "titleAr": "تنفيذ الدورة متعددة الشخصيات (Multi-Character Loop)",
+        "titleEn": "Automated Multi-Character Cycle & Humanized Delays",
+        "detailAr": "التبديل الاختياري بين الشخصيات وتنفيذ خطوات البحث والجمع الأربع بفاصل زمني عشوائي.",
+        "detailEn": "Iterates across characters and executes the 4-step gathering flow with randomized human delays."
+      }
+    ],
+    "systemBoundariesAr": "أداة CLI خفيفة تعمل عبر Python وADB مباشرة دون تعديل ملفات التطبيق المستهدف.",
+    "systemBoundariesEn": "Lightweight Python CLI communicating strictly over standard Android Debug Bridge (`uiautomator2`)."
+  },
+  "technologies": [
+    "Python 3.13",
+    "uiautomator2",
+    "ADB (Android Debug Bridge)",
+    "Geometric Viewport Scaling"
+  ],
+  "challenges": [
+    {
+      "id": "ROK-CH-1",
+      "type": "verified_fix",
+      "titleAr": "معالجة انحراف الإحداثيات عبر نسب الشاشات المختلفة بالانتقال إلى التحجيم المرتكز على الزوايا",
+      "titleEn": "Eliminating Multi-Device Aspect-Ratio Drift via Height-Locked Anchor Scaling",
+      "problemAr": "في النسخة الأولى (`rok_controller.py`)، كانت الإحداثيات النسبية `(X_ratio, Y_ratio)` تعمل على شاشة واحدة لكنها تنحرف أفقيًا على الشاشات الأعوص أو الأجهزة اللوحية.",
+      "problemEn": "In `rok_controller.py`, flat `(X_ratio, Y_ratio)` coordinates worked on the calibration device but drifted horizontally on wider or narrower aspect ratios.",
+      "whyImportantAr": "توفير أداة تعمل فورًا على أي هاتف أو محاكي دون مطالبة المستخدم بقياس البكسلات يدويًا.",
+      "whyImportantEn": "Allows the controller to run out-of-the-box on any phone, tablet, or emulator without manual pixel hunting.",
+      "solutionAr": "بناء `ScreenScaler` في `rok_universal_controller.py` لفصل معامل التحجيم (`self.h / 1080.0`) عن نقطة ارتكاز كل عنصر (`center`, `bottom_left`, `top_left`, `bottom_center`, `top_right`).",
+      "solutionEn": "Implemented `ScreenScaler` in `rok_universal_controller.py:5-63` decoupling height-proportional scale (`self.h / 1080.0`) from the 5 viewport anchor origins.",
+      "proofRef": "rok_controller.py:21-63 vs rok_universal_controller.py:5-95",
+      "impactAr": "تطابق دقيق لمواقع النقر عبر شاشات 16:9 و19.5:9 و20:9 والأجهزة اللوحية.",
+      "impactEn": "Exact button hit accuracy across 16:9, 19.5:9, 20:9, and tablet aspect ratios.",
+      "lessonAr": "واجهات التطبيقات الأفقية لا تتمدد خطيًا في الاتجاهين؛ محاكاة نظام الإرساء (Anchoring) الخاص بمحرك الواجهة هو الحل الهندسي الصحيح.",
+      "lessonEn": "Landscape UIs do not stretch linearly on both axes; mirroring the UI engine's own anchor-pinning model is the only mathematically sound scaling approach."
+    }
+  ],
+  "evidence": [
+    {
+      "claimId": "ROK-01",
+      "claimAr": "فئة ScreenScaler تحول إحداثيات 2400x1080 بمعامل ارتفاع الشاشة و5 نقاط إرساء",
+      "claimEn": "ScreenScaler class transforming 2400x1080 coordinates via height-locked scale and 5 HUD anchors",
+      "relationType": "EXTRACTED",
+      "evidencePath": "rok_universal_controller.py",
+      "lineOrSymbol": "Lines 5-63 (ScreenScaler.get_coords)",
+      "confidence": "HIGH",
+      "visibility": "public",
+      "verificationStatus": "verified"
+    },
+    {
+      "claimId": "ROK-02",
+      "claimAr": "فرض الاتجاه الأفقي تلقائيًا وتأخير عشوائي 5–10 ثوانٍ بين النقرات",
+      "claimEn": "Automatic landscape orientation enforcement and randomized 5s–10s post-click delay",
+      "relationType": "EXTRACTED",
+      "evidencePath": "rok_controller.py",
+      "lineOrSymbol": "Lines 84-95 (RoKController.__init__)",
+      "confidence": "HIGH",
+      "visibility": "public",
+      "verificationStatus": "verified"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/media/projects/rok-vision-controller/anchor-screen-scaler.svg",
+      "altAr": "مخطط تقني يوضح خوارزمية ScreenScaler ونقاط الإرساء الخمس عبر أبعاد الشاشات",
+      "altEn": "Technical diagram of ScreenScaler height-locked coordinate projection across 5 viewport anchors",
+      "captionAr": "رسم تقني توضيحي (`Illustrative Technical Diagram`) يشرح كيف تحافظ خوارزمية `ScreenScaler` على دقة الإحداثيات عند تغير نسبة أبعاد الشاشة.",
+      "captionEn": "Illustrative technical diagram demonstrating how `ScreenScaler` preserves button accuracy across 16:9 and 20:9 aspect ratios.",
+      "kind": "architecture_diagram",
+      "width": 1200,
+      "height": 540
+    }
+  ],
+  "results": [
+    {
+      "metric": "5 Anchors",
+      "labelAr": "نقاط إرساء هندسية (المركز والأركان) لمعالجة اختلاف نسب الشاشات",
+      "labelEn": "Semantic viewport anchors handling aspect-ratio variance",
+      "sourceRef": "rok_universal_controller.py:27-62"
+    },
+    {
+      "metric": "2400x1080",
+      "labelAr": "الفضاء المرجعي الموحد المحول ديناميكيًا بمعامل ارتفاع الشاشة",
+      "labelEn": "Reference coordinate space dynamically scaled by h / 1080.0",
+      "sourceRef": "rok_universal_controller.py:11-21"
+    },
+    {
+      "metric": "5.0s – 10.0s",
+      "labelAr": "نطاق التأخير العشوائي بين النقرات لمحاكاة التفاعل الطبيعي",
+      "labelEn": "Randomized humanization delay envelope between ADB taps",
+      "sourceRef": "rok_controller.py:84-86"
+    },
+    {
+      "metric": "64 Nodes",
+      "labelAr": "عقدة برمجية مفهرسة في الرسم المعرفي لوحدتي التحكم",
+      "labelEn": "AST symbols indexed across both controller implementations",
+      "sourceRef": ".portfolio-intelligence/project-index/rok-vision-controller.json"
+    }
+  ],
+  "skillsProven": [
+    "ADB & uiautomator2 Device Automation",
+    "Geometric UI Coordinate Transformation (Anchor Scaling)",
+    "Iterative Refactoring from Fixed Scripts to Universal Engines"
+  ],
+  "reviewFlags": [
+    "Confirm personal role attribution",
+    "Raw game profile screenshots in D:\\rok excluded from public display to protect account privacy"
+  ],
+  "graphStats": {
+    "totalFiles": 16,
+    "totalMb": 14.65,
+    "nodes": 64,
+    "edges": 108
+  },
+  "updatedAt": "2026-11-19"
+}

@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 540" width="1200" height="540" role="img" aria-label="Enaya Healthcare Monorepo — 5-App Ecosystem, Offline Outbox Sync & 12-Role Audit Governance">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0B1220"/>
+      <stop offset="100%" stop-color="#131E31"/>
+    </linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#1E293B" stroke-width="0.7"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="540" fill="url(#bgGrad)"/>
+  <rect width="1200" height="540" fill="url(#grid)" opacity="0.55"/>
+  <rect x="24" y="24" width="1152" height="492" rx="18" fill="none" stroke="#1E293B" stroke-width="1.5"/>
+
+  <!-- Top Badge -->
+  <rect x="60" y="48" width="270" height="28" rx="14" fill="#2663EB" fill-opacity="0.16" stroke="#2663EB" stroke-width="1"/>
+  <text x="195" y="66" fill="#93C5FD" font-family="JetBrains Mono, monospace" font-size="11" font-weight="600" text-anchor="middle">ILLUSTRATIVE ARCHITECTURE · ENAYA MONOREPO</text>
+
+  <!-- Titles -->
+  <text x="60" y="114" fill="#F8FAFC" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="24" font-weight="800">Enaya Healthcare Monorepo — 5-App Ecosystem, Offline Outbox Sync & 12-Role Audit Governance</text>
+  <text x="60" y="148" fill="#94A3B8" font-family="IBM Plex Sans Arabic, Manrope, sans-serif" font-size="16" font-weight="500">معمارية منظومة عناية الطبية (5 تطبيقات Flutter) ومزامنة الطوابير غير المتصلة وحوكمة التدقيق</text>
+
+  <!-- Pipeline Stages -->
+  
+        <g transform="translate(60, 195)">
+          <rect width="201" height="175" rx="12" fill="#182438" stroke="#2663EB" stroke-width="1.5"/>
+          <rect x="14" y="14" width="32" height="22" rx="6" fill="#2663EB" fill-opacity="0.18"/>
+          <text x="30" y="29" fill="#F5F7FA" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" text-anchor="middle">01</text>
+          <text x="16" y="62" fill="#F5F7FA" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="14" font-weight="700">12-Role Audit Gate</text>
+          <text x="16" y="88" fill="#94A3B8" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="11.5">Observed Fact vs ADR</text>
+          <rect x="12" y="128" width="177" height="32" rx="6" fill="#0B1220" stroke="#334155" stroke-width="1"/>
+          <text x="20" y="148" fill="#18B8A7" font-family="JetBrains Mono, monospace" font-size="10.5">00_governance..06_decisions</text>
+        </g>
+        
+        <g transform="translate(279, 195)">
+          <rect width="201" height="175" rx="12" fill="#182438" stroke="#18B8A7" stroke-width="1.5"/>
+          <rect x="14" y="14" width="32" height="22" rx="6" fill="#18B8A7" fill-opacity="0.18"/>
+          <text x="30" y="29" fill="#F5F7FA" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" text-anchor="middle">02</text>
+          <text x="16" y="62" fill="#F5F7FA" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="14" font-weight="700">5 Flutter Apps</text>
+          <text x="16" y="88" fill="#94A3B8" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="11.5">Patient/Doctor/Lab/Pharm/Admin</text>
+          <rect x="12" y="128" width="177" height="32" rx="6" fill="#0B1220" stroke="#334155" stroke-width="1"/>
+          <text x="20" y="148" fill="#18B8A7" font-family="JetBrains Mono, monospace" font-size="10.5">enaya_monorepo/apps/*</text>
+        </g>
+        
+        <g transform="translate(498, 195)">
+          <rect width="201" height="175" rx="12" fill="#182438" stroke="#2663EB" stroke-width="1.5"/>
+          <rect x="14" y="14" width="32" height="22" rx="6" fill="#2663EB" fill-opacity="0.18"/>
+          <text x="30" y="29" fill="#F5F7FA" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" text-anchor="middle">03</text>
+          <text x="16" y="62" fill="#F5F7FA" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="14" font-weight="700">OfflineSyncManager</text>
+          <text x="16" y="88" fill="#94A3B8" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="11.5">Connectivity Stream & Requeue</text>
+          <rect x="12" y="128" width="177" height="32" rx="6" fill="#0B1220" stroke="#334155" stroke-width="1"/>
+          <text x="20" y="148" fill="#18B8A7" font-family="JetBrains Mono, monospace" font-size="10.5">offline_sync_manager.dart</text>
+        </g>
+        
+        <g transform="translate(717, 195)">
+          <rect width="201" height="175" rx="12" fill="#182438" stroke="#18B8A7" stroke-width="1.5"/>
+          <rect x="14" y="14" width="32" height="22" rx="6" fill="#18B8A7" fill-opacity="0.18"/>
+          <text x="30" y="29" fill="#F5F7FA" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" text-anchor="middle">04</text>
+          <text x="16" y="62" fill="#F5F7FA" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="14" font-weight="700">ErrorRecoveryService</text>
+          <text x="16" y="88" fill="#94A3B8" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="11.5">Exponential Backoff + Jitter</text>
+          <rect x="12" y="128" width="177" height="32" rx="6" fill="#0B1220" stroke="#334155" stroke-width="1"/>
+          <text x="20" y="148" fill="#18B8A7" font-family="JetBrains Mono, monospace" font-size="10.5">error_recovery_service.dart</text>
+        </g>
+        
+        <g transform="translate(936, 195)">
+          <rect width="201" height="175" rx="12" fill="#182438" stroke="#2663EB" stroke-width="1.5"/>
+          <rect x="14" y="14" width="32" height="22" rx="6" fill="#2663EB" fill-opacity="0.18"/>
+          <text x="30" y="29" fill="#F5F7FA" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" text-anchor="middle">05</text>
+          <text x="16" y="62" fill="#F5F7FA" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="14" font-weight="700">Supabase RLS & Events</text>
+          <text x="16" y="88" fill="#94A3B8" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="11.5">Atomic Pricing & Outbox</text>
+          <rect x="12" y="128" width="177" height="32" rx="6" fill="#0B1220" stroke="#334155" stroke-width="1"/>
+          <text x="20" y="148" fill="#18B8A7" font-family="JetBrains Mono, monospace" font-size="10.5">Central Event Gateway</text>
+        </g>
+        
+
+  <!-- Verified Metrics Footer -->
+  
+        <g transform="translate(60, 415)">
+          <rect width="255" height="82" rx="10" fill="#111C2D" stroke="#1E293B" stroke-width="1.5"/>
+          <text x="20" y="34" fill="#60A5FA" font-family="JetBrains Mono, monospace" font-size="18" font-weight="700">5 Apps</text>
+          <text x="20" y="58" fill="#CBD5E1" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="12">Patient, Doctor, Laboratory, Pharmacy & System Admin</text>
+        </g>
+        
+        <g transform="translate(335, 415)">
+          <rect width="255" height="82" rx="10" fill="#111C2D" stroke="#1E293B" stroke-width="1.5"/>
+          <text x="20" y="34" fill="#18B8A7" font-family="JetBrains Mono, monospace" font-size="18" font-weight="700">90+ Docs</text>
+          <text x="20" y="58" fill="#CBD5E1" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="12">Evidence-Backed Architecture & RLS Governance Manifest</text>
+        </g>
+        
+        <g transform="translate(610, 415)">
+          <rect width="255" height="82" rx="10" fill="#111C2D" stroke="#1E293B" stroke-width="1.5"/>
+          <text x="20" y="34" fill="#60A5FA" font-family="JetBrains Mono, monospace" font-size="18" font-weight="700">0.8x–1.2x</text>
+          <text x="20" y="58" fill="#CBD5E1" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="12">Jittered Exponential Backoff for Transient 503/504 Faults</text>
+        </g>
+        
+        <g transform="translate(885, 415)">
+          <rect width="255" height="82" rx="10" fill="#111C2D" stroke="#1E293B" stroke-width="1.5"/>
+          <text x="20" y="34" fill="#18B8A7" font-family="JetBrains Mono, monospace" font-size="18" font-weight="700">DEC-01..12</text>
+          <text x="20" y="58" fill="#CBD5E1" font-family="Manrope, IBM Plex Sans Arabic, sans-serif" font-size="12">Enforced Owner Policies & Atomic Booking Remediations</text>
+        </g>
+        
+</svg>

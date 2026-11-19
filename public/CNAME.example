@@ -1,0 +1,4 @@
+# To attach a custom domain on GitHub Pages later:
+# 1. Rename this file from CNAME.example to CNAME (inside portfolio/public/CNAME)
+# 2. Replace the line below with your custom domain (e.g. portfolio.yourdomain.com)
+# ahmed-abdellah.example.com

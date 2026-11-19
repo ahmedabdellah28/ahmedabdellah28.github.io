@@ -1,0 +1,81 @@
+---
+import type { EngineeringStrength } from '../config/skills';
+
+interface Props {
+  strength: EngineeringStrength;
+  locale: 'ar' | 'en';
+  projectTitlesMap: Record<string, { ar: string; en: string }>;
+}
+
+const { strength, locale, projectTitlesMap } = Astro.props;
+---
+
+<article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-2xs flex flex-col justify-between gap-6">
+  <div>
+    <div class="flex items-center justify-between gap-2 flex-wrap mb-3">
+      <span class="px-2.5 py-1 rounded-md bg-[#0B1220] text-[#18B8A7] font-mono text-xs font-semibold">
+        {locale === 'ar' ? `ثقة الدليل: ${strength.confidence}` : `Confidence: ${strength.confidence}`}
+      </span>
+      <span class="text-xs font-mono text-slate-500">
+        {locale === 'ar' ? strength.proofTypeAr : strength.proofTypeEn}
+      </span>
+    </div>
+
+    <h3 class="text-xl font-bold text-[#0B1220] mb-4">
+      {locale === 'ar' ? strength.titleAr : strength.titleEn}
+    </h3>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-5">
+      <!-- Client Value Explanation -->
+      <div class="p-4 rounded-xl bg-[#F5F7FA] border border-slate-200/80">
+        <h4 class="text-xs font-bold uppercase tracking-wider text-[#2663EB] mb-1.5">
+          {locale === 'ar' ? 'القيمة العملية (بلغة العميل)' : 'Business Value (Client Perspective)'}
+        </h4>
+        <p class="text-sm text-slate-700 leading-relaxed">
+          {locale === 'ar' ? strength.clientExplanationAr : strength.clientExplanationEn}
+        </p>
+      </div>
+
+      <!-- Technical Engineering Proof -->
+      <div class="p-4 rounded-xl bg-[#0B1220] text-slate-200 border border-[#182438]">
+        <h4 class="text-xs font-mono uppercase tracking-wider text-[#18B8A7] mb-1.5">
+          {locale === 'ar' ? 'التفسير والبرهان التقني (للمهندسين)' : 'Technical Implementation & Proof'}
+        </h4>
+        <p class="text-sm text-slate-300 leading-relaxed">
+          {locale === 'ar' ? strength.technicalExplanationAr : strength.technicalExplanationEn}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pt-4 border-t border-slate-100 space-y-3">
+    <!-- Supporting Projects -->
+    <div class="flex items-center gap-2 flex-wrap">
+      <span class="text-xs font-semibold text-slate-600">
+        {locale === 'ar' ? 'المشاريع المثبتة لهذه المهارة:' : 'Proven in Projects:'}
+      </span>
+      {strength.supportingProjects.map((slug) => {
+        const pTitle = projectTitlesMap[slug]
+          ? projectTitlesMap[slug][locale]
+          : slug;
+        return (
+          <a
+            href={`/${locale}/projects/${slug}`}
+            class="inline-flex items-center gap-1 px-3 py-1 rounded-lg bg-blue-50 hover:bg-[#2663EB] text-[#2663EB] hover:text-white text-xs font-semibold border border-blue-200 transition-colors"
+          >
+            <span>{pTitle.split('—')[0].trim()}</span>
+          </a>
+        );
+      })}
+    </div>
+
+    <!-- Traceable File/Line Evidence -->
+    <div class="flex items-center gap-1.5 flex-wrap">
+      {strength.evidenceRefs.map((ref) => (
+        <code class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
+          {ref}
+        </code>
+      ))}
+    </div>
+  </div>
+</article>

@@ -1,0 +1,261 @@
+{
+  "slug": "image-to-animate",
+  "titleAr": "محرك AION Studio V6 — أتمتة إنتاج الموشن جرافيك والوايت بورد بالذكاء الاصطناعي",
+  "titleEn": "AION Studio V6 — Automated Whiteboard Motion Graphics & Shorts Engine",
+  "summaryAr": "خط إنتاج برمجي متكامل يحوّل النصوص ولوحات القصة (Storyboards) إلى فيديوهات موشن جرافيك 16:9 ومقاطع Shorts 9:16 عبر مترجم رسومي من 10 مراحل (ECGC) ومحرك EffectCraft GPU ومحاذاة صوتية على مستوى الكلمة.",
+  "summaryEn": "End-to-end CLI-first production engine converting scripts and storyboards into 16:9 whiteboard explainers and 9:16 shorts via a 10-stage ECGC compiler, EffectCraft GPU renderer, and word-level Faster-Whisper synchronization.",
+  "valuePropositionAr": "تحويل النص الخام ولوحة القصة إلى فيديو موشن جرافيك كامل (1080p/720p) متزامن صوتيًا وبصريًا عبر 13 مرحلة محكومة بعقود برمجية دون مونتاج يدوي.",
+  "valuePropositionEn": "Transforms raw scripts and storyboards into broadcast-ready 16:9 explainers and 9:16 shorts through a 13-stage contract-gated GPU pipeline without manual timeline editing.",
+  "category": [
+    "AI",
+    "media",
+    "automation",
+    "CLI"
+  ],
+  "status": "production",
+  "visibility": "published",
+  "featured": true,
+  "featuredOrder": 1,
+  "role": {
+    "ar": "المعماري الرئيسي ومطور خط الإنتاج والمترجم الرسومي (بحاجة لتأكيد الاسم العام من المالك)",
+    "en": "Lead Architect & Pipeline/Compiler Engineer (Owner public display name pending confirmation)"
+  },
+  "audience": {
+    "ar": "استوديوهات المحتوى التعليمي والوثائقي وصناع الفيديو الذين يحتاجون إنتاجًا متسقًا وقابلًا للتكرار.",
+    "en": "Educational and documentary studios and content creators needing deterministic, repeatable video production."
+  },
+  "problem": {
+    "ar": "إنتاج فيديو شرح موشن جرافيك واحد يتطلب عادةً قص عشرات العناصر يدويًا، ضبط توقيت ظهور كل رسمة مع الكلمة المنطوقة بالثانية، تحريك الكاميرا، وخفض المؤثرات الصوتية تحت صوت الراوي — وهي عملية تستغرق أيامًا وعرضة للأخطاء عند أي تعديل في النص.",
+    "en": "Producing a single whiteboard motion-graphics explainer manually requires cutting dozens of assets, keyframing every illustration to exact spoken words, choreographing camera moves, and ducking SFX under narration — taking days and breaking whenever the script changes."
+  },
+  "solution": {
+    "ar": "بناء محرك AION Studio V6 المدار عبر CLI من 13 مرحلة: يولد التعليق الصوتي بمعيار -15 LUFS، ويستخرج توقيت كل كلمة عبر Faster-Whisper، ويقص عناصر اللوحة بدقة 3x HD عبر PhotoCraft، ثم يبني مخطط المشهد (Scene Graph V2) ويترجمه عبر مترجم ECGC ذي الـ 10 مراحل إلى مشروع EffectCraft قابل للتعديل وفيديو MP4 مفحوص آليًا.",
+    "en": "Engineered AION Studio V6, a 13-stage contract-driven pipeline: generates -15 LUFS voiceovers, extracts word-level timestamps via Faster-Whisper, isolates storyboard entities at 3x HD via PhotoCraft, synthesizes a Scene Graph V2, and compiles it via the 10-stage ECGC compiler into editable .ecproj files and QA-verified MP4 masters."
+  },
+  "manualVsAutomated": {
+    "ar": "بدلًا من القص اليدوي والمزامنة السمعية إطارًا بإطار في برامج المونتاج، يربط المحرك آليًا 100% من الأصول المستخرجة بفترات الكلمات، ويفحص تباين البطاقات (Luma Contrast)، ويخلط الصوت مع خفض المؤثرات (RMS Ducking) ويتحقق من أن انحراف الصوت/الصورة أقل من 0.35 ثانية.",
+    "en": "Replaces manual asset cutout and frame-by-frame timeline syncing with automated 100% asset-to-word semantic binding, programmatic card luma contrast validation, RMS envelope voice ducking, and automated 10-frame QA verification (<0.35s A/V drift)."
+  },
+  "capabilities": [
+    {
+      "ar": "مترجم رسومي من 10 مراحل (ECGC) يحوّل مخطط المشهد `aion.scene_graph.v2` إلى مشاريع EffectCraft GPU وفيديوهات 16:9 و9:16.",
+      "en": "10-stage EffectCraft Creative Graphics Compiler (ECGC) translating `aion.scene_graph.v2` into GPU-rendered 16:9 masters and 9:16 viral shorts."
+    },
+    {
+      "ar": "محاذاة صوتية دقيقة على مستوى الكلمة والجملة عبر Faster-Whisper مع حماية ضد بتر نهاية الصوت أو التكرار.",
+      "en": "Word-level audio timing alignment via Faster-Whisper with duplicate/truncation guards and -15 LUFS normalization."
+    },
+    {
+      "ar": "استخراج ذكي لعناصر لوحة القصة بدقة 3x HD مع إزالة الخلفية وبقايا الحواف المتجاورة الأقل من 60 بكسل.",
+      "en": "Automated storyboard entity extraction at 3x HD with transparent background isolation and <60px neighbor-sliver cleanup."
+    },
+    {
+      "ar": "بوابة فحص جودة آلية (QA Gate) تفحص الإطارات السوداء، وتباين الألوان، وانحراف الصوت، وتولّد لوحة معاينة من 10 إطارات.",
+      "en": "Automated QA Gate checking black frames, luma contrast, audio clipping, A/V drift (<0.35s), and generating contact sheets."
+    }
+  ],
+  "architecture": {
+    "overviewAr": "تعتمد المعمارية على عقود مراحل صارمة (`PIPELINE_CONTRACTS.md`) حيث يعمل كل تشغيل داخل مجلد معزول `exports/runs/<run_id>/` مع سجل حالة مستقل وحماية ضد الكتابة فوق المشاريع الذهبية.",
+    "overviewEn": "Built on strict stage contracts (`PIPELINE_CONTRACTS.md`) where every run executes inside an isolated `exports/runs/<run_id>/` directory with immutable manifests and write-protected golden baselines.",
+    "pipelineSteps": [
+      {
+        "step": "01–03",
+        "titleAr": "النص، الصوت، والتوقيت (Script -> Voice -> Timing)",
+        "titleEn": "Script, Voice (-15 LUFS) & Faster-Whisper Timing",
+        "detailAr": "تقسيم السكربت وتوليد صوت 48kHz PCM مع استخراج `timing_master.json` وملفات SRT كلمة بكلمة.",
+        "detailEn": "Validates section scripts, synthesizes 48kHz mono PCM voiceovers, and generates word-by-word timing masters."
+      },
+      {
+        "step": "04–07",
+        "titleAr": "استخراج الأصول والإخراج المشهدي (Extract -> Direct)",
+        "titleEn": "3x HD Asset Extraction & Scene Graph V2 Direction",
+        "detailAr": "فصل عناصر اللوحة بـ PhotoCraft، وبناء الخريطة الدلالية ومخطط المشهد `aion.scene_graph.v2` المفحوص بـ `audit_scene_graph`.",
+        "detailEn": "Extracts transparent entities, maps 100% of assets to timing windows, and validates `scene_graph.v2.json`."
+      },
+      {
+        "step": "08–11",
+        "titleAr": "المترجم الرسومي ECGC والخلط الصوتي والرندر",
+        "titleEn": "10-Stage ECGC Compilation, RMS Audio Mix & GPU Render",
+        "detailAr": "توليد المشتقات البصرية، وخلط المؤثرات مع خفض الصوت حول الكلام، وتوليد `.ecproj` وملف MP4 النهائي.",
+        "detailEn": "Compiles vector geometry, kinetic typography, camera paths, and RMS-ducked stereo mix into `.ecproj` and MP4."
+      },
+      {
+        "step": "12–13",
+        "titleAr": "فحص الجودة والدمج النهائي (QA & Documentary Merge)",
+        "titleEn": "Automated QA Contact Sheet & Master Documentary Merge",
+        "detailAr": "التحقق من سلامة الفيديو وإنتاج `qa_contact_sheet.png` قبل دمج الفصول في الفيديو الوثائقي الكامل.",
+        "detailEn": "Verifies A/V drift and layer integrity before concatenating all section masters into the final documentary."
+      }
+    ],
+    "systemBoundariesAr": "يعمل المحرك محليًا عبر بايثون وFFmpeg ومحركات EffectCraft/PhotoCraft الثنائية، مع استخدام اختياري لـ Gemini API في توليد الصوت.",
+    "systemBoundariesEn": "Executes locally on Windows via Python 3.13, FFmpeg/FFprobe, and native EffectCraft/PhotoCraft binaries, with optional Gemini API key rotation for TTS."
+  },
+  "technologies": [
+    "Python 3.13",
+    "EffectCraft GPU CLI",
+    "PhotoCraft 3x HD",
+    "Faster-Whisper",
+    "Gemini TTS",
+    "FFmpeg / FFprobe",
+    "OpenCV",
+    "JSON Schema Contracts"
+  ],
+  "challenges": [
+    {
+      "id": "ITA-CH-1",
+      "type": "verified_fix",
+      "titleAr": "معالجة تسطيح المشاهد وشبحية النصوص العربية وتداخل المؤثرات الصوتية في V5",
+      "titleEn": "Fixing Narrative Scene Flattening, Arabic Text Ghosting & 3x SFX Flooding",
+      "problemAr": "أظهرت مراجعة الجودة لمخرجات V5 تراجعًا إخراجيًا: تكدس القسم في مشهد واحد مسطح، وظهور كلمات عربية باهتة منزاحة (Ghosting) أثناء توسع البطاقات، وتداخل ~84 ضربة صوتية فوق صوت الراوي.",
+      "problemEn": "V5 renders passed binary execution checks but exhibited narrative flattening into single scenes, ghosted Arabic text animators lagging behind card expansion, and ~84 overlapping SFX hits drowning the narrator.",
+      "whyImportantAr": "في المحتوى التعليمي والوثائقي، أي تشوه في قراءة النص العربي أو ضجيج يغطي على صوت المعلق يفقد الفيديو قيمته حتى لو كان الرندر سريعًا.",
+      "whyImportantEn": "In educational explainers, broken Arabic caption legibility or un-ducked SFX collisions destroy viewer comprehension regardless of rendering speed.",
+      "solutionAr": "إجراء تحقيق جنائي موثق لـ 8 أعطال جذرية (`V5_GOLD_REGRESSION_RCA_AR.md`): استعادة تجميع المشاهد السردية، ومزامنة `TypographyCompiler` مع زمن فتح البطاقات، وتثبيت 30fps من عقد المشروع، وتوجيه الصوت عبر `mix_scene_graph_audio` مع خفض تلقائي للمؤثرات (RMS Ducking).",
+      "solutionEn": "Conducted an 8-point forensic RCA (`V5_GOLD_REGRESSION_RCA_AR.md`): restored narrative scene grouping, synchronized `TypographyCompiler` reveal windows, enforced 30fps contract inheritance, and routed audio through `mix_scene_graph_audio` with RMS envelope voice ducking.",
+      "proofRef": "V5_GOLD_REGRESSION_RCA_AR.md:15-90 & core/aion/ecgc_compiler.py:39-71",
+      "impactAr": "اجتياز بوابات الفحص الآلي (86 طبقة، انحراف صوت/صورة أقل من 0.35 ثانية) واستعادة جودة الإخراج المرجعي الذهبي.",
+      "impactEn": "Passed automated QA gates (86 layers, A/V drift <0.35s, zero voice truncation) and restored golden-reference visual choreography.",
+      "lessonAr": "فحوص النجاح الثنائية (Pass/Fail) لا تكفي في الأنظمة الإبداعية؛ يجب تضمين ثوابت الإخراج (تباين اللوما، كثافة المؤثرات، وتزامن النصوص) داخل عقود المترجم نفسه.",
+      "lessonEn": "Binary render checks are insufficient for creative engines; editorial invariants (luma contrast, SFX density, and text-card reveal sync) must be enforced inside compiler contracts."
+    },
+    {
+      "id": "ITA-CH-2",
+      "type": "preventive_design",
+      "titleAr": "حماية المشاريع المرجعية الذهبية وعزل مجلدات التشغيل (Per-Run Isolation)",
+      "titleEn": "Write-Protected Golden Reference Baselines & Isolated Per-Run Ledgers",
+      "problemAr": "تعديل خوارزميات التحريك أو الإضاءة قد يؤدي عن طريق الخطأ إلى الكتابة فوق المخرجات المرجعية المعتمدة أو خلط الملفات الوسيطة بين تشغيلين.",
+      "problemEn": "Iterative tuning of motion or lighting compilers risks overwriting approved baseline renders or contaminating intermediate files across runs.",
+      "whyImportantAr": "منع فقدان النسخ المعتمدة وضمان إمكانية المقارنة الدقيقة (A/B) بين أي إصدارين للمحرك.",
+      "whyImportantEn": "Prevents irreversible loss of golden baselines and enables deterministic A/B regression testing across compiler versions.",
+      "solutionAr": "عزل كل تشغيل في `exports/runs/<run_id>/` مع سجل `run_manifest.json`، وفرض حماية برمجية في `studio_cli` ترفع `PermissionError` عند محاولة الكتابة على المشروع الذهبي `mind_glitches_ar`.",
+      "solutionEn": "Isolated all outputs under `exports/runs/<run_id>/` tracked by `run_manifest.json` and enforced a programmatic `PermissionError` guard on `projects/mind_glitches_ar`.",
+      "proofRef": "PIPELINE_CONTRACTS.md:27-36 & core/aion/contracts.py:64-90",
+      "impactAr": "صفر تلف في المشاريع المرجعية وإمكانية التراجع الفوري (Rollback) عند فشل أي مرحلة.",
+      "impactEn": "Zero baseline corruption and instant rollback safety across multi-run documentary productions.",
+      "lessonAr": "حماية البيانات المرجعية في الكود (`PermissionError`) أقوى وأضمن من الاعتماد على الحذر البشري أثناء التجارب.",
+      "lessonEn": "Enforcing baseline immutability in code (`PermissionError`) is far safer than relying on operator caution during rapid experimentation."
+    }
+  ],
+  "evidence": [
+    {
+      "claimId": "ITA-01",
+      "claimAr": "خط إنتاج تعاقدي من 13 مرحلة مع عزل مجلدات التشغيل وسجلات حالة قابلة للاسترجاع",
+      "claimEn": "13-stage deterministic contract pipeline with isolated per-run directories and rollback protection",
+      "relationType": "EXTRACTED",
+      "evidencePath": "PIPELINE_CONTRACTS.md",
+      "lineOrSymbol": "Lines 9-36 (Stage-by-Stage Artifact Contracts & Run State)",
+      "confidence": "HIGH",
+      "visibility": "public",
+      "verificationStatus": "verified"
+    },
+    {
+      "claimId": "ITA-02",
+      "claimAr": "مترجم EffectCraft الرسومي (ECGC) المكون من 10 وحدات لترجمة Scene Graph V2 إلى .ecproj وMP4",
+      "claimEn": "10-component EffectCraft Creative Graphics Compiler (ECGC) translating Scene Graph V2 into .ecproj and MP4",
+      "relationType": "EXTRACTED",
+      "evidencePath": "core/aion/ecgc_compiler.py",
+      "lineOrSymbol": "Lines 1-85 (CompileContext, SceneGraphValidator..RenderValidator)",
+      "confidence": "HIGH",
+      "visibility": "public",
+      "verificationStatus": "verified"
+    },
+    {
+      "claimId": "ITA-03",
+      "claimAr": "مدقق تلقائي لثوابت مخطط المشهد يفحص حدود التوقيت وتباين إضاءة البطاقات (_hex_luma)",
+      "claimEn": "Automated Scene Graph invariant auditor checking timing bounds, dark/light card luma contrast, and audio duration overflow",
+      "relationType": "EXTRACTED",
+      "evidencePath": "core/aion/contracts.py",
+      "lineOrSymbol": "Lines 46-90 (_hex_luma, bg_hex_at, audit_scene_graph)",
+      "confidence": "HIGH",
+      "visibility": "public",
+      "verificationStatus": "verified"
+    },
+    {
+      "claimId": "ITA-04",
+      "claimAr": "تحقيق جنائي للسبب الجذري (RCA) يعالج 8 ثغرات في تجميع المشاهد وشبحية النصوص وخلط الصوت",
+      "claimEn": "Forensic 8-point Root Cause Analysis resolving V5 narrative flattening, caption ghosting, 24->30 FPS drift, and SFX flooding",
+      "relationType": "EXTRACTED",
+      "evidencePath": "V5_GOLD_REGRESSION_RCA_AR.md",
+      "lineOrSymbol": "Lines 15-90 (Issues 1-7 & mix_scene_graph_audio)",
+      "confidence": "HIGH",
+      "visibility": "public",
+      "verificationStatus": "verified"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/media/projects/image-to-animate/qa-contact-sheet.webp",
+      "altAr": "لوحة فحص الجودة الآلية (6 إطارات مرندرة) من مشروع محمد الفاتح بالعربية تظهر تباين البطاقات والأسهم",
+      "altEn": "Automated 6-frame QA contact sheet from Arabic historical explainer showing rendered cards, arrows, and pass metrics",
+      "captionAr": "مخرج فحص الجودة الفعلي (`creative_contact_sheet.png`) بعد الرندر عبر ECGC — 86 طبقة رسومية مع اجتياز فحص الحركة والتباين.",
+      "captionEn": "Real ECGC rendered QA contact sheet (`creative_contact_sheet.png`) verifying 86 layers, Arabic typography framing, and motion metrics.",
+      "kind": "real_screenshot",
+      "width": 1400,
+      "height": 618
+    },
+    {
+      "src": "/media/projects/image-to-animate/storyboard-extractor-diagnostics.webp",
+      "altAr": "تشخيص استخراج 55 عنصرًا مستقلاً من لوحة القصة عبر الرؤية الحاسوبية",
+      "altEn": "Computer-vision bounding-box diagnostics isolating 55 distinct storyboard entities",
+      "captionAr": "تشخيص مرحلة الاستخراج الآلي (`preview_diagnostics.png`): فصل 55 عنصرًا وشخصية وأيقونة من لوحة القصة بدقة 3x HD.",
+      "captionEn": "Automated storyboard extractor diagnostics (`preview_diagnostics.png`) isolating 55 discrete visual entities for scene-graph binding.",
+      "kind": "diagnostic_output",
+      "width": 1400,
+      "height": 933
+    },
+    {
+      "src": "/media/projects/image-to-animate/architecture-pipeline.svg",
+      "altAr": "مخطط معمارية خط إنتاج AION Studio V6 من 13 مرحلة والمترجم الرسومي ECGC",
+      "altEn": "AION Studio V6 13-stage pipeline and 10-stage ECGC architecture diagram",
+      "captionAr": "مخطط معماري يوضح تسلسل المراحل الـ 13 من النص والصوت حتى الرندر وفحص الجودة الآلي.",
+      "captionEn": "Architectural diagram of the 13-stage contract pipeline and 10-stage ECGC compilation flow.",
+      "kind": "architecture_diagram",
+      "width": 1200,
+      "height": 540
+    }
+  ],
+  "results": [
+    {
+      "metric": "13 Stages",
+      "labelAr": "مراحل إنتاج محكومة بعقود JSON صارمة وعزل كامل لكل تشغيل",
+      "labelEn": "Contract-gated pipeline stages with isolated per-run directories",
+      "sourceRef": "PIPELINE_CONTRACTS.md:9-24"
+    },
+    {
+      "metric": "10 Compilers",
+      "labelAr": "وحدات ترجمة داخل ECGC لتحويل مخطط المشهد إلى مشروع GPU وفيديو",
+      "labelEn": "Modular compiler stages inside ECGC (core/aion/ecgc_compiler.py)",
+      "sourceRef": "core/aion/ecgc_compiler.py:1-15"
+    },
+    {
+      "metric": "< 0.35s",
+      "labelAr": "الحد الأقصى المسموح لانحراف الصوت عن الصورة في بوابة الفحص الآلي",
+      "labelEn": "Maximum A/V drift threshold enforced by automated QA gate",
+      "sourceRef": "PIPELINE_CONTRACTS.md:22"
+    },
+    {
+      "metric": "3,233 Nodes",
+      "labelAr": "عقدة برمجية مفهرسة في الرسم المعرفي للمشروع عبر 146 مجتمعًا وظيفيًا",
+      "labelEn": "Indexed code/doc symbols across 146 functional communities in Graphify",
+      "sourceRef": ".portfolio-intelligence/project-index/image-to-animate.json"
+    }
+  ],
+  "skillsProven": [
+    "AI Pipeline & Compiler Architecture",
+    "Contract-Driven Systems & Schema Validation",
+    "Computer Vision & Media Processing",
+    "Arabic RTL Typography & Bidi Rendering",
+    "Root-Cause Forensics & Automated QA Gates"
+  ],
+  "reviewFlags": [
+    "Confirm public attribution of git author name (Ahmed Abdellah)",
+    "Confirm whether sample MP4 video clips should be hosted publicly alongside contact sheets"
+  ],
+  "graphStats": {
+    "totalFiles": 18242,
+    "totalMb": 6693.15,
+    "nodes": 3233,
+    "edges": 8111
+  },
+  "updatedAt": "2026-11-19"
+}

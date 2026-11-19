@@ -1,0 +1,232 @@
+{
+  "slug": "remix-sole-marketplace",
+  "titleAr": "منصة سول (SOLE) — متجر ومعرض أحذية متكامل مع مزامنة Cloudinary وحماية أمنية متعددة الطبقات",
+  "titleEn": "SOLE Footwear Marketplace — Full-Stack React 19 / Express Catalog with Cloudinary & Security Hardening",
+  "summaryAr": "تطبيق تجارة إلكترونية وكتالوج رقمي ثنائي اللغة (React 19 + Express + Supabase + Cloudinary) يحوّل أرشيف صور الاستوديو إلى متجر سريع مع لوحة إدارة، فحص Magic Bytes للصور، وحماية ضد حقن PostgREST وPath Traversal.",
+  "summaryEn": "Full-stack footwear marketplace (React 19, Express, TypeScript, Supabase, Cloudinary) transforming studio photo archives into a high-speed storefront with an admin panel, binary Magic-Byte upload validation, PostgREST injection guards, and offline static fallback.",
+  "valuePropositionAr": "تحويل مجلدات صور المنتجات الملتقطة بالكاميرا أو واتساب تلقائيًا إلى متجر إلكتروني أنيق وسريع ومحصن أمنيًا مع استمرارية عمل حتى عند انقطاع قاعدة البيانات.",
+  "valuePropositionEn": "Automatically normalizes raw studio/WhatsApp image folders into an editorial footwear storefront with binary upload security and static JSON fallback resilience.",
+  "category": [
+    "web",
+    "API",
+    "security"
+  ],
+  "status": "production",
+  "visibility": "published",
+  "featured": true,
+  "featuredOrder": 5,
+  "role": {
+    "ar": "مهندس Full-Stack TypeScript وأمن تطبيقات الويب (يحتاج تأكيد المالك)",
+    "en": "Full-Stack TypeScript & Web Application Security Engineer (Pending owner confirmation)"
+  },
+  "audience": {
+    "ar": "العلامات التجارية ومتاجر الأحذية والأزياء التي تملك أرشيف صور ضخمًا وتريد واجهة عرض وبيع سريعة وسهلة الإدارة.",
+    "en": "Footwear and fashion retailers with large studio photo archives seeking a fast, low-friction digital catalog and admin suite."
+  },
+  "problem": {
+    "ar": "رفع مئات الصور مباشرة من الهاتف أو واتساب (`IMG-20261029-WA0019`) داخل مجلدات مختلطة العربية والإنجليزية (`Y3فاشون`) ينتج أسماء منتجات مشوهة، كما أن قراءة Cloudinary مباشرة مع كل زائر يستهلك حصة الـ API، وقبول رفع الملفات بالامتداد فقط يفتح ثغرات XSS ورفع ملفات خبيثة.",
+    "en": "Uploading hundreds of raw WhatsApp/camera photos (`IMG-20261029-WA0019`) in fused Arabic/Latin folders (`Y3فاشون`) creates messy product titles, while live Cloudinary scans on visitor traffic exhaust API quotas and naive file uploads invite spoofed SVG/EXE attacks."
+  },
+  "solution": {
+    "ar": "بناء محرك تطبيع لغوي ثنائي اللغة يحول أسماء ملفات الكاميرا والمجلدات تلقائيًا إلى عناوين أنيقة (`Y3 فاشون · موديل 0019`)، وفصل حركة الزوار لتقرأ من Supabase مع ملف احتياطي `catalog-fallback.json` وصور Cloudinary متجاوبة (`srcset`)، وتحصين الخادم بفحص البايتات السحرية (`Magic Bytes`) ومنع حقن PostgREST.",
+    "en": "Built a bilingual lexical normalizer turning raw camera filenames into clean editorial titles (`Y3 فاشون · موديل 0019`), decoupled public visitor traffic from Cloudinary Admin API scans via Supabase + `catalog-fallback.json`, and hardened the Express API with binary Magic-Byte inspection and PostgREST injection filters."
+  },
+  "manualVsAutomated": {
+    "ar": "بدلًا من إعادة تسمية 506 صورة يدويًا وضغطها في برامج التصميم، يستورد النظام المجلدات ويولّد عناوين عربية/إنجليزية نظيفة وروابط `f_auto,q_auto` متعددة الأحجام تلقائيًا.",
+    "en": "Eliminates manual renaming and resizing across 506 studio photos by automatically formatting bilingual titles and generating responsive `f_auto,q_auto` `srcset` URLs."
+  },
+  "capabilities": [
+    {
+      "ar": "وحدة أمان خادم شاملة (`src/server/security.ts`) تفحص البايتات السحرية (Magic Bytes) وتمنع ملفات SVG/HTML/EXE المنتحلة وحقن PostgREST وPath Traversal.",
+      "en": "Hardened security module (`src/server/security.ts`) validating binary Magic Bytes (blocking spoofed SVG/HTML/EXE), PostgREST identifiers, and Cloudinary paths."
+    },
+    {
+      "ar": "مطبّع أسماء ذكي للعربية والإنجليزية (`src/utils/catalog.ts`) يفصل النصوص الملتصقة ويعالج تسميات صور واتساب.",
+      "en": "Bilingual slug and filename normalizer (`src/utils/catalog.ts`) splitting fused Arabic/Latin strings and formatting WhatsApp image codes."
+    },
+    {
+      "ar": "عزل كامل لزيارات المتجر العام عن Cloudinary Admin API عبر `fetchSupabasePublicCatalog` وملف `catalog-fallback.json`.",
+      "en": "Zero-Cloudinary-scan public catalog loading via Supabase active categories with automatic fallback to `public/catalog-fallback.json`."
+    },
+    {
+      "ar": "مكون صور متجاوب (`OptimizedImage.tsx`) يولّد `srcset` بأحجام 400w–1200w وصيغ WebP/AVIF التلقائية.",
+      "en": "Responsive image pipeline (`OptimizedImage.tsx`) generating 400w–1200w Cloudinary `f_auto,q_auto` transformation `srcset` attributes."
+    }
+  ],
+  "architecture": {
+    "overviewAr": "تطبيق Full-Stack موحد يعمل بـ React 19 وVite 8 في الواجهة، وخادم Express 4 في الخلفية يُحزم عبر `esbuild` ليعمل كدالة Serverless على Vercel (`api/index.js`) مع قاعدة بيانات Supabase وCloudinary CDN.",
+    "overviewEn": "Unified Full-Stack TypeScript architecture running React 19 + Tailwind CSS 4 on the client and an Express 4 API bundled via `esbuild` into a Vercel Serverless entrypoint (`api/index.js`), backed by Supabase and Cloudinary.",
+    "pipelineSteps": [
+      {
+        "step": "01",
+        "titleAr": "استيراد وتطبيع أرشيف الاستوديو (Studio Ingestion & Normalization)",
+        "titleEn": "Admin Cloudinary Ingestion & Bilingual Normalization",
+        "detailAr": "استبعاد مجلدات العينات (`samples`)، وفصل الحروف العربية عن اللاتينية، وتحويل رموز الكاميرا إلى أسماء موديلات منظمة.",
+        "detailEn": "Filters out starter sample folders, splits fused Arabic/English labels, and converts camera IDs into clean model names."
+      },
+      {
+        "step": "02",
+        "titleAr": "بوابة الأمان والتحقق الثنائي (Magic-Byte & PostgREST Security Gate)",
+        "titleEn": "Binary Magic-Byte & PostgREST Security Validation",
+        "detailAr": "فحص التوقيع الثنائي للملفات المرفوعة، وتطهير النصوص من محارف التحكم، والتحقق من حدود الأسعار ومعرفات UUID.",
+        "detailEn": "Verifies JPEG/PNG/WebP magic bytes, blocks PostgREST control characters, and enforces strict price/UUID bounds."
+      },
+      {
+        "step": "03",
+        "titleAr": "العرض السريع والمرونة الاحتياطية (Supabase Public Catalog & Fallback)",
+        "titleEn": "High-Speed Storefront Delivery & Static Fallback",
+        "detailAr": "تقديم الكتالوج العام من Supabase مباشرة (أو من `catalog-fallback.json` عند الطوارئ) مع صور CDN متجاوبة.",
+        "detailEn": "Serves public catalog queries from Supabase RLS tables (or `catalog-fallback.json`) with responsive Cloudinary CDN transforms."
+      }
+    ],
+    "systemBoundariesAr": "يتعامل الزوار فقط مع واجهة القراءة العامة وروابط الصور المحسنة، بينما تُعزل عمليات المزامنة والرفع خلف مصادقة الإدارة وفحوص `security.ts`.",
+    "systemBoundariesEn": "Public traffic interacts strictly with read-only Supabase/fallback endpoints and Cloudinary CDN URLs; admin mutations are gated by session auth and `security.ts` validators."
+  },
+  "technologies": [
+    "React 19",
+    "TypeScript",
+    "Express 4",
+    "Tailwind CSS 4",
+    "Vite 8 + esbuild",
+    "Supabase (PostgreSQL + RLS)",
+    "Cloudinary CDN & Admin API",
+    "Node.js Native Test Runner"
+  ],
+  "challenges": [
+    {
+      "id": "SOL-CH-1",
+      "type": "preventive_design",
+      "titleAr": "فحص البايتات السحرية (Magic Bytes) للصور ومنع حقن فلاتر PostgREST واختراق المسارات",
+      "titleEn": "Binary Magic-Byte Upload Verification & PostgREST Filter Injection Hardening",
+      "problemAr": "قبول الصور بناءً على امتداد `.jpg` أو `Content-Type` يسمح برفع ملفات SVG تحتوي على `<script>` أو ملفات تنفيذية `MZ`، كما أن تمرير معرفات الدخول دون تصفية يسمح بحقن شروط إضافية في فلاتر PostgREST.",
+      "problemEn": "Validating uploads solely by `.jpg` extension or MIME header allows XSS-laden SVGs or Windows `.exe` binaries (`MZ`) to slip through, while raw login identifiers can inject operators into PostgREST filter strings.",
+      "whyImportantAr": "حماية لوحة إدارة المتجر وقاعدة البيانات ومجلدات السحابة من ثغرات XSS ورفع الملفات الخبيثة وتجاوز الصلاحيات.",
+      "whyImportantEn": "Protects the merchant admin panel, database queries, and cloud storage paths against stored XSS, malicious binaries, and filter tampering.",
+      "solutionAr": "كتابة وحدة `src/server/security.ts` للتحقق من البايتات السحرية الفعلية (`0xFF 0xD8 0xFF` لـ JPEG و`0x89 0x50 0x4E 0x47` لـ PNG)، وحظر الفواصل والأقواس وعلامات الاقتباس في `isValidLoginIdentifier`، ومنع `..` في مسارات Cloudinary، وإثباتها باختبارات `security.test.ts`.",
+      "solutionEn": "Implemented `validateImageUploadBuffer` checking raw binary signatures while rejecting `<svg`/`<html`/`MZ` payloads, `isValidLoginIdentifier` blocking PostgREST metacharacters, and `isValidCloudinaryFolder` blocking path traversal — all verified in `security.test.ts`.",
+      "proofRef": "src/server/security.ts:18-95 & src/server/security.test.ts:13-95",
+      "impactAr": "صد 100% لملفات SVG/HTML/EXE المنتحلة وهجمات حقن الفلاتر واختراق المسارات في الاختبارات الآلية.",
+      "impactEn": "100% automated test rejection of spoofed SVG/HTML/EXE buffers, SQL/PostgREST filter payloads, and `../` traversal strings.",
+      "lessonAr": "أمن رفع الملفات يبدأ من قراءة البايتات الأولى للذاكرة (`Buffer`)، وليس من metadata يرسلها المتصفح.",
+      "lessonEn": "Upload security must inspect the first bytes of the binary buffer, never browser-supplied filenames or MIME headers."
+    },
+    {
+      "id": "SOL-CH-2",
+      "type": "verified_fix",
+      "titleAr": "تطبيع أسماء صور الكاميرا وواتساب المختلطة وفصل الزوار عن استهلاك حصص Cloudinary API",
+      "titleEn": "Bilingual Camera Filename Normalization & Decoupling Public Traffic from Cloudinary Quotas",
+      "problemAr": "أرشيف الصور الفعلي للمتجر (506 صورة في 15 مجلدًا) يحتوي أسماء مثل `IMG-20261029-WA0019` ومجلدات مثل `Y3فاشون` و`عرض ال150`، وكان استدعاء Cloudinary Admin API عند تصفح الزوار يهدد بنفاد حصة الطلبات.",
+      "problemEn": "The merchant's 506-image studio archive contained raw WhatsApp filenames (`IMG-20261029-WA0019`) and fused bilingual folder names (`Y3فاشون`, `عرض ال150`), while live Cloudinary Admin scans per visitor risked rate-limit exhaustion.",
+      "whyImportantAr": "تحويل أرشيف الصور الخام إلى متجر احترافي فوري دون إجبار التاجر على إدخال 506 منتجًا يدويًا ودون بطء أو توقف للمتجر.",
+      "whyImportantEn": "Enables zero-touch onboarding of existing photo archives while keeping public page loads fast and immune to third-party API rate limits.",
+      "solutionAr": "بناء دوال `formatCategoryLabel` و`formatProductDisplayName` مع اختبارات وحدة شاملة (`catalog.test.ts`) لتحويل الأسماء تلقائيًا إلى `Y3 فاشون · موديل 0019`، وجعل الزوار يقرؤون من `fetchSupabasePublicCatalog` أو `catalog-fallback.json`.",
+      "solutionEn": "Engineered regex normalizers in `src/utils/catalog.ts` tested in `catalog.test.ts`, and restricted public catalog reads to `fetchSupabasePublicCatalog` with automatic fallback to `public/catalog-fallback.json`.",
+      "proofRef": "src/utils/catalog.test.ts:32-60 & src/server/catalogService.ts:50-95",
+      "impactAr": "عرض 506 منتجًا في 15 مجموعة بتسميات عربية/إنجليزية نظيفة وصفر استهلاك لـ Cloudinary Admin API من زيارات العملاء.",
+      "impactEn": "Clean editorial presentation for 506 products across 15 collections with zero live Cloudinary Admin API calls on customer visits.",
+      "lessonAr": "فصل مسار استيراد البيانات الإداري (Ingestion) عن مسار القراءة العام (Public Read) يحمي الأداء والتكلفة معًا.",
+      "lessonEn": "Separating admin asset ingestion from public read paths protects both latency and third-party API quotas."
+    }
+  ],
+  "evidence": [
+    {
+      "claimId": "SOL-01",
+      "claimAr": "وحدة أمان تفحص البايتات السحرية للصور وتمنع ملفات SVG/HTML/EXE المنتحلة وحقن PostgREST",
+      "claimEn": "Security module inspecting image Magic Bytes and blocking spoofed SVG/HTML/EXE, PostgREST injection, and path traversal",
+      "relationType": "EXTRACTED",
+      "evidencePath": "src/server/security.ts & src/server/security.test.ts",
+      "lineOrSymbol": "security.ts:8-95 & security.test.ts:13-95",
+      "confidence": "HIGH",
+      "visibility": "public",
+      "verificationStatus": "verified"
+    },
+    {
+      "claimId": "SOL-02",
+      "claimAr": "تطبيع ثنائي اللغة لأسماء المجلدات وصور واتساب وتوليد روابط Cloudinary المتجاوبة (srcset)",
+      "claimEn": "Bilingual Arabic/English folder & WhatsApp filename normalizer and responsive Cloudinary srcset builder",
+      "relationType": "EXTRACTED",
+      "evidencePath": "src/utils/catalog.test.ts",
+      "lineOrSymbol": "Lines 32-60 (formatCategoryLabel, formatProductDisplayName, buildCloudinarySrcSet)",
+      "confidence": "HIGH",
+      "visibility": "public",
+      "verificationStatus": "verified"
+    },
+    {
+      "claimId": "SOL-03",
+      "claimAr": "قراءة الكتالوج العام من Supabase مباشرة مع ملف احتياطي دون فحص Cloudinary الحي للزوار",
+      "claimEn": "Public catalog isolation querying Supabase active categories with static fallback and zero live Cloudinary scans",
+      "relationType": "EXTRACTED",
+      "evidencePath": "src/server/catalogService.ts",
+      "lineOrSymbol": "Lines 22-95 (getPublicSiteSettings, fetchSupabasePublicCatalog)",
+      "confidence": "HIGH",
+      "visibility": "public",
+      "verificationStatus": "verified"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/media/projects/remix-sole-marketplace/storefront-catalog.webp",
+      "altAr": "واجهة متجر سول (SOLE) تعرض 506 موديل أحذية موزعة على 15 قسمًا بتصميم عصري",
+      "altEn": "SOLE Footwear Marketplace storefront displaying 506 curated silhouettes across 15 bilingual collections",
+      "captionAr": "لقطة شاشة فعلية لواجهة المتجر (`SOLE Digital Archive`): عرض 506 منتجًا في 15 مجموعة مع فلترة فورية وتسميات عربية/إنجليزية مطبّعة.",
+      "captionEn": "Real storefront screenshot (`SOLE Digital Archive`) showcasing 506 normalized products across 15 collections with instant filtering.",
+      "kind": "real_screenshot",
+      "width": 1400,
+      "height": 875
+    },
+    {
+      "src": "/media/projects/remix-sole-marketplace/security-architecture.svg",
+      "altAr": "مخطط معمارية متجر سول وبوابة فحص البايتات السحرية وعزل الكتالوج العام",
+      "altEn": "SOLE Marketplace full-stack architecture and Magic-Byte security diagram",
+      "captionAr": "مخطط معماري يوضح طبقات الأمان (`security.ts`) وتطبيع الكتالوج وعزل الزوار عن فحص Cloudinary المباشر.",
+      "captionEn": "Architecture diagram illustrating Magic-Byte upload filtering, PostgREST injection guards, bilingual normalization, and Supabase/fallback catalog delivery.",
+      "kind": "architecture_diagram",
+      "width": 1200,
+      "height": 540
+    }
+  ],
+  "results": [
+    {
+      "metric": "506 Products",
+      "labelAr": "منتجًا حقيقيًا تم استيرادها وتطبيع أسمائها عبر 15 قسمًا",
+      "labelEn": "Studio products ingested and normalized across 15 collections",
+      "sourceRef": "public/catalog-fallback.json & storefront screenshot"
+    },
+    {
+      "metric": "0 Live Scans",
+      "labelAr": "استدعاءات Cloudinary Admin API أثناء تصفح الزوار بفضل طبقة Supabase والملف الاحتياطي",
+      "labelEn": "Cloudinary Admin API calls triggered by public visitors",
+      "sourceRef": "src/server/catalogService.ts:50-54"
+    },
+    {
+      "metric": "100% Blocked",
+      "labelAr": "منع كامل لملفات SVG/HTML/EXE المزيفة وحقن فلاتر PostgREST في اختبارات الوحدة",
+      "labelEn": "Spoofed SVG/HTML/EXE uploads and PostgREST injection payloads rejected in tests",
+      "sourceRef": "src/server/security.test.ts:13-95"
+    },
+    {
+      "metric": "320 Nodes",
+      "labelAr": "عقدة برمجية مفهرسة في الرسم المعرفي عبر React 19 وExpress 4 واختبارات الأمان",
+      "labelEn": "AST symbols indexed across React 19 components, Express server, and test suites",
+      "sourceRef": ".portfolio-intelligence/project-index/remix-sole-marketplace.json"
+    }
+  ],
+  "skillsProven": [
+    "Full-Stack TypeScript (React 19 + Express + Vercel Serverless)",
+    "Web Application Security (Magic-Byte Validation & Injection Prevention)",
+    "Bilingual Arabic/English Text & Slug Normalization",
+    "Media CDN Optimization (Responsive Cloudinary srcset)",
+    "High-Availability Fallback Architecture"
+  ],
+  "reviewFlags": [
+    "Confirm personal role attribution",
+    ".env file inside archive excluded from public build"
+  ],
+  "graphStats": {
+    "totalFiles": 51,
+    "totalMb": 9.81,
+    "nodes": 320,
+    "edges": 848
+  },
+  "updatedAt": "2026-11-19"
+}

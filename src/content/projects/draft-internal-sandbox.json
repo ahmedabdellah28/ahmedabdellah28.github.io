@@ -1,0 +1,125 @@
+{
+  "slug": "draft-internal-sandbox",
+  "titleAr": "[مسودة داخلية] مشروع تجريبي لاختبار عزل المسودات عن البناء العام",
+  "titleEn": "[Internal Draft] Sandbox Project Verifying Draft Exclusion from Public Build",
+  "summaryAr": "سجل اختباري بحالة visibility=draft للتأكد من أن محرك Astro لا ينشر المسودات للعامة.",
+  "summaryEn": "Verification fixture with visibility=draft ensuring the Astro build strictly excludes unpublished drafts from public routes.",
+  "valuePropositionAr": "اختبار آلي لفلترة المسودات.",
+  "valuePropositionEn": "Automated draft filtering verification fixture.",
+  "category": [
+    "other"
+  ],
+  "status": "prototype",
+  "visibility": "draft",
+  "featured": false,
+  "featuredOrder": 99,
+  "role": {
+    "ar": "اختبار",
+    "en": "Test"
+  },
+  "audience": {
+    "ar": "اختبار",
+    "en": "Test"
+  },
+  "problem": {
+    "ar": "اختبار",
+    "en": "Test"
+  },
+  "solution": {
+    "ar": "اختبار",
+    "en": "Test"
+  },
+  "manualVsAutomated": {
+    "ar": "اختبار",
+    "en": "Test"
+  },
+  "capabilities": [
+    {
+      "ar": "اختبار",
+      "en": "Test"
+    }
+  ],
+  "architecture": {
+    "overviewAr": "اختبار",
+    "overviewEn": "Test",
+    "pipelineSteps": [
+      {
+        "step": "01",
+        "titleAr": "اختبار",
+        "titleEn": "Test",
+        "detailAr": "اختبار",
+        "detailEn": "Test"
+      }
+    ],
+    "systemBoundariesAr": "اختبار",
+    "systemBoundariesEn": "Test"
+  },
+  "technologies": [
+    "Test"
+  ],
+  "challenges": [
+    {
+      "id": "DRF-1",
+      "type": "unverified_story",
+      "titleAr": "اختبار",
+      "titleEn": "Test",
+      "problemAr": "اختبار",
+      "problemEn": "Test",
+      "whyImportantAr": "اختبار",
+      "whyImportantEn": "Test",
+      "solutionAr": "اختبار",
+      "solutionEn": "Test",
+      "proofRef": "Test",
+      "impactAr": "اختبار",
+      "impactEn": "Test",
+      "lessonAr": "اختبار",
+      "lessonEn": "Test"
+    }
+  ],
+  "evidence": [
+    {
+      "claimId": "DRF-01",
+      "claimAr": "اختبار",
+      "claimEn": "Test",
+      "relationType": "INFERRED",
+      "evidencePath": "test",
+      "lineOrSymbol": "L1",
+      "confidence": "LOW",
+      "visibility": "private",
+      "verificationStatus": "unverified"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/media/projects/rok-vision-controller/anchor-screen-scaler.svg",
+      "altAr": "اختبار",
+      "altEn": "Test",
+      "captionAr": "اختبار",
+      "captionEn": "Test",
+      "kind": "illustrative_demo",
+      "width": 1200,
+      "height": 540
+    }
+  ],
+  "results": [
+    {
+      "metric": "0",
+      "labelAr": "اختبار",
+      "labelEn": "Test",
+      "sourceRef": "test"
+    }
+  ],
+  "skillsProven": [
+    "Test"
+  ],
+  "reviewFlags": [
+    "Draft fixture — must never appear in public build"
+  ],
+  "graphStats": {
+    "totalFiles": 1,
+    "totalMb": 0.01,
+    "nodes": 1,
+    "edges": 0
+  },
+  "updatedAt": "2026-11-19"
+}

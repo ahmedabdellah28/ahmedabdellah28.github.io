@@ -1,0 +1,232 @@
+{
+  "slug": "gmail-options-suite",
+  "titleAr": "منظومة Scenarios & Browser Slots — أتمتة المتصفح المتعددة وعزل الجلسات والبصمات",
+  "titleEn": "Multi-Slot Browser Automation & Session Isolation Engine (Camoufox / Playwright)",
+  "summaryAr": "منصة أتمتة بايثون معيارية مستقلة مع لوحة إدارة، تدير سلوتات متصفح متوازية معزولة كليًا (BrowserContext + Proxy Locking + Humanization) وتتعامل مع حالات الفشل والتصنيف الذري للملفات.",
+  "summaryEn": "Modular standalone Python browser automation suite with an admin panel, managing isolated multi-slot Camoufox/Playwright contexts, proxy locking, Bezier humanization, thread-safe atomic result routing, and deep forensic stealth auditing.",
+  "valuePropositionAr": "تشغيل مهام متصفح متوازية بعزل 100% للجلسات والبروكسيات مع تحديث ذري آمن للملفات وتدقيق جنائي عميق لسطح الكشف.",
+  "valuePropositionEn": "Executes concurrent browser workflows with 100% session/proxy isolation, thread-safe atomic state persistence, and forensic anti-detection auditing.",
+  "category": [
+    "automation",
+    "desktop",
+    "CLI",
+    "security"
+  ],
+  "status": "functional",
+  "visibility": "published",
+  "featured": false,
+  "featuredOrder": 6,
+  "role": {
+    "ar": "معماري أنظمة الأتمتة ومحلل التدقيق الجنائي للمتصفحات (يحتاج تأكيد المالك)",
+    "en": "Automation Systems Architect & Browser Forensics Analyst (Pending owner confirmation)"
+  },
+  "audience": {
+    "ar": "فرق هندسة الأتمتة واختبار الأنظمة التي تحتاج تشغيل جلسات متصفح متعددة دون تداخل في الكوكيز أو البروكسيات.",
+    "en": "Automation engineering teams needing isolated multi-slot browser execution and deterministic failure handling."
+  },
+  "problem": {
+    "ar": "إغلاق الصفحة (`page.close()`) فقط في Playwright يترك الكوكيز والبصمة حية في الجلسة، كما أن تشغيل عدة خيوط متوازية يسبب تصادمًا في سحب البروكسيات أو تلفًا في ملفات الإدخال عند التحديث المتزامن.",
+    "en": "Closing only a Playwright `Page` leaks cookies and fingerprint state across runs, while concurrent worker threads risk proxy collisions and corrupted input/output files."
+  },
+  "solution": {
+    "ar": "تصميم مدير سلوتات يدمر `Page` و`BrowserContext` معًا في كتلة `finally` مع قفل البروكسي (`lock_proxy` / `unlock_proxy`)، وبناء `RecoveryFailureHandler` بقفل `threading.Lock()` لحذف السجل المعالج وتصنيفه ذريًا في الوقت الحقيقي، مع إجراء تدقيق جنائي شامل (`camoufox_forensic_audit.md`).",
+    "en": "Engineered a slot lifecycle manager enforcing full `Page` + `BrowserContext` destruction and proxy locking in `finally` blocks, a thread-safe `RecoveryFailureHandler` using `threading.Lock()` for atomic file pruning, and a 1,276-line forensic audit of Camoufox/Playwright internals."
+  },
+  "manualVsAutomated": {
+    "ar": "بدلًا من إدارة المتصفحات يدويًا أو فقدان تقدم التشغيل عند حدوث خطأ، يعزل النظام كل سلوت ببصمة وبروكسي مستقلين ويصنف النتائج لحظيًا دون تكرار.",
+    "en": "Replaces fragile single-session scripts with isolated per-slot browser contexts, locked proxy rotation, and real-time crash-safe output routing."
+  },
+  "capabilities": [
+    {
+      "ar": "عزل كامل للجلسات عبر تدمير `BrowserContext` بعد كل مهمة وتدوير البروكسيات المقفولة.",
+      "en": "100% session state teardown destroying both `Page` and `BrowserContext` per task with exclusive proxy locking."
+    },
+    {
+      "ar": "مصنف أخطاء ذري متعدد الخيوط (`RecoveryFailureHandler`) يستخدم `threading.Lock()` لتحديث ملفات الإدخال والمخرجات بأمان.",
+      "en": "Thread-safe `RecoveryFailureHandler` using `threading.Lock()` for atomic input pruning and categorized output routing."
+    },
+    {
+      "ar": "محرك محاكاة بشرية (`shared/browser_engine/humanization/`) يشمل منحنيات Bezier للماوس وفيزياء التمرير والكتابة.",
+      "en": "Humanization engine implementing cubic Bezier mouse trajectories, typing cadence simulation, and smooth scroll physics."
+    },
+    {
+      "ar": "تقرير تدقيق جنائي عميق (1,276 سطرًا) يفحص 10 إشارات في بروتوكول Playwright وWebRTC وSOCKS5.",
+      "en": "1,276-line forensic security audit analyzing 10 protocol, WebRTC, SOCKS5 auth downgrade, and pointer-event signals."
+    }
+  ],
+  "architecture": {
+    "overviewAr": "بنية بايثون معيارية مفصولة بالكامل (`83/83` ملفًا تترجم بنجاح بصفر اعتماديات خارجية مكسورة) تضم حزمة السيناريوهات (`scenarios/`)، البنية المشتركة (`shared/browser_engine/`)، ولوحة الإدارة (`admin_panel/`).",
+    "overviewEn": "Decoupled modular Python architecture (verified across 83/83 compiled modules with zero broken imports) comprising `scenarios/`, `shared/browser_engine/`, and `admin_panel/`.",
+    "pipelineSteps": [
+      {
+        "step": "01",
+        "titleAr": "حجز السلوت وقفل البروكسي (Slot & Proxy Lock)",
+        "titleEn": "Slot Allocation & Exclusive Proxy Locking",
+        "detailAr": "سحب بروكسي متاح وقفله للسلوت الحالي لمنع استخدامه من خيط آخر.",
+        "detailEn": "Acquires and locks an available proxy for the active worker slot."
+      },
+      {
+        "step": "02",
+        "titleAr": "إطلاق السياق المعزول والمحاكاة (Isolated Context & Humanization)",
+        "titleEn": "Fresh BrowserContext Launch & Bezier Humanization",
+        "detailAr": "إنشاء `BrowserContext` جديد ببصمة وأبعاد شاشة مستقلة وتنفيذ خطوات السيناريو بحركة ماوس وكتابة طبيعية.",
+        "detailEn": "Creates a fresh `BrowserContext` with isolated fingerprint settings and executes scenario steps via Bezier mouse/typing helpers."
+      },
+      {
+        "step": "03",
+        "titleAr": "التصنيف الذري وتدمير الجلسة (Atomic Routing & Teardown)",
+        "titleEn": "Thread-Safe Result Classification & Full Context Teardown",
+        "detailAr": "كتابة النتيجة وحذف السجل من الملف الرئيسي تحت قفل `threading.Lock`، ثم إغلاق الصفحة والسياق وفك قفل البروكسي.",
+        "detailEn": "Atomically logs results and prunes input lines under `threading.Lock`, then destroys `Page` + `BrowserContext` and unlocks the proxy."
+      }
+    ],
+    "systemBoundariesAr": "يعمل محليًا عبر Python وPlaywright/Camoufox مع لوحة إدارة سطح مكتب وتكامل ترخيص، وتم استبعاد ملف `license.key` من الحزمة العامة.",
+    "systemBoundariesEn": "Runs locally via Python and Playwright/Camoufox with a desktop admin panel; local `license.key` is strictly excluded from public artifacts."
+  },
+  "technologies": [
+    "Python 3.12+",
+    "Playwright",
+    "Camoufox (Custom Firefox Engine)",
+    "BrowserForge",
+    "Thread-Safe File IO (threading.Lock)",
+    "Cubic Bezier Humanization",
+    "Desktop Admin Panel UI"
+  ],
+  "challenges": [
+    {
+      "id": "GML-CH-1",
+      "type": "preventive_design",
+      "titleAr": "منع تسرب الكوكيز والبصمة بين المهام عبر التدمير الإجباري لـ BrowserContext وقفل البروكسيات",
+      "titleEn": "Preventing Cross-Task State Leakage via Mandatory BrowserContext Teardown & Proxy Locks",
+      "problemAr": "إغلاق التبويب (`page.close()`) وحده داخل Playwright لا يمسح الكوكيز أو LocalStorage أو إعدادات البروكسي المرتبطة بـ `BrowserContext`.",
+      "problemEn": "Calling `page.close()` alone in Playwright preserves cookies, session storage, and proxy bindings inside the parent `BrowserContext`.",
+      "whyImportantAr": "أي بقايا جلسة سابقة تؤدي إلى تداخل الحسابات وفشل عزل السلوتات المتوازية.",
+      "whyImportantEn": "Leftover context state contaminates subsequent tasks and invalidates multi-slot isolation.",
+      "solutionAr": "فرض إغلاق مزدوج في كتلة `finally` (`await page.close()` + `await context.close()` + `unlock_proxy`) مع حماية تحديث ملفات النتائج بقفل `threading.Lock()` في `RecoveryFailureHandler`.",
+      "solutionEn": "Enforced mandatory `finally` teardown (`page.close()` + `context.close()` + `unlock_proxy`) paired with `threading.Lock()` atomic file pruning in `RecoveryFailureHandler`.",
+      "proofRef": "browser_data_and_slots_report.md:33-86 & scenarios/recovery/failure_handler.py:31-75",
+      "impactAr": "عزل 100% بين كل مهمة وأخرى وعدم ضياع أو تكرار أي سجل أثناء التشغيل المتوازي.",
+      "impactEn": "100% state isolation between tasks and zero race-condition file corruption across concurrent worker slots.",
+      "lessonAr": "في أتمتة المتصفحات، وحدة العزل الحقيقية هي `BrowserContext` وليست الصفحة (`Page`).",
+      "lessonEn": "In browser automation architectures, `BrowserContext` — never `Page` — is the true unit of identity and storage isolation."
+    },
+    {
+      "id": "GML-CH-2",
+      "type": "possible_risk",
+      "titleAr": "التدقيق الجنائي لـ 10 إشارات كشف في تكامل Camoufox وPlaywright",
+      "titleEn": "Forensic Audit Uncovering 10 Protocol & Behavioral Detection Signals in Camoufox/Playwright",
+      "problemAr": "استخدام محرك متصفح معدل على مستوى C++ قد يظل قابلاً للرصد إذا كانت إعدادات Playwright أو الشبكة تسرب إشارات غير طبيعية.",
+      "problemEn": "Even with a C++-patched stealth browser binary, application-layer Playwright configs and proxy handlers can leak automation anomalies.",
+      "whyImportantAr": "فهم الفجوات الدقيقة بين طبقة المتصفح وطبقة البروتوكول ضروري لتقييم المخاطر بصدق بدل افتراض التخفي الكامل.",
+      "whyImportantEn": "Identifying subtle mismatches between browser internals and protocol configs prevents false confidence in stealth setups.",
+      "solutionAr": "إجراء تحليل جنائي شامل موثق في `camoufox_forensic_audit.md` (1,276 سطرًا) كشف 10 مخاطر محددة مثل خفض بروكسي SOCKS5 المحمي بكلمة مرور إلى HTTP، وتعطيل WebRTC كليًا بدل تمويهه، وانخفاض كثافة نقاط حركة الماوس (مصنف بصدق كـ `possible_risk` مرصود بالتدقيق).",
+      "solutionEn": "Conducted a 1,276-line forensic audit (`camoufox_forensic_audit.md`) pinpointing 10 concrete risks including silent SOCKS5-with-auth downgrade to HTTP, total WebRTC disabling, Nightly BuildID mismatch, and low mouse step density (transparently classified as `possible_risk`).",
+      "proofRef": "camoufox_forensic_audit.md:14-90",
+      "impactAr": "خريطة طريق هندسية واضحة لمعالجة ثغرات البروتوكول والسلوك مرتبة حسب الخطورة.",
+      "impactEn": "Actionable severity-ranked remediation matrix covering protocol, network, and behavioral layers.",
+      "lessonAr": "التدقيق الجنائي الصادق الذي يوثق القيود والمخاطر المكتشفة يبني ثقة هندسية أعلى بكثير من ادعاء الكمال.",
+      "lessonEn": "Honest forensic auditing that documents discovered architectural risks builds far greater engineering credibility than claiming perfection."
+    }
+  ],
+  "evidence": [
+    {
+      "claimId": "GML-01",
+      "claimAr": "عزل 100% للجلسات عبر تدمير Page وBrowserContext معًا وفك قفل البروكسي في كتلة finally",
+      "claimEn": "100% session isolation destroying both Page and BrowserContext in finally blocks with proxy unlock",
+      "relationType": "EXTRACTED",
+      "evidencePath": "browser_data_and_slots_report.md",
+      "lineOrSymbol": "Lines 33-86 (shared/browser/firefox_engine.py L124-169)",
+      "confidence": "HIGH",
+      "visibility": "public",
+      "verificationStatus": "verified"
+    },
+    {
+      "claimId": "GML-02",
+      "claimAr": "معالج أخطاء ذري متعدد الخيوط RecoveryFailureHandler يحذف السجل المعالج ويصنفه تحت قفل threading.Lock",
+      "claimEn": "Thread-safe atomic account line removal and classified failure routing in RecoveryFailureHandler",
+      "relationType": "EXTRACTED",
+      "evidencePath": "scenarios/recovery/failure_handler.py",
+      "lineOrSymbol": "Lines 24-90 (remove_account_from_main_file, handle_result)",
+      "confidence": "HIGH",
+      "visibility": "public",
+      "verificationStatus": "verified"
+    },
+    {
+      "claimId": "GML-03",
+      "claimAr": "تقرير تدقيق جنائي من 1,276 سطرًا يوثق 10 ثغرات بروتوكول وشبكة وسلوك في تكامل Camoufox",
+      "claimEn": "1,276-line deep forensic audit of Camoufox 0.4.11 & Playwright 1.49.1 identifying 10 anomalies",
+      "relationType": "EXTRACTED",
+      "evidencePath": "camoufox_forensic_audit.md",
+      "lineOrSymbol": "Lines 1-90 (Executive Summary & 10 Ranked Findings)",
+      "confidence": "HIGH",
+      "visibility": "public",
+      "verificationStatus": "verified"
+    },
+    {
+      "claimId": "GML-04",
+      "claimAr": "فصل معماري مستقل مفحوص عبر 83 ملف بايثون بصفر أخطاء استيراد أو مسارات خارجية",
+      "claimEn": "Standalone architectural extraction verified across 83/83 compiled Python files with zero broken imports",
+      "relationType": "EXTRACTED",
+      "evidencePath": "verification_report.md",
+      "lineOrSymbol": "Lines 1-46 (Safety, Compilation & Directory Audit)",
+      "confidence": "HIGH",
+      "visibility": "public",
+      "verificationStatus": "verified"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/media/projects/gmail-options-suite/slot-isolation-architecture.svg",
+      "altAr": "مخطط معمارية عزل سلوتات المتصفح المتوازية وقفل البروكسيات والتصنيف الذري",
+      "altEn": "Multi-Slot Browser Engine context isolation, proxy locking, and atomic failure routing diagram",
+      "captionAr": "رسم معماري توضيحي (`Illustrative Architecture Diagram`) يوضح دورة حياة السلوت من قفل البروكسي وإنشاء `BrowserContext` حتى التصنيف الذري وتدمير الجلسة.",
+      "captionEn": "Illustrative architecture diagram showing slot lifecycle from proxy lock acquisition and fresh `BrowserContext` creation to thread-safe result routing and teardown.",
+      "kind": "architecture_diagram",
+      "width": 1200,
+      "height": 540
+    }
+  ],
+  "results": [
+    {
+      "metric": "100% Isolated",
+      "labelAr": "تدمير كامل لسياق الجلسة والكوكيز وتبديل البروكسي بين كل عملية وأخرى",
+      "labelEn": "Complete BrowserContext teardown and proxy rotation between executions",
+      "sourceRef": "browser_data_and_slots_report.md:33-61"
+    },
+    {
+      "metric": "83/83 Modules",
+      "labelAr": "ملف بايثون مفصول ومترجم بنجاح بصفر اعتماديات خارجية مكسورة",
+      "labelEn": "Standalone Python modules compiling cleanly with zero external path leaks",
+      "sourceRef": "verification_report.md:17-19"
+    },
+    {
+      "metric": "10 Findings",
+      "labelAr": "إشارات بروتوكول وسلوك موثقة في تقرير التدقيق الجنائي (1,276 سطرًا)",
+      "labelEn": "Protocol and behavioral anomalies documented in the 1,276-line forensic audit",
+      "sourceRef": "camoufox_forensic_audit.md:16-28"
+    },
+    {
+      "metric": "1,757 Nodes",
+      "labelAr": "عقدة برمجية مفهرسة عبر محرك المتصفح، السيناريوهات، ولوحة الإدارة",
+      "labelEn": "Indexed AST symbols across browser engine, scenarios, and admin panel",
+      "sourceRef": ".portfolio-intelligence/project-index/gmail-options-suite.json"
+    }
+  ],
+  "skillsProven": [
+    "Browser Internals & Protocol Forensics (Playwright / Camoufox)",
+    "Concurrent Session Isolation & Resource Locking",
+    "Thread-Safe File Persistence & Crash Recovery",
+    "Modular Python Architecture & Dependency Decoupling"
+  ],
+  "reviewFlags": [
+    "Confirm personal role attribution",
+    "license.key excluded from public bundle"
+  ],
+  "graphStats": {
+    "totalFiles": 272,
+    "totalMb": 2.91,
+    "nodes": 1757,
+    "edges": 4374
+  },
+  "updatedAt": "2026-11-19"
+}

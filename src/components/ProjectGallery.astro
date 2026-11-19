@@ -1,0 +1,94 @@
+---
+interface ScreenshotItem {
+  src: string;
+  altAr: string;
+  altEn: string;
+  captionAr: string;
+  captionEn: string;
+  kind: 'real_screenshot' | 'architecture_diagram' | 'illustrative_demo' | 'diagnostic_output';
+  width: number;
+  height: number;
+}
+
+interface Props {
+  screenshots: ScreenshotItem[];
+  locale: 'ar' | 'en';
+}
+
+const { screenshots, locale } = Astro.props;
+
+const kindLabels = {
+  ar: {
+    real_screenshot: 'لقطة شاشة فعلية من النظام (Real Output)',
+    architecture_diagram: 'مخطط معماري موثق (Architecture Diagram)',
+    illustrative_demo: 'نموذج توضيحي (Illustrative Demo)',
+    diagnostic_output: 'مخرج تشخيصي فعلي (Diagnostic Proof)',
+  },
+  en: {
+    real_screenshot: 'Verified Real System Screenshot',
+    architecture_diagram: 'Architecture & Workflow Diagram',
+    illustrative_demo: 'Illustrative Demo',
+    diagnostic_output: 'Real Diagnostic Output Proof',
+  },
+};
+---
+
+<section aria-label={locale === 'ar' ? 'معرض الوسائط والأدلة البصرية' : 'Visual Proof & Architecture Gallery'} class="space-y-6">
+  <div class="grid grid-cols-1 gap-6">
+    {screenshots.map((item, idx) => {
+      const altText = locale === 'ar' ? item.altAr : item.altEn;
+      const capText = locale === 'ar' ? item.captionAr : item.captionEn;
+      const badgeText = kindLabels[locale][item.kind];
+      return (
+        <figure class="reveal-item bg-[#0B1220] rounded-3xl border border-[#182438] overflow-hidden shadow-lg group">
+          <div class="px-5 py-3 bg-[#182438] border-b border-slate-800 flex items-center justify-between gap-2 flex-wrap">
+            <span class="inline-flex items-center gap-2 text-xs font-mono text-[#18B8A7] font-semibold">
+              <span class="w-2 h-2 rounded-full bg-[#18B8A7]" aria-hidden="true"></span>
+              {badgeText}
+            </span>
+            <div class="flex items-center gap-3">
+              <span class="text-[11px] font-mono text-slate-400">
+                {item.width}×{item.height}
+              </span>
+              <button
+                type="button"
+                data-lightbox-src={item.src}
+                data-lightbox-alt={altText}
+                data-lightbox-caption={capText}
+                data-lightbox-badge={badgeText}
+                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#2663EB] hover:bg-blue-500 text-white text-xs font-mono font-semibold transition-colors cursor-pointer"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16zM11 8v6M8 11h6" />
+                </svg>
+                <span>{locale === 'ar' ? 'تكبير بالحجم الكامل' : 'Expand Fullscreen'}</span>
+              </button>
+            </div>
+          </div>
+
+          <div
+            data-lightbox-src={item.src}
+            data-lightbox-alt={altText}
+            data-lightbox-caption={capText}
+            data-lightbox-badge={badgeText}
+            class="p-3 sm:p-6 flex items-center justify-center bg-[#0B1220] cursor-zoom-in relative"
+          >
+            <img
+              src={item.src}
+              alt={altText}
+              width={item.width}
+              height={item.height}
+              loading={idx === 0 ? 'eager' : 'lazy'}
+              decoding="async"
+              class="max-h-[560px] w-auto rounded-xl border border-slate-800/80 object-contain group-hover:scale-[1.01] transition-transform duration-300"
+            />
+          </div>
+
+          <figcaption class="px-6 py-4 bg-[#111C2D] border-t border-slate-800/80 text-xs sm:text-sm text-slate-300 leading-relaxed">
+            {capText}
+          </figcaption>
+        </figure>
+      );
+    })}
+  </div>
+</section>

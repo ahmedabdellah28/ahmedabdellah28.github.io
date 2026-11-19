@@ -1,0 +1,140 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CTA from '../../components/CTA.astro';
+import { SITE_CONFIG } from '../../config/site';
+
+export function getStaticPaths() {
+  return [{ params: { locale: 'ar' } }, { params: { locale: 'en' } }];
+}
+
+const { locale } = Astro.params as { locale: 'ar' | 'en' };
+
+const pageTitle =
+  locale === 'ar'
+    ? 'أحمد عبد الله — نبذة ومنهجية العمل الهندسية'
+    : 'Ahmed Abdellah — Engineering Methodology & About';
+const pageDesc =
+  locale === 'ar'
+    ? 'نبذة مهنية صادقة مبنية على القواسم المشتركة المثبتة عبر المشاريع وطريقة العمل من التشخيص الجنائي إلى التسليم.'
+    : 'An honest engineering profile grounded in verified codebase patterns and a disciplined methodology from forensic discovery to delivery.';
+
+const principles = [
+  {
+    titleAr: '1. التحقق المستقل وعدم الثقة العمياء بالمخرجات',
+    titleEn: '1. Zero-Trust Independent Output Verification',
+    descAr:
+      'في نظام الجدول المدرسي بنينا ScheduleValidator منفصلًا عن OR-Tools CP-SAT، وفي محرك الموشن جرافيك بنينا audit_scene_graph وبوابة QA تفحص الإطارات والصوت بعد الرندر. النظام الموثوق يفحص مخرجاته بنفسه.',
+    descEn:
+      'In the School Timetable solver, an independent `ScheduleValidator` verifies CP-SAT outputs; in AION Studio V6, `audit_scene_graph` and a post-render QA gate inspect frame contrast and A/V drift. Reliable systems validate their own outputs.',
+  },
+  {
+    titleAr: '2. عزل الفشل وحماية الحالة المعتمدة (Isolation & Rollback)',
+    titleEn: '2. Fault Isolation, Immutable Baselines & Atomic Recovery',
+    descAr:
+      'سواء كان ذلك عبر عزل كل تشغيل في مجلد `exports/runs/<run_id>/`، أو تدمير `BrowserContext` بالكامل بين الجلسات، أو استخدام `OfflineSyncManager` مع إعادة جدولة الفشل الجزئي فقط — التصميم الجيد يمنع خطأً واحدًا من إفساد النظام.',
+    descEn:
+      'Whether isolating video renders inside `exports/runs/<run_id>/`, tearing down `BrowserContext` per slot, or draining offline queues with partial failure re-insertion — good architecture contains faults within strict boundaries.',
+  },
+  {
+    titleAr: '3. تحويل الخوارزميات المعقدة إلى واجهات مفهومة وقابلة للتفسير',
+    titleEn: '3. Making Complex Algorithms Explainable to End Users',
+    descAr:
+      'العميل لا يحتاج رؤية معادلات CP-SAT أو مصفوفات ZNCC، بل يحتاج شاشة واضحة تخبره: «تم نقل هذه الحصة لتفريغ الفترة للأستاذ أحمد»، أو سجل عمليات حي يوضح نسبة الثقة والخطوة الحالية.',
+    descEn:
+      'End users should not have to decipher CP-SAT linear constraints or ZNCC matrices; they need clear causal explanations ("Lesson shifted to free Period 3 for Teacher Ahmed") and transparent live progress telemetry.',
+  },
+  {
+    titleAr: '4. الأمان والخصوصية من البايت الأول',
+    titleEn: '4. Security & Data Integrity from the First Byte',
+    descAr:
+      'التحقق من البايتات السحرية (Magic Bytes) للصور المرفوعة، ومنع حقن فلاتر PostgREST، وتدقيق سياسات Supabase RLS، وعزل الخوارزميات خلف بوابات ترخيص على الخادم.',
+    descEn:
+      'Inspecting binary Magic Bytes on file uploads, blocking PostgREST filter injection, auditing multi-tenant Supabase RLS policies, and isolating proprietary solver logic behind server-side license checks.',
+  },
+];
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} locale={locale} currentPath={`/${locale}/about`}>
+  <section class="bg-[#0B1220] text-white border-b border-[#182438] py-14">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="font-mono text-xs uppercase tracking-wider text-[#18B8A7]">
+        {locale === 'ar' ? 'الهوية الهندسية وطريقة العمل' : 'Engineering Identity & Methodology'}
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-extrabold mt-2">
+        {locale === 'ar' ? 'أحمد عبد الله — نبذة ومنهجية بناء الأنظمة' : 'Ahmed Abdellah — About & Engineering Methodology'}
+      </h1>
+      <p class="text-base sm:text-lg text-slate-300 mt-4 max-w-3xl leading-relaxed">
+        {locale === 'ar' ? SITE_CONFIG.taglineAr : SITE_CONFIG.taglineEn}
+      </p>
+    </div>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 space-y-12">
+    <!-- Portrait + Core Engineering Bio Card -->
+    <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 shadow-xs grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <div class="lg:col-span-4 flex justify-center">
+        <div class="relative w-full max-w-[290px] rounded-3xl overflow-hidden bg-[#0B1220] border-2 border-[#2663EB]/40 shadow-xl">
+          <img
+            src="/media/profile/ahmed-abdellah.webp"
+            alt={locale === 'ar' ? 'أحمد عبد الله' : 'Ahmed Abdellah'}
+            width="800"
+            height="800"
+            loading="eager"
+            class="w-full h-auto object-cover"
+          />
+          <div class="p-4 bg-[#0B1220] text-white border-t border-slate-800">
+            <strong class="block text-base">{locale === 'ar' ? 'أحمد عبد الله' : 'Ahmed Abdellah'}</strong>
+            <span class="text-xs font-mono text-[#18B8A7]">
+              {locale === 'ar' ? 'معماري برمجيات وأنظمة ذكية' : 'Systems Architect & AI Engineer'}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-8 space-y-5">
+        <span class="inline-block font-mono text-xs uppercase tracking-wider text-[#2663EB] font-bold">
+          {locale === 'ar' ? 'سيرة هندسية مبنية على الأدلة' : 'Evidence-Backed Engineering Profile'}
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0B1220]">
+          {locale === 'ar'
+            ? 'قواسم مشتركة تثبتها المشاريع السبعة'
+            : 'What the 7 Audited Codebases Reveal'}
+        </h2>
+        <p class="text-sm sm:text-base text-slate-700 leading-relaxed">
+          {locale === 'ar'
+            ? 'تُظهر المشاريع الموثقة في هذا البورتفوليو تركيزًا مستمرًا على بناء أنظمة كاملة من النواة الخوارزمية حتى واجهة المستخدم النهائية: من مترجمات الفيديو الرسومية (AION Studio V6) ومحركات الاستمثال الرياضي (School Timetable CP-SAT)، إلى محركات الرؤية الحاسوبية الفورية على أندرويد (Phone Commander ZNCC)، ومنظومات الرعاية الصحية متعددة التطبيقات (Enaya Monorepo)، ومتاجر الويب المحصنة أمنيًا (SOLE Marketplace).'
+            : 'The 7 systems documented in this portfolio demonstrate consistent end-to-end ownership from algorithmic cores to polished user interfaces: spanning 10-stage GPU motion-graphics compilers (AION Studio V6), OR-Tools CP-SAT mathematical schedulers, zero-GC Android computer-vision engines (Phone Commander), 5-app Flutter healthcare monorepos (Enaya), and security-hardened React 19/Express storefronts (SOLE).'}
+        </p>
+        <p class="text-sm sm:text-base text-slate-700 leading-relaxed">
+          {locale === 'ar'
+            ? 'بدلًا من الاكتفاء بنماذج أولية هشة، يتكرر في هذه الأعمال نمط هندسي واضح: تشخيص السبب الجذري للأعطال بالبرهان (Root-Cause Analysis)، وضع عقود صارمة للبيانات، وبناء آليات تعافٍ تلقائي تحافظ على استقرار النظام في ظروف التشغيل الحقيقية.'
+            : 'Across every repository, a distinct engineering signature emerges: forensic root-cause investigation, contract-driven stage isolation, and defensive recovery mechanisms designed for messy real-world environments.'}
+        </p>
+      </div>
+    </div>
+
+    <!-- 4 Engineering Principles -->
+    <div>
+      <h2 class="text-2xl font-extrabold text-[#0B1220] mb-6">
+        {locale === 'ar' ? 'المبادئ الهندسية الأربعة في عملي' : 'Four Guiding Engineering Principles'}
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {principles.map((p, idx) => (
+          <div
+            style={`--reveal-delay: ${idx * 70}ms`}
+            class="reveal-item spotlight-card bg-white rounded-3xl border border-slate-200 p-6 sm:p-7 shadow-2xs"
+          >
+            <h3 class="text-lg font-bold text-[#0B1220] mb-2.5">
+              {locale === 'ar' ? p.titleAr : p.titleEn}
+            </h3>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              {locale === 'ar' ? p.descAr : p.descEn}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <CTA locale={locale} />
+  </section>
+</BaseLayout>

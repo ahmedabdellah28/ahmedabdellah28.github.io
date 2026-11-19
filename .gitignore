@@ -1,0 +1,37 @@
+# Dependencies & Build Output
+node_modules/
+dist/
+.astro/
+__pycache__/
+*.pyc
+
+# Internal Graph-First Portfolio Intelligence & Root Staging (NEVER PUBLISH TO PUBLIC REPO)
+/.portfolio-intelligence/
+/graphify-out/
+/projects/
+/staging/
+
+# Environment & Secrets
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.pfx
+*.db
+*.sqlite
+*.sqlite3
+
+# Large Media & Archives (use external embeds for large video files)
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.zip
+*.rar
+*.7z
+
+# OS / Editor
+.DS_Store
+Thumbs.db

@@ -1,0 +1,38 @@
+---
+interface Props {
+  claimId: string;
+  relationType: 'EXTRACTED' | 'INFERRED';
+  verificationStatus: 'verified' | 'unverified';
+  confidence?: 'HIGH' | 'MEDIUM' | 'LOW';
+  locale: 'ar' | 'en';
+}
+
+const {
+  claimId,
+  relationType,
+  verificationStatus,
+  confidence = 'HIGH',
+  locale,
+} = Astro.props;
+
+const isVerified = verificationStatus === 'verified' && relationType === 'EXTRACTED';
+---
+
+<span
+  class:list={[
+    'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-mono font-semibold border',
+    isVerified
+      ? 'bg-emerald-950/80 text-[#18B8A7] border-[#18B8A7]/40'
+      : 'bg-amber-950/80 text-amber-300 border-amber-500/40',
+  ]}
+  title={
+    locale === 'ar'
+      ? `معرّف الدليل: ${claimId} | النوع: ${relationType} | الثقة: ${confidence}`
+      : `Claim ID: ${claimId} | Relation: ${relationType} | Confidence: ${confidence}`
+  }
+>
+  <span class:list={['w-1.5 h-1.5 rounded-full', isVerified ? 'bg-[#18B8A7]' : 'bg-amber-400']} aria-hidden="true"></span>
+  <span>{claimId}</span>
+  <span class="opacity-75">·</span>
+  <span>{relationType}</span>
+</span>

@@ -1,0 +1,233 @@
+{
+  "slug": "enaya-ai-workspace",
+  "titleAr": "منظومة عناية الطبية (Enaya Monorepo & Audit Workspace) — معمارية تطبيقات الرعاية الصحية وحوكمة التدقيق",
+  "titleEn": "Enaya Healthcare Ecosystem & AI Audit Workspace — Multi-App Flutter Monorepo & Governance",
+  "summaryAr": "مجمّع برمجي يضم المونوريبو الكامل لتطبيقات عناية الطبية (تطبيق المريض، الطبيب، الصيدلية، المختبر، ولوحة الإدارة) مع إطار تدقيق هندسي مهيكل من 12 دورًا وأداة FigCraft المكتبية.",
+  "summaryEn": "Comprehensive healthcare engineering workspace combining the multi-app Enaya Flutter/Supabase monorepo (Patient, Doctor, Pharmacy, Lab, System Admin) with a 12-role evidence-gated architectural audit framework and FigCraft desktop tooling.",
+  "valuePropositionAr": "توحيد وإصلاح منظومة رعاية صحية متعددة التطبيقات عبر حوكمة تدقيق صارمة، ومزامنة طوابير العمليات غير المتصلة بالإنترنت (Offline Queue)، وتسعير حجوزات ذري آمن.",
+  "valuePropositionEn": "Unifies and hardens a 5-app healthcare ecosystem through evidence-gated architectural governance, offline outbox synchronization, jittered exponential backoff, and atomic booking/quoting workflows.",
+  "category": [
+    "mobile",
+    "web",
+    "architecture",
+    "AI"
+  ],
+  "status": "functional",
+  "visibility": "published",
+  "featured": true,
+  "featuredOrder": 3,
+  "role": {
+    "ar": "معماري الأنظمة ومطور ومراجع تطبيقات Flutter/Supabase (يحتاج تأكيد المالك)",
+    "en": "Systems Architect & Principal Flutter/Supabase Remediation Engineer (Pending owner confirmation)"
+  },
+  "audience": {
+    "ar": "منصات الرعاية الصحية الرقمية التي تربط المرضى والأطباء والمختبرات والصيدليات في بيئة عالية الاعتمادية.",
+    "en": "Digital healthcare platforms connecting patients, doctors, laboratories, and pharmacies under strict reliability and privacy controls."
+  },
+  "problem": {
+    "ar": "توزيع رحلة المريض عبر 5 تطبيقات و3 قواعد بيانات Supabase يخلق ثغرات حرجة عند انقطاع شبكة الهاتف، أو تعارض تسعير الحجوزات والبدائل الدوائية، أو تعديل الكود دون مرجعية معمارية موحدة.",
+    "en": "Spanning patient journeys across 5 applications and multiple Supabase instances creates high risk of dropped offline actions, booking/quoting race conditions, and inconsistent RLS security policies."
+  },
+  "solution": {
+    "ar": "تأسيس إطار تدقيق هندسي من 12 دورًا تخصصيًا يفصل الحقيقة المرصودة عن الفرضيات ويصدر قرارات معمارية ملزمة (`DEC-01..DEC-12`)، ثم تنفيذ الإصلاحات في `enaya_monorepo` متضمنةً `OfflineSyncManager` و`ErrorRecoveryService` وبوابة الأحداث المركزية (`Central Event Gateway`).",
+    "en": "Established a 12-role evidence-gated audit framework producing binding ADRs (`DEC-01..DEC-12`), then executed end-to-end monorepo remediations across all 5 Flutter apps including `OfflineSyncManager`, jittered `ErrorRecoveryService`, atomic pricing, and a Central Event Gateway."
+  },
+  "manualVsAutomated": {
+    "ar": "بدلًا من المراجعات العشوائية أو فقدان طلبات المريض والطبيب عند ضعف الشبكة، يُلزم النظام كل تقرير تدقيق بمرجع السطر والملف، ويعيد جدولة العمليات الفاشلة تلقائيًا في الخلفية فور عودة الاتصال.",
+    "en": "Replaces ad-hoc code reviews and fragile network calls with file/line-mandated audit governance, automatic offline queue flushing on reconnect, and jittered exponential backoff for transient 503/504 errors."
+  },
+  "capabilities": [
+    {
+      "ar": "مزامنة طابور العمليات غير المتصلة (`OfflineSyncManager`) في تطبيقي الطبيب والمريض مع إعادة جدولة العمليات الفاشلة فقط.",
+      "en": "`OfflineSyncManager` in Doctor and Patient apps listening to connectivity streams and re-queueing only failed actions."
+    },
+    {
+      "ar": "محرك تعافٍ من الأخطاء (`ErrorRecoveryService`) في تطبيق المختبر يطبق Exponential Backoff مع Jitter عشوائي (0.8x–1.2x).",
+      "en": "`ErrorRecoveryService` in Laboratory app executing transient network/503/504 retries with jittered exponential backoff."
+    },
+    {
+      "ar": "حوكمة معمارية شاملة (أكثر من 90 وثيقة في `MANIFEST.md`) تغطي مراجعة سياسات RLS، مصفوفة الفشل العابرة للنطاقات، وخطة التعافي من الكوارث.",
+      "en": "90+ structured engineering documents in `MANIFEST.md` covering RLS policy audits, cross-domain failure matrices, and disaster recovery."
+    },
+    {
+      "ar": "تطبيقات متكاملة للصيدلية والمختبر والإدارة تشمل التسعير المخصص، التحقق من التوفر الفعلي، مراجعة إيصالات الدفع، وإدارة النزاعات.",
+      "en": "End-to-end Pharmacy, Lab, and System Admin workflows including physical availability checks, custom quoting, receipt review, and dispute handling."
+    }
+  ],
+  "architecture": {
+    "overviewAr": "تجمع المساحة بين طبقة الحوكمة والتدقيق (`00_governance` إلى `08_lifecycle_resilience_audit`)، والمونوريبو التنفيذي (`enaya_monorepo/apps/*`)، وأداة سطح المكتب `figcraft`.",
+    "overviewEn": "Integrates the architectural governance workspace (`00_governance`..`08_lifecycle_resilience_audit`), the executable 5-app Flutter monorepo (`enaya_monorepo`), and the Rust-based `figcraft` desktop controller.",
+    "pipelineSteps": [
+      {
+        "step": "01",
+        "titleAr": "الجرد والتدقيق المتخصص (12-Role Evidence Intake)",
+        "titleEn": "Read-Only Intake & 12-Role Specialist Audit",
+        "detailAr": "فحص المستودعات عبر 12 زاوية هندسية (الأمان، الهوية SSO، قواعد البيانات، Flutter، الاعتمادية، وتجربة المستخدم).",
+        "detailEn": "Audits source snapshots across 12 specialist roles (Security, SSO, Supabase Clinic/Lab/Pharmacy, Flutter, QA, UI/UX)."
+      },
+      {
+        "step": "02",
+        "titleAr": "المراجعة المتقاطعة وسجلات القرارات (Cross-Review & ADRs)",
+        "titleEn": "Cross-Role Conflict Resolution & ADRs (DEC-01..12)",
+        "detailAr": "حسم التعارضات بين الأدوار وتوثيق المعمارية المستهدفة (`TO_BE_ARCHITECTURE.md`) وبوابات الإنتاج.",
+        "detailEn": "Resolves inter-role conflicts into formal ADRs and target architecture specifications."
+      },
+      {
+        "step": "03",
+        "titleAr": "إصلاح المونوريبو ومرونة الاتصال (Monorepo Remediation)",
+        "titleEn": "Monorepo Execution & Offline/Retry Resilience",
+        "detailAr": "تطبيق التسعير الذري، وفصل الدفع، وطوابير Outbox، ومديري المزامنة والتعافي في تطبيقات Flutter الخمسة.",
+        "detailEn": "Implements atomic booking pricing, outbox queues, `OfflineSyncManager`, and `ErrorRecoveryService` across the 5 apps."
+      }
+    ],
+    "systemBoundariesAr": "تتخاطب تطبيقات Flutter الخمسة مع مشاريع Supabase متعددة (عيادات، مختبر، صيدلية) وخدمة Cloudinary للأصول مع عزل الصلاحيات عبر RLS.",
+    "systemBoundariesEn": "Five Flutter apps communicate with domain-partitioned Supabase backends (Clinic, Lab, Pharmacy) and Cloudinary asset storage under strict RLS controls."
+  },
+  "technologies": [
+    "Flutter / Dart",
+    "Supabase (PostgreSQL, RLS, Edge Functions)",
+    "BLoC / Cubit State Management",
+    "Offline Outbox & Connectivity Streams",
+    "Cloudinary Signed Asset Pipeline",
+    "Rust (FigCraft Desktop Controller)",
+    "Architectural Governance & ADR Framework"
+  ],
+  "challenges": [
+    {
+      "id": "ENA-CH-1",
+      "type": "verified_fix",
+      "titleAr": "حماية العمليات الطبية من الضياع عند انقطاع الشبكة ومنع عواصف إعادة المحاولة",
+      "titleEn": "Preventing Offline Action Loss & Retry Storms Across Healthcare Apps",
+      "problemAr": "إلغاء الحجز أو تحديث الحالة أثناء انقطاع الإنترنت على هاتف الطبيب أو المريض أو المختبر كان يفشل فوريًا أو يسبب تزامنًا متكررًا غير منضبط عند عودة الاتصال.",
+      "problemEn": "Booking cancellations or lab status updates during mobile network drops either failed outright or risked synchronized retry storms upon reconnection.",
+      "whyImportantAr": "في التطبيقات الطبية، بقاء حجز ملغى كأنه نشط أو ضياع تحديث المختبر يربك جدول العيادة والمريض.",
+      "whyImportantEn": "In clinical workflows, an unpropagated booking cancellation or lost lab update directly disrupts doctor schedules and patient care.",
+      "solutionAr": "تطوير `OfflineSyncManager` بعلامة قفل `_isSyncing` يراقب `InternetConnectionChecker` ويفرغ الطابور المحلي ثم يعيد جدولة العمليات التي فشلت فقط، مع بناء `ErrorRecoveryService` في تطبيق المختبر بـ Exponential Backoff وعشوائية Jitter (0.8..1.2).",
+      "solutionEn": "Implemented `OfflineSyncManager` with `_isSyncing` mutex guards and partial-failure re-queueing on connectivity restoration, paired with `ErrorRecoveryService` using jittered exponential backoff (0.8x–1.2x) for socket/503/504 errors.",
+      "proofRef": "enaya_monorepo/apps/doctor_app/lib/core/services/offline_sync_manager.dart:22-90 & enaya_monorepo/apps/laboratory_app/lib/core/services/error_recovery_service.dart:29-68",
+      "impactAr": "اتساق نهائي مضمون (Eventual Consistency) للعمليات المعلقة واستقرار الخادم ضد الأخطاء الشبكية العابرة.",
+      "impactEn": "Guaranteed eventual consistency for offline mutations and resilient protection against transient gateway timeouts.",
+      "lessonAr": "إفراغ الطابور المحلي ثم إعادة إدراج العناصر الفاشلة فقط تحت قفل تزامن يمنع تكرار التنفيذ والسباقات.",
+      "lessonEn": "Atomic queue drain followed by selective re-insertion under a sync lock prevents both duplicate execution and infinite retry loops."
+    },
+    {
+      "id": "ENA-CH-2",
+      "type": "preventive_design",
+      "titleAr": "حوكمة التدقيق متعدد الأدوار وإلزامية الدليل قبل إعادة هيكلة المونوريبو",
+      "titleEn": "Evidence-Gated 12-Role Audit Governance Prior to Monorepo Refactoring",
+      "problemAr": "إعادة بناء أو إصلاح منظومة كبيرة تضم 5 تطبيقات مباشرةً بدون فصل الحقائق عن الظنون يؤدي إلى كسر عقود البيانات بين التطبيقات.",
+      "problemEn": "Refactoring a 5-app multi-backend system without separating verified code facts from assumptions breaks cross-app data contracts.",
+      "whyImportantAr": "تجنب هدم مكونات تعمل بنجاح وضمان توافق الأمان (RLS) والهوية (SSO) وتجربة المستخدم قبل كتابة الكود.",
+      "whyImportantEn": "Prevents destructive regressions and aligns Security, Identity, Database, and Mobile schemas before code changes.",
+      "solutionAr": "بناء خط تدقيق مهيكل في `D:\\enaya_ai_audit_workspace` يصنف كل ملاحظة إلى (`Observed fact`, `Inferred risk`, `Unknown`, `Recommendation`) ويحسم القرارات في `DEC-01..DEC-12` قبل تنفيذ سلسلة commits الإصلاحية في `enaya_monorepo`.",
+      "solutionEn": "Designed a structured governance pipeline enforcing strict epistemic labels (`Observed fact` vs. `Inferred risk`) and binding decisions (`DEC-01..DEC-12`) prior to monorepo remediation commits.",
+      "proofRef": "README.md:7-37, MANIFEST.md:1-90 & enaya_monorepo commits 07c9431..08208b8",
+      "impactAr": "إنجاز إصلاحات تطبيقات المريض والصيدلية والمختبر والإدارة بسجل تتبع واضح لكل قرار هندسي.",
+      "impactEn": "Clean, auditable remediation commits across all 5 applications with zero undocumented architectural assumptions.",
+      "lessonAr": "تقييد الذكاء الاصطناعي والفرق الهندسية بقوالب أدلة صارمة يحول التدقيق من آراء عامة إلى وثائق هندسية قابلة للتنفيذ.",
+      "lessonEn": "Constraining architectural audits with strict evidence schemas transforms vague reviews into executable engineering blueprints."
+    }
+  ],
+  "evidence": [
+    {
+      "claimId": "ENA-01",
+      "claimAr": "مدير مزامنة العمليات غير المتصلة OfflineSyncManager في تطبيقي الطبيب والمريض مع إعادة جدولة الفشل الجزئي",
+      "claimEn": "OfflineSyncManager in Doctor & Patient apps monitoring connectivity changes and re-queueing failed actions",
+      "relationType": "EXTRACTED",
+      "evidencePath": "enaya_monorepo/apps/doctor_app/lib/core/services/offline_sync_manager.dart",
+      "lineOrSymbol": "Lines 8-90 (OfflineSyncManager.startMonitoring, syncOfflineQueue)",
+      "confidence": "HIGH",
+      "visibility": "public",
+      "verificationStatus": "verified"
+    },
+    {
+      "claimId": "ENA-02",
+      "claimAr": "خدمة التعافي من الأخطاء ErrorRecoveryService في تطبيق المختبر بـ Exponential Backoff وJitter عشوائي",
+      "claimEn": "ErrorRecoveryService in Laboratory app implementing exponential backoff with randomized jitter (0.8..1.2x)",
+      "relationType": "EXTRACTED",
+      "evidencePath": "enaya_monorepo/apps/laboratory_app/lib/core/services/error_recovery_service.dart",
+      "lineOrSymbol": "Lines 15-69 (ErrorRecoveryService.executeWithRetry)",
+      "confidence": "HIGH",
+      "visibility": "public",
+      "verificationStatus": "verified"
+    },
+    {
+      "claimId": "ENA-03",
+      "claimAr": "أكثر من 90 وثيقة حوكمة ومعمارية وتدقيق RLS ومصفوفات فشل في MANIFEST.md",
+      "claimEn": "90+ structured engineering artifacts covering AS-IS/TO-BE architecture, RLS review, and failure matrices",
+      "relationType": "EXTRACTED",
+      "evidencePath": "MANIFEST.md",
+      "lineOrSymbol": "Lines 1-90 (00_governance..05_final_docs)",
+      "confidence": "HIGH",
+      "visibility": "public",
+      "verificationStatus": "verified"
+    },
+    {
+      "claimId": "ENA-04",
+      "claimAr": "سلسلة Commits إصلاحية موثقة عبر تطبيقات المريض والصيدلية والمختبر ولوحة الإدارة",
+      "claimEn": "Verified git remediation commits across Patient, Pharmacy, Laboratory, and System Admin apps",
+      "relationType": "EXTRACTED",
+      "evidencePath": "enaya_monorepo/.git",
+      "lineOrSymbol": "Commits 07c9431, a87d911, 7b0efb5, 4f1f721, e9651f7, 08208b8",
+      "confidence": "HIGH",
+      "visibility": "public",
+      "verificationStatus": "verified"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/media/projects/enaya-ai-workspace/enaya-ecosystem-architecture.svg",
+      "altAr": "مخطط معمارية منظومة عناية الطبية (5 تطبيقات Flutter) ومزامنة الطوابير وحوكمة التدقيق",
+      "altEn": "Enaya Healthcare 5-app Flutter monorepo, offline sync, and 12-role audit governance diagram",
+      "captionAr": "رسم معماري توضيحي (`Illustrative Architecture Diagram`) يبين ترابط تطبيقات عناية الخمسة وطبقات المزامنة والتعافي وحوكمة القرارات.",
+      "captionEn": "Illustrative architecture diagram mapping the 5 Flutter apps, OfflineSyncManager, ErrorRecoveryService, and 12-role governance flow.",
+      "kind": "architecture_diagram",
+      "width": 1200,
+      "height": 540
+    }
+  ],
+  "results": [
+    {
+      "metric": "5 Flutter Apps",
+      "labelAr": "تطبيقات متكاملة في المونوريبو (المريض، الطبيب، المختبر، الصيدلية، الإدارة)",
+      "labelEn": "Unified healthcare applications inside enaya_monorepo",
+      "sourceRef": "enaya_monorepo/.git commits 07c9431..08208b8"
+    },
+    {
+      "metric": "90+ Artifacts",
+      "labelAr": "وثيقة معمارية وتدقيق أمني وسجل قرارات (ADR) مفهرسة في MANIFEST.md",
+      "labelEn": "Governance, RLS audit, and target architecture specs in MANIFEST.md",
+      "sourceRef": "MANIFEST.md:1-90"
+    },
+    {
+      "metric": "12 Roles",
+      "labelAr": "أدوار تدقيق هندسية متخصصة بمراجعات متقاطعة وإسناد إلزامي للأسطر",
+      "labelEn": "Specialist engineering audit roles with cross-review conflict resolution",
+      "sourceRef": "MANIFEST.md:21-44"
+    },
+    {
+      "metric": "47,596 Nodes",
+      "labelAr": "إجمالي عقد الرسم المعرفي ورموز AST المفهرسة عبر المونوريبو والوثائق",
+      "labelEn": "Combined knowledge-graph and AST symbols indexed across workspace and monorepo",
+      "sourceRef": ".portfolio-intelligence/analysis-usage.json"
+    }
+  ],
+  "skillsProven": [
+    "Multi-App Flutter Monorepo Architecture",
+    "Offline-First Synchronization & Outbox Pattern",
+    "Fault-Tolerant Networking (Exponential Backoff & Jitter)",
+    "Supabase Multi-Tenant Security & RLS Auditing",
+    "Technical Governance & Architecture Decision Records (ADRs)"
+  ],
+  "reviewFlags": [
+    "Confirm personal role vs. team scope across enaya_monorepo",
+    "Confirm which mobile UI screens can be captured with synthetic demo patient data for public display"
+  ],
+  "graphStats": {
+    "totalFiles": 4700,
+    "totalMb": 674.83,
+    "nodes": 11456,
+    "edges": 17367
+  },
+  "updatedAt": "2026-11-19"
+}

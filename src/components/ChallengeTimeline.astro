@@ -1,0 +1,115 @@
+---
+import { UI_LABELS } from '../config/site';
+
+interface ChallengeItem {
+  id: string;
+  type: 'verified_fix' | 'preventive_design' | 'possible_risk' | 'unverified_story';
+  titleAr: string;
+  titleEn: string;
+  problemAr: string;
+  problemEn: string;
+  whyImportantAr: string;
+  whyImportantEn: string;
+  solutionAr: string;
+  solutionEn: string;
+  proofRef: string;
+  impactAr: string;
+  impactEn: string;
+  lessonAr: string;
+  lessonEn: string;
+}
+
+interface Props {
+  challenges: ChallengeItem[];
+  locale: 'ar' | 'en';
+}
+
+const { challenges, locale } = Astro.props;
+const t = UI_LABELS[locale];
+
+const badgeColors = {
+  verified_fix: 'bg-emerald-50 text-emerald-800 border-emerald-300',
+  preventive_design: 'bg-blue-50 text-blue-800 border-blue-300',
+  possible_risk: 'bg-amber-50 text-amber-900 border-amber-300',
+  unverified_story: 'bg-slate-100 text-slate-700 border-slate-300',
+};
+---
+
+<div class="space-y-6">
+  {challenges.map((ch) => (
+    <article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-2xs">
+      <div class="flex items-center justify-between gap-3 flex-wrap mb-4">
+        <span class:list={['px-3 py-1 rounded-full text-xs font-semibold border', badgeColors[ch.type]]}>
+          {t.challengeTypeLabels[ch.type]}
+        </span>
+        <span class="font-mono text-xs px-2.5 py-1 rounded bg-[#0B1220] text-[#18B8A7]">
+          {ch.id}
+        </span>
+      </div>
+
+      <h3 class="text-lg sm:text-xl font-bold text-[#0B1220] mb-5">
+        {locale === 'ar' ? ch.titleAr : ch.titleEn}
+      </h3>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+        <!-- Problem -->
+        <div class="p-4 rounded-xl bg-rose-50/60 border border-rose-200/70">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-rose-800 mb-1.5">
+            {locale === 'ar' ? '1. المشكلة أو السيناريو' : '1. Scenario & Problem'}
+          </h4>
+          <p class="text-sm text-slate-700 leading-relaxed">
+            {locale === 'ar' ? ch.problemAr : ch.problemEn}
+          </p>
+        </div>
+
+        <!-- Why Important -->
+        <div class="p-4 rounded-xl bg-amber-50/60 border border-amber-200/70">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-amber-900 mb-1.5">
+            {locale === 'ar' ? '2. لماذا كانت مهمة؟' : '2. Why It Mattered'}
+          </h4>
+          <p class="text-sm text-slate-700 leading-relaxed">
+            {locale === 'ar' ? ch.whyImportantAr : ch.whyImportantEn}
+          </p>
+        </div>
+
+        <!-- Engineering Decision / Solution -->
+        <div class="p-4 rounded-xl bg-blue-50/60 border border-blue-200/70">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-blue-900 mb-1.5">
+            {locale === 'ar' ? '3. القرار والحل الهندسي' : '3. Engineering Solution'}
+          </h4>
+          <p class="text-sm text-slate-700 leading-relaxed">
+            {locale === 'ar' ? ch.solutionAr : ch.solutionEn}
+          </p>
+        </div>
+
+        <!-- Proven Impact -->
+        <div class="p-4 rounded-xl bg-emerald-50/60 border border-emerald-200/70">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-emerald-900 mb-1.5">
+            {locale === 'ar' ? '4. الأثر والنتيجة المثبتة' : '4. Verified Impact'}
+          </h4>
+          <p class="text-sm text-slate-700 leading-relaxed">
+            {locale === 'ar' ? ch.impactAr : ch.impactEn}
+          </p>
+        </div>
+      </div>
+
+      <!-- Proof & Takeaway Footer -->
+      <div class="pt-4 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+        <div class="flex items-center gap-2">
+          <span class="font-semibold text-slate-700">
+            {locale === 'ar' ? 'البرهان المصدري:' : 'Code/Git Proof:'}
+          </span>
+          <code class="px-2 py-1 rounded bg-[#0B1220] text-[#18B8A7] font-mono">
+            {ch.proofRef}
+          </code>
+        </div>
+        <div class="text-slate-600 italic">
+          <strong class="not-italic text-[#0B1220]">
+            {locale === 'ar' ? 'الدرس الهندسي: ' : 'Takeaway: '}
+          </strong>
+          {locale === 'ar' ? ch.lessonAr : ch.lessonEn}
+        </div>
+      </div>
+    </article>
+  ))}
+</div>

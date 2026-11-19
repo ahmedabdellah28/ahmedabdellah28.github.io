@@ -1,0 +1,252 @@
+{
+  "slug": "school-timetable",
+  "titleAr": "نظام الجدول المدرسي الذكي — محرك استمثال رياضي (OR-Tools CP-SAT) وإصلاح ذكي للتعارضات",
+  "titleEn": "Deterministic School Timetable System — OR-Tools CP-SAT Solver & Smart Conflict Repair",
+  "summaryAr": "منظومة سطح مكتب وويب سحابية (PyQt6 + FastAPI + React/TS) لبناء جداول الحصص المدرسية بصفر تعارضات حتمية عبر Google OR-Tools CP-SAT، مع محرك تشخيص مسبق للاستحالة وإصلاح موضعي ذكي وتصدير PDF/Excel عربي RTL.",
+  "summaryEn": "Desktop (PyQt6) and cloud SaaS (FastAPI + React/TS) school scheduling platform achieving zero hard violations via Google OR-Tools CP-SAT, pre-solve mathematical feasibility diagnostics, minimal-perturbation smart repair, and Arabic RTL PDF/Excel exports.",
+  "valuePropositionAr": "حل جداول المدارس المعقدة (حتى 600 حصة) في ثوانٍ بصفر تضارب، مع إتاحة التعديل اليدوي بالسحب والإفلات وإصلاح التعارضات تلقائيًا بأقل تغيير ممكن في الجدول.",
+  "valuePropositionEn": "Solves complex school timetables (up to 600 weekly periods) in seconds with 0% hard conflicts, featuring interactive drag-and-drop rescheduling with causal minimal-perturbation repair.",
+  "category": [
+    "desktop",
+    "web",
+    "AI",
+    "automation"
+  ],
+  "status": "production",
+  "visibility": "published",
+  "featured": true,
+  "featuredOrder": 2,
+  "role": {
+    "ar": "مهندس المعمارية، وبحوث العمليات (CP-SAT)، وتطوير الواجهات (يحتاج تأكيد المالك)",
+    "en": "Lead Architect, Operations Research (CP-SAT) & Full-Stack Engineer (Pending owner confirmation)"
+  },
+  "audience": {
+    "ar": "إدارات المدارس ووكلاء شؤون المعلمين الذين يحتاجون جداول عادلة خالية من التضارب وجاهزة للطباعة بالعربية.",
+    "en": "School administrators and academic principals requiring conflict-free, balanced schedules and print-ready Arabic PDFs."
+  },
+  "problem": {
+    "ar": "بناء جدول حصص لمدرسة تضم عشرات المعلمين والفصول مع قيود التفرغ والأنصبة اليومية والانتدابات يستغرق أيامًا يدويًا، وعند غياب معلم أو الرغبة في تحريك حصة واحدة ينهار الجدول بسلسلة تعارضات يصعب تتبعها.",
+    "en": "Constructing a school timetable across dozens of teachers, sections, availability windows, and daily quotas takes days manually — and moving a single lesson triggers cascading teacher collisions."
+  },
+  "solution": {
+    "ar": "تصميم نظام مزدوج (تطبيق سطح مكتب PyQt6 يعمل 100% بدون إنترنت + نسخة SaaS محمية بـ FastAPI وReact) يعتمد صياغة رياضية خطية عبر Google OR-Tools CP-SAT، مسبوقة بمحرك تشخيص رياضي للاستحالة (`FeasibilityAnalyzer`)، ومتبوعة بمحرك تحقق مستقل (`Zero-Trust Validator`) ومحرك إصلاح ذكي (`Minimal Perturbation Repair`).",
+    "en": "Engineered a dual-mode system (100% offline PyQt6 desktop app + license-protected FastAPI/React SaaS) powered by Google OR-Tools CP-SAT linear gap formulations, a pre-solve mathematical feasibility analyzer, an independent zero-trust validator, and a minimal-perturbation local repair engine."
+  },
+  "manualVsAutomated": {
+    "ar": "بدلًا من المحاولة والخطأ اليدوي أو قبول جداول بها تضارب، يكتشف النظام أي استحالة في البيانات قبل تشغيل الـ Solver ويشرح سببها بالعربية، وعند سحب أي حصة يعرض جدول الحصص المزاحة وسبب نقل كل حصة مع خيار التراجع الفوري.",
+    "en": "Instead of manual trial-and-error, the system mathematically detects infeasible input quotas pre-solve with Arabic explanations, and during drag-and-drop edits displays the exact causal chain of displaced lessons before committing to SQLite."
+  },
+  "capabilities": [
+    {
+      "ar": "محرك استمثال Google OR-Tools CP-SAT يحقق زمن حل أقل من 0.1 ثانية للمدارس الصغيرة وثوانٍ معدودة للمدارس الكبرى (600 حصة) بصفر تعارض.",
+      "en": "Google OR-Tools CP-SAT solver achieving <0.1s solve times for small schools and seconds for 600-period schools with zero hard violations."
+    },
+    {
+      "ar": "فاحص مستقل بدون ثقة مسبقة (Zero-Trust Independent Validator) يقيّم الجدول من 0 إلى 100 بمعزل عن الـ Solver.",
+      "en": "Zero-Trust Independent Validator auditing every solver output against domain rules and computing a 0–100 quality score."
+    },
+    {
+      "ar": "إصلاح ذكي تفاعلي (`ConflictImpactDialog` + `SmartRepairService`) يوضح الحصة الأساسية والحصص المزاحة والأطراف المتأثرة قبل الاعتماد.",
+      "en": "Interactive Smart Repair dialog displaying direct vs. displaced lessons, affected teachers/sections, and root-cause infeasibility explanations."
+    },
+    {
+      "ar": "تصدير فوري لملفات Excel متعددة الأوراق وملفات PDF للطباعة (A4/A3) بمعالجة كاملة للخط العربي ثنائي الاتجاه.",
+      "en": "Instant multi-sheet RTL Excel (.xlsx) and print-ready A4/A3 Arabic PDF generation using ReportLab, arabic-reshaper, and python-bidi."
+    }
+  ],
+  "architecture": {
+    "overviewAr": "تفصل المعمارية بشكل صارم بين نطاق البيانات (`domain`)، محرك التشخيص (`validation/feasibility.py`)، محرك الحل والإصلاح (`solver/`)، المدقق المستقل (`verification/`)، وطبقة التخزين (`SQLAlchemy 2.0 + SQLite`)، مع واجهتي PyQt6 وFastAPI SaaS.",
+    "overviewEn": "Clean domain architecture separating `domain` models, `validation/feasibility.py`, `solver/` (CP-SAT & LocalRepairEngine), `verification/` (Zero-Trust Validator), and SQLAlchemy 2.0 repositories across PyQt6 and FastAPI SaaS interfaces.",
+    "pipelineSteps": [
+      {
+        "step": "01",
+        "titleAr": "إدخال وتطبيع بيانات المدرسة (Intake & AI Copilot Normalizer)",
+        "titleEn": "School Data Intake & Smart Normalizer",
+        "detailAr": "استيراد بيانات المعلمين والفصول والأنصبة من الواجهة أو ملفات الوصف النصية عبر `SmartSchoolNormalizer`.",
+        "detailEn": "Ingests teachers, sections, subjects, and constraints via structured UI or `SmartSchoolNormalizer`."
+      },
+      {
+        "step": "02",
+        "titleAr": "التشخيص الرياضي المسبق (Pre-Solve Feasibility Engine)",
+        "titleEn": "Pre-Solve Mathematical Feasibility Diagnostics",
+        "detailAr": "فحص الطاقة الاستيعابية وأيام العمل لاكتشاف أي استحالة رياضية وتقديم حلول مقترحة قبل استدعاء CP-SAT.",
+        "detailEn": "Detects capacity bottlenecks and pigeonhole traps prior to solver invocation, returning actionable Arabic diagnostics."
+      },
+      {
+        "step": "03",
+        "titleAr": "محرك الاستمثال والتحقق المستقل (CP-SAT + Zero-Trust Validator)",
+        "titleEn": "CP-SAT Optimization & Independent Zero-Trust Validation",
+        "detailAr": "حل القيود الصارمة والمرنة ثم تمرير الجدول على `ScheduleValidator` المستقل لحساب مؤشر الجودة (0–100).",
+        "detailEn": "Solves hard and soft constraints via CP-SAT, then verifies the output independently via `ScheduleValidator`."
+      },
+      {
+        "step": "04",
+        "titleAr": "الإصلاح الموضعي الذكي والتصدير (Minimal Perturbation & RTL Export)",
+        "titleEn": "Minimal-Perturbation Smart Repair & RTL PDF/Excel Export",
+        "detailAr": "معالجة السحب والإفلات عبر `MoveLessonCommand` مع احترام الحصص المثبتة `is_pinned` وتصدير الجداول للطباعة.",
+        "detailEn": "Handles manual drag-and-drop via `MoveLessonCommand` respecting `is_pinned` locks and exports print-ready PDFs."
+      }
+    ],
+    "systemBoundariesAr": "تعمل نسخة سطح المكتب محليًا بالكامل (100% Offline)، بينما تعزل نسخة SaaS (`api_server.py`) الخوارزميات ومفاتيح الذكاء الاصطناعي خلف بوابة تراخيص (`LicenseManager`).",
+    "systemBoundariesEn": "Desktop edition operates 100% offline with local SQLite; SaaS edition (`api_server.py`) isolates solver IP and exporters behind `LicenseManager` quota validation."
+  },
+  "technologies": [
+    "Python 3.13",
+    "Google OR-Tools (CP-SAT)",
+    "PyQt6",
+    "FastAPI",
+    "React + TypeScript",
+    "SQLite + SQLAlchemy 2.0",
+    "ReportLab + arabic-reshaper + python-bidi",
+    "OpenPyXL",
+    "Pytest + Hypothesis"
+  ],
+  "challenges": [
+    {
+      "id": "SCH-CH-1",
+      "type": "verified_fix",
+      "titleAr": "توحيد مسار السحب والإفلات والإصلاح الذكي مع شرح سببي لسلسلة الحصص المزاحة",
+      "titleEn": "Unifying Drag-and-Drop Smart Repair with Causal Displacement Chains & Rollback",
+      "problemAr": "عندما يسحب المستخدم حصة إلى موعد مشغول، كان المسار القديم يتجاوز خدمات التحقق ويكتفي بـ 4 فحوص بسيطة ثم يكتب الجدول الجديد في قاعدة البيانات مباشرة دون توضيح الحصص الأخرى التي تحركت أو احترام الحصص المثبتة.",
+      "problemEn": "Dragging a lesson to an occupied slot previously bypassed domain validation services, ran 4 basic checks, and overwrote SQLite without showing displaced lessons or respecting pinned entries.",
+      "whyImportantAr": "مدير المدرسة لا يقبل تعديلًا يغير مواعيد 3 معلمين آخرين في الخفاء دون أن يعرف من تأثر ولماذا.",
+      "whyImportantEn": "School principals cannot trust an automated repair that silently shifts other teachers' lessons without transparency or undo capability.",
+      "solutionAr": "إعادة هندسة مسار الاستدعاء عبر `MoveLessonCommand` و`SmartRepairService` لعرض جدول تفصيلي في `ConflictImpactDialog` بالحصة الأساسية والحصص المزاحة وسبب نقل كل منها، مع حفظ عمود `is_pinned` في `TimetableEntryModel` وإتاحة التراجع الكامل.",
+      "solutionEn": "Refactored the call chain through `MoveLessonCommand` and `ConflictImpactDialog` to surface direct vs. displaced lessons with causal explanations, persisted `is_pinned` in SQLAlchemy models, and added rollback protection.",
+      "proofRef": "CHANGE_IMPACT_BEFORE_AFTER.md:12-90 & خطة_إصلاح_وتطوير_منظومة_القيود_الشاملة.md:34-64",
+      "impactAr": "شفافية كاملة قبل اعتماد أي تعديل يدوي، وحفظ دائم للحصص المثبتة في قاعدة البيانات.",
+      "impactEn": "Full pre-commit visibility into ripple effects and persistent protection for pinned lessons.",
+      "lessonAr": "محرك الاستمثال القوي يحتاج واجهة تفسيرية (Explainable Optimization) تحوّل القرارات الرياضية إلى أسباب مفهومة للمستخدم.",
+      "lessonEn": "Mathematical optimization in user-facing tools requires explainable diffs that translate solver perturbations into human-readable reasons."
+    },
+    {
+      "id": "SCH-CH-2",
+      "type": "verified_fix",
+      "titleAr": "حل فخ الاستحالة الرياضي المعكوس (Inverted Pigeonhole Trap) في أنصبة المعلمين الجزئية",
+      "titleEn": "Eliminating the Inverted Pigeonhole Infeasibility Trap in Low-Workload Teachers",
+      "problemAr": "توقف الـ Solver بإعلان استحالة الحل (INFEASIBLE) عند وجود معلم منتدب أو ذي نصاب قليل (مثل 3 حصص أسبوعيًا) مع تفعيل 5 أيام عمل في ملفه.",
+      "problemEn": "The CP-SAT solver returned INFEASIBLE whenever a teacher with a small weekly quota (e.g., 3 periods) had 5 active working days selected.",
+      "whyImportantAr": "المدارس الحقيقية تضم معلمين بأنصبة صغيرة أو مواد نشاط، وفشل الجدول بالكامل بسببهم يعطل النظام في الاستخدام الواقعي.",
+      "whyImportantEn": "Real schools routinely have part-time or low-period teachers; halting the entire schedule over a rigid day-count constraint breaks real-world usability.",
+      "solutionAr": "تعديل `get_work_pattern` في `teacher_availability_dialog.py` لربط سقف أيام العمل بـ `min(len(active_days), total_workload)` وتحويله لقيد مرن عند انخفاض النصاب، مع إضافة فحص استباقي في `FeasibilityAnalyzer`.",
+      "solutionEn": "Updated `teacher_availability_dialog.py:get_work_pattern` to clamp `target_working_days = min(len(active_days), total_workload)` as a soft constraint when workload is low, backed by pre-solve checks in `FeasibilityAnalyzer`.",
+      "proofRef": "خطة_إصلاح_وتطوير_منظومة_القيود_الشاملة.md:65-70",
+      "impactAr": "نجاح توليد الجداول لبيانات المدارس الحقيقية المختبرة (مدرسة النيل، الجمالية، عرب مطير، الصداقة) دون توقف.",
+      "impactEn": "Seamless solving across real multi-grade school datasets with mixed full-time and low-quota teachers.",
+      "lessonAr": "القيود الافتراضية في الواجهة يجب أن تتحقق رياضيًا من توافقها مع حجم المدخلات قبل إرسالها لمحرك CP-SAT.",
+      "lessonEn": "UI defaults that generate solver constraints must validate mathematical bounds against input cardinality before reaching CP-SAT."
+    }
+  ],
+  "evidence": [
+    {
+      "claimId": "SCH-01",
+      "claimAr": "محرك Google OR-Tools CP-SAT بصياغة خطية يحل جداول 600 حصة بصفر تعارض حتمي مع 36 اختبار Pytest",
+      "claimEn": "Google OR-Tools CP-SAT linear gap formulation solving up to 600-period schools with zero hard violations and 36 pytest tests",
+      "relationType": "EXTRACTED",
+      "evidencePath": "README.md",
+      "lineOrSymbol": "Lines 10-36 & 80-90 (CP-SAT Solver, Zero-Trust Validator, Pytest Suite)",
+      "confidence": "HIGH",
+      "visibility": "public",
+      "verificationStatus": "verified"
+    },
+    {
+      "claimId": "SCH-02",
+      "claimAr": "مسار موحد للسحب والإفلات والإصلاح الذكي يعرض الحصص المزاحة وسلسلة الأثر السببي",
+      "claimEn": "Unified MoveLessonCommand & SmartRepairService call chain surfacing displaced lessons and causal impact chains",
+      "relationType": "EXTRACTED",
+      "evidencePath": "CHANGE_IMPACT_BEFORE_AFTER.md",
+      "lineOrSymbol": "Lines 12-90 (Before/After Call Chain Audit)",
+      "confidence": "HIGH",
+      "visibility": "public",
+      "verificationStatus": "verified"
+    },
+    {
+      "claimId": "SCH-03",
+      "claimAr": "إصلاح فخ الاستحالة المعكوس لأيام عمل المعلم وحفظ الحصص المثبتة is_pinned في SQLite",
+      "claimEn": "Inverted Pigeonhole availability fix and persistent is_pinned SQLAlchemy column",
+      "relationType": "EXTRACTED",
+      "evidencePath": "خطة_إصلاح_وتطوير_منظومة_القيود_الشاملة.md",
+      "lineOrSymbol": "Lines 34-74 (ConflictImpactDialog, TimetableEntryModel.is_pinned)",
+      "confidence": "HIGH",
+      "visibility": "public",
+      "verificationStatus": "verified"
+    },
+    {
+      "claimId": "SCH-04",
+      "claimAr": "خادم FastAPI SaaS محمي يعزل خوارزميات الحل والتصدير خلف بوابة تحقق من التراخيص والحصص",
+      "claimEn": "Protected FastAPI SaaS backend isolating solver IP and exporters behind quota-checked license verification",
+      "relationType": "EXTRACTED",
+      "evidencePath": "src/school_scheduler/ai_studio/api_server.py",
+      "lineOrSymbol": "Lines 1-76 (FastAPI v2.1.0, _require_license, TimetableSolver)",
+      "confidence": "HIGH",
+      "visibility": "public",
+      "verificationStatus": "verified"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/media/projects/school-timetable/master-schedule-ui.webp",
+      "altAr": "واجهة نظام الجدول المدرسي الذكي تعرض الجدول العام الشامل (252 حصة مجدولة بصفر تعارضات) مع وكيل الذكاء الاصطناعي",
+      "altEn": "AI Studio School Timetable UI displaying a 252-period master schedule with 0% conflicts and AI Copilot sidebar",
+      "captionAr": "لقطة شاشة فعلية لواجهة النظام السحابية (بعد إخفاء رمز الترخيص): جدولة 252 حصة لـ 7 فصول بنسبة تعارض 0% مع خيارات تصدير PDF A4/A3 وExcel.",
+      "captionEn": "Real UI screenshot (with license key header sanitized): 252 scheduled lessons across 7 sections at 0% conflict rate with A4/A3 PDF and Excel exports.",
+      "kind": "real_screenshot",
+      "width": 1400,
+      "height": 875
+    },
+    {
+      "src": "/media/projects/school-timetable/architecture-cpsat.svg",
+      "altAr": "مخطط معمارية محرك الجدول المدرسي OR-Tools CP-SAT والفاحص المستقل والإصلاح الذكي",
+      "altEn": "School Timetable CP-SAT solver, Zero-Trust Validator, and Smart Repair architecture diagram",
+      "captionAr": "مخطط تدفق البيانات من فحص الجدوى الرياضي المسبق حتى الحل بـ CP-SAT والتدقيق المستقل والإصلاح الموضعي.",
+      "captionEn": "System flow from pre-solve feasibility diagnostics through CP-SAT optimization, zero-trust validation, and minimal-perturbation repair.",
+      "kind": "architecture_diagram",
+      "width": 1200,
+      "height": 540
+    }
+  ],
+  "results": [
+    {
+      "metric": "0% Conflicts",
+      "labelAr": "تصفير تام للتعارضات الحتمية مفحوص بمحرك تحقق مستقل (Zero-Trust)",
+      "labelEn": "Zero hard constraint violations verified by an independent Zero-Trust validator",
+      "sourceRef": "README.md:17-22"
+    },
+    {
+      "metric": "< 0.1s – 3s",
+      "labelAr": "زمن الحل الرياضي من المدارس الصغيرة حتى اختبار الضغط (600 حصة)",
+      "labelEn": "CP-SAT solve time ranging from <0.1s (small) to seconds (600-period stress test)",
+      "sourceRef": "README.md:16 & 87-90"
+    },
+    {
+      "metric": "36 Pytest",
+      "labelAr": "اختبارًا آليًا يغطي النطاق، الجدوى، المحرك، التصدير، وقاعدة البيانات",
+      "labelEn": "Automated pytest suite covering domain, feasibility, solver, export, and persistence",
+      "sourceRef": "README.md:82-85"
+    },
+    {
+      "metric": "5,563 Nodes",
+      "labelAr": "عقدة برمجية مفهرسة عبر واجهة سطح المكتب PyQt6 والخادم السحابي وواجهة الويب",
+      "labelEn": "AST symbols indexed across PyQt6 desktop, FastAPI backend, and TypeScript web client",
+      "sourceRef": ".portfolio-intelligence/project-index/school-timetable.json"
+    }
+  ],
+  "skillsProven": [
+    "Mathematical Optimization & Constraint Programming (CP-SAT)",
+    "Explainable UX for Complex Algorithms (Causal Diffs)",
+    "Cross-Platform Desktop & SaaS Architecture (PyQt6 + FastAPI + React)",
+    "Arabic RTL Document Generation (ReportLab Bidi PDF & Excel)",
+    "Zero-Trust Verification & Automated Stress Testing"
+  ],
+  "reviewFlags": [
+    "Confirm personal role attribution",
+    "Confirm whether sample school names in test markdown files should remain anonymized in future demos"
+  ],
+  "graphStats": {
+    "totalFiles": 798,
+    "totalMb": 22.97,
+    "nodes": 5563,
+    "edges": 16500
+  },
+  "updatedAt": "2026-11-19"
+}

@@ -1,0 +1,280 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE_CONFIG } from '../../config/site';
+
+export function getStaticPaths() {
+  return [{ params: { locale: 'ar' } }, { params: { locale: 'en' } }];
+}
+
+const { locale } = Astro.params as { locale: 'ar' | 'en' };
+const contactEmail = SITE_CONFIG.contact.email;
+const formEndpoint = SITE_CONFIG.contact.formEndpoint;
+
+const pageTitle =
+  locale === 'ar'
+    ? 'التواصل ومناقشة المشاريع — أحمد عبد الله'
+    : 'Contact & Project Brief — Ahmed Abdellah';
+const pageDesc =
+  locale === 'ar'
+    ? 'تواصل مباشرة عبر البريد الإلكتروني أو GitHub وجهّز ملخص مشروعك لمناقشة بناء نظام جديد أو مراجعة معمارية.'
+    : 'Connect directly via email or GitHub and prepare a structured project brief for your architecture or automation needs.';
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} locale={locale} currentPath={`/${locale}/contact`}>
+  <section class="bg-[#0B1220] text-white border-b border-[#182438] py-14">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="font-mono text-xs uppercase tracking-wider text-[#18B8A7]">
+        {locale === 'ar' ? 'تواصل مباشر بدون خادم وسيط (Static-First)' : 'Zero-Backend Static-First Contact'}
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-extrabold mt-2">
+        {locale === 'ar' ? 'ناقش معي مشروعك أو احتياجك الهندسي' : 'Discuss Your System or Engineering Role'}
+      </h1>
+      <p class="text-sm sm:text-base text-slate-300 mt-3 max-w-3xl leading-relaxed">
+        {locale === 'ar'
+          ? 'يعمل هذا البورتفوليو بنظام Static Site Generation (SSG) على GitHub Pages دون الحاجة إلى خادم خلفي دائم. يمكنك مراسلتي مباشرة عبر البريد الإلكتروني أو تجهيز ملخص مشروعك بضغطة واحدة.'
+          : 'Hosted statically on GitHub Pages with zero backend dependencies. Reach out directly via email or generate a pre-formatted engineering brief below.'}
+      </p>
+    </div>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Left Column: Direct Static Contact Links -->
+    <div class="space-y-6">
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-2xs space-y-4">
+        <h2 class="text-lg font-bold text-[#0B1220]">
+          {locale === 'ar' ? 'قنوات التواصل المباشر' : 'Direct Contact Channels'}
+        </h2>
+
+        <ul class="space-y-3 text-sm">
+          {contactEmail && (
+            <li class="p-3.5 rounded-xl bg-[#F5F7FA] border border-slate-200 flex flex-col gap-1">
+              <span class="text-xs font-mono text-slate-500">
+                {locale === 'ar' ? 'البريد الإلكتروني المباشر:' : 'Direct Email:'}
+              </span>
+              <a
+                href={`mailto:${contactEmail}`}
+                class="text-[#2663EB] font-mono font-semibold hover:underline break-all"
+              >
+                {contactEmail}
+              </a>
+            </li>
+          )}
+
+          {SITE_CONFIG.contact.github && (
+            <li class="p-3.5 rounded-xl bg-[#F5F7FA] border border-slate-200 flex flex-col gap-1">
+              <span class="text-xs font-mono text-slate-500">GitHub:</span>
+              <a
+                href={SITE_CONFIG.contact.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-[#2663EB] font-mono font-semibold hover:underline break-all"
+              >
+                {SITE_CONFIG.contact.github}
+              </a>
+            </li>
+          )}
+
+          {SITE_CONFIG.contact.domain && (
+            <li class="p-3.5 rounded-xl bg-[#F5F7FA] border border-slate-200 flex flex-col gap-1">
+              <span class="text-xs font-mono text-slate-500">
+                {locale === 'ar' ? 'النطاق الرسمي (GitHub Pages):' : 'Official Domain (GitHub Pages):'}
+              </span>
+              <a
+                href={SITE_CONFIG.contact.domain}
+                class="text-[#0B1220] font-mono font-semibold hover:underline break-all"
+              >
+                {SITE_CONFIG.contact.domain}
+              </a>
+            </li>
+          )}
+        </ul>
+
+        <p class="text-xs text-slate-500 leading-relaxed pt-2 border-t border-slate-100">
+          {locale === 'ar'
+            ? 'ملاحظة: يمكن تحديث عنوان البريد أو إضافة نقطة نهاية خارجية (مثل Formspree) في `src/config/site.ts` دون كشف أي مفاتيح سرية.'
+            : 'Note: Email address or an optional external form endpoint (e.g., Formspree) can be updated in `src/config/site.ts` with zero secret keys exposed.'}
+        </p>
+      </div>
+
+      <div class="bg-[#0B1220] text-slate-200 rounded-2xl border border-[#182438] p-6 space-y-3">
+        <span class="font-mono text-xs uppercase tracking-wider text-[#18B8A7]">
+          {locale === 'ar' ? 'المجالات المتاحة للتعاون' : 'Collaboration Scope'}
+        </span>
+        <ul class="space-y-2 text-xs sm:text-sm text-slate-300">
+          <li>• {locale === 'ar' ? 'بناء خطوط إنتاج وأتمتة بالذكاء الاصطناعي' : 'AI Production & Media Automation Pipelines'}</li>
+          <li>• {locale === 'ar' ? 'أنظمة الجدولة والاستمثال الرياضي (OR-Tools CP-SAT)' : 'Mathematical Scheduling & Constraint Solvers (CP-SAT)'}</li>
+          <li>• {locale === 'ar' ? 'الرؤية الحاسوبية وأتمتة الهواتف والمتصفحات' : 'Computer Vision (ZNCC/OCR) & Device/Browser Automation'}</li>
+          <li>• {locale === 'ar' ? 'تطبيقات Flutter وReact/TypeScript المحصنة أمنيًا' : 'Hardened Flutter Monorepos & Full-Stack TypeScript Apps'}</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Right Column: Static Project Brief & Direct Mailto / Optional Formspree Dispatch -->
+    <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-2xs">
+      <div class="mb-6">
+        <span class="font-mono text-xs uppercase tracking-wider text-[#2663EB] font-bold">
+          {locale === 'ar' ? 'تجهيز وإرسال ملخص المشروع (بدون Backend)' : 'Static Project Brief & Direct Email Dispatch'}
+        </span>
+        <h2 class="text-xl sm:text-2xl font-extrabold text-[#0B1220] mt-1">
+          {locale === 'ar'
+            ? 'جهّز تفاصيل مشروعك وأرسلها فورًا عبر البريد أو انسخها'
+            : 'Prepare Your Technical Brief & Send via Email or Copy'}
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mt-1">
+          {locale === 'ar'
+            ? 'لا يتطلب هذا النموذج خادمًا خلفيًا ولا يخزن بياناتك؛ يفتح تطبيق البريد لديك بالرسالة المنسقة جاهزة للإرسال.'
+            : 'Requires no backend database and exposes zero API keys; opens your default email client pre-filled with your structured brief.'}
+        </p>
+      </div>
+
+      <form
+        id="static-contact-form"
+        action={formEndpoint || undefined}
+        method={formEndpoint ? 'POST' : undefined}
+        class="space-y-4"
+      >
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="brief-type" class="block text-xs font-bold text-slate-700 mb-1.5">
+              {locale === 'ar' ? 'نوع التعاون المطلوب' : 'Engagement Type'}
+            </label>
+            <select id="brief-type" name="engagement_type" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm bg-[#F5F7FA]">
+              <option value={locale === 'ar' ? 'بناء نظام أو مشروع جديد' : 'Build a New System / Product'}>
+                {locale === 'ar' ? 'بناء نظام أو مشروع جديد' : 'Build a New System / Product'}
+              </option>
+              <option value={locale === 'ar' ? 'أتمتة عملية يدوية معقدة' : 'Automate a Complex Manual Workflow'}>
+                {locale === 'ar' ? 'أتمتة عملية يدوية معقدة' : 'Automate a Complex Manual Workflow'}
+              </option>
+              <option value={locale === 'ar' ? 'تدقيق معماري أو إصلاح أعطال حرجة' : 'Architectural Audit & Remediation'}>
+                {locale === 'ar' ? 'تدقيق معماري أو إصلاح أعطال حرجة' : 'Architectural Audit & Remediation'}
+              </option>
+              <option value={locale === 'ar' ? 'فرصة توظيف / دور هندسي قيادي' : 'Engineering Role / Hiring Opportunity'}>
+                {locale === 'ar' ? 'فرصة توظيف / دور هندسي قيادي' : 'Engineering Role / Hiring Opportunity'}
+              </option>
+            </select>
+          </div>
+
+          <div>
+            <label for="brief-ref" class="block text-xs font-bold text-slate-700 mb-1.5">
+              {locale === 'ar' ? 'أقرب مشروع مشابه في البورتفوليو' : 'Closest Reference Project'}
+            </label>
+            <select id="brief-ref" name="reference_project" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm bg-[#F5F7FA]">
+              <option value="AION Studio V6 (AI / Media Pipeline)">AION Studio V6 (AI / Media Pipeline)</option>
+              <option value="School Timetable (OR-Tools CP-SAT Solver)">School Timetable (OR-Tools CP-SAT Solver)</option>
+              <option value="Enaya Monorepo (Flutter / Supabase / Audit)">Enaya Monorepo (Flutter / Supabase / Audit)</option>
+              <option value="Phone Commander (Kotlin ZNCC Vision / Flutter)">Phone Commander (Kotlin ZNCC Vision / Flutter)</option>
+              <option value="SOLE Marketplace (React 19 / Express / Security)">SOLE Marketplace (React 19 / Express / Security)</option>
+              <option value="Multi-Slot Browser Engine (Playwright / Camoufox)">Multi-Slot Browser Engine (Playwright / Camoufox)</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="brief-goal" class="block text-xs font-bold text-slate-700 mb-1.5">
+            {locale === 'ar' ? 'وصف مختصر للمشكلة أو الهدف' : 'Brief Description of Problem or Goal'}
+          </label>
+          <textarea
+            id="brief-goal"
+            name="message"
+            rows="3"
+            placeholder={
+              locale === 'ar'
+                ? 'اكتب باختصار ما الذي تريد أتمتته أو بناءه...'
+                : 'Briefly describe what you want to build, optimize, or audit...'
+            }
+            class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm bg-[#F5F7FA] focus:bg-white"
+          ></textarea>
+        </div>
+
+        <div class="pt-2 space-y-3">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <span class="text-xs font-mono font-semibold text-slate-600">
+              {locale === 'ar' ? 'معاينة الرسالة المنسقة:' : 'Formatted Brief Preview:'}
+            </span>
+            <div class="flex items-center gap-2.5 flex-wrap">
+              <a
+                id="mailto-brief-btn"
+                href={`mailto:${contactEmail}`}
+                class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#2663EB] hover:bg-blue-600 text-white text-xs font-semibold transition-colors"
+              >
+                <span>{locale === 'ar' ? 'إرسال عبر البريد الإلكتروني (mailto)' : 'Send via Email App (mailto)'}</span>
+              </a>
+              {formEndpoint && (
+                <button
+                  type="submit"
+                  class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition-colors cursor-pointer"
+                >
+                  {locale === 'ar' ? 'إرسال مباشر عبر الخدمة الخارجية' : 'Submit via External Form Service'}
+                </button>
+              )}
+              <button
+                id="copy-brief-btn"
+                type="button"
+                class="px-4 py-2 rounded-lg bg-[#0B1220] hover:bg-[#182438] text-white text-xs font-semibold transition-colors cursor-pointer"
+              >
+                {locale === 'ar' ? 'نسخ الملخص' : 'Copy Brief'}
+              </button>
+            </div>
+          </div>
+
+          <pre
+            id="brief-preview"
+            class="p-4 rounded-xl bg-[#0B1220] text-[#18B8A7] font-mono text-xs whitespace-pre-wrap leading-relaxed border border-[#182438]"
+          ></pre>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <script is:inline define:vars={{ locale, contactEmail }}>
+    const typeEl = document.getElementById('brief-type');
+    const refEl = document.getElementById('brief-ref');
+    const goalEl = document.getElementById('brief-goal');
+    const previewEl = document.getElementById('brief-preview');
+    const copyBtn = document.getElementById('copy-brief-btn');
+    const mailtoBtn = document.getElementById('mailto-brief-btn');
+
+    function updatePreview() {
+      const tVal = typeEl?.value || '';
+      const rVal = refEl?.value || '';
+      const gVal = (goalEl?.value || '').trim() || (locale === 'ar' ? '[أضف تفاصيل الهدف هنا]' : '[Add goal details here]');
+
+      let bodyText = '';
+      let subjectText = '';
+      if (locale === 'ar') {
+        subjectText = `استفسار هندسي: ${tVal}`;
+        bodyText = `مرحبًا أحمد،\nاطلعت على البورتفوليو الهندسي وأرغب في مناقشة:\n- نوع التعاون: ${tVal}\n- المشروع المرجعي الأقرب: ${rVal}\n- الهدف / المشكلة: ${gVal}`;
+      } else {
+        subjectText = `Engineering Inquiry: ${tVal}`;
+        bodyText = `Hello Ahmed,\nI reviewed your engineering portfolio and would like to discuss:\n- Engagement Type: ${tVal}\n- Reference Case Study: ${rVal}\n- Goal / Problem Statement: ${gVal}`;
+      }
+
+      if (previewEl) {
+        previewEl.textContent = bodyText;
+      }
+      if (mailtoBtn && contactEmail) {
+        mailtoBtn.setAttribute(
+          'href',
+          `mailto:${contactEmail}?subject=${encodeURIComponent(subjectText)}&body=${encodeURIComponent(bodyText)}`
+        );
+      }
+    }
+
+    typeEl?.addEventListener('change', updatePreview);
+    refEl?.addEventListener('change', updatePreview);
+    goalEl?.addEventListener('input', updatePreview);
+    updatePreview();
+
+    copyBtn?.addEventListener('click', async () => {
+      if (!previewEl?.textContent) return;
+      try {
+        await navigator.clipboard.writeText(previewEl.textContent);
+        const orig = copyBtn.textContent;
+        copyBtn.textContent = locale === 'ar' ? '✓ تم النسخ' : '✓ Copied';
+        setTimeout(() => {
+          copyBtn.textContent = orig;
+        }, 2000);
+      } catch {}
+    });
+  </script>
+</BaseLayout>

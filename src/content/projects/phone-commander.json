@@ -1,0 +1,242 @@
+{
+  "slug": "phone-commander",
+  "titleAr": "تطبيق Phone Commander — محرك رؤية حاسوبية (ZNCC) وأتمتة أندرويد عالية الأداء مع واجهة Flutter",
+  "titleEn": "Phone Commander — Zero-GC ZNCC Computer Vision & Android Accessibility Automation Hub",
+  "summaryAr": "تطبيق Flutter وأندرويد أصيل (Kotlin) يجمع بين محرك مطابقة قوالب بصري فائق السرعة (ZNCC) بدون استنزاف للذاكرة (Zero GC Churn) وخدمة Accessibility مع بوابة ترخيص أصلية (NativeLicenseGate) وسجل عمليات حي.",
+  "summaryEn": "Hybrid Flutter and native Android (Kotlin) automation platform pairing a custom thread-local, zero-GC-churn ZNCC computer vision engine and ML Kit OCR with an autonomous state-machine loop and native license verification.",
+  "valuePropositionAr": "تنفيذ أتمتة بصرية مستمرة على أجهزة أندرويد بدقة مطابقة 86%–92% وبدون استنزاف ذاكرة المعالج (Zero GC Churn) مع مراقبة حية من داخل واجهة Flutter.",
+  "valuePropositionEn": "Delivers long-running on-device visual automation on Android with 86%–92% ZNCC template precision, zero per-frame bitmap heap churn, and live Flutter console telemetry.",
+  "category": [
+    "mobile",
+    "AI",
+    "automation"
+  ],
+  "status": "functional",
+  "visibility": "published",
+  "featured": true,
+  "featuredOrder": 4,
+  "role": {
+    "ar": "مهندس أنظمة أندرويد الأصيلة (Kotlin) والرؤية الحاسوبية وتطبيق Flutter (يحتاج تأكيد المالك)",
+    "en": "Lead Android Native (Kotlin), Computer Vision & Flutter Systems Engineer (Pending owner confirmation)"
+  },
+  "audience": {
+    "ar": "المستخدمون الذين يحتاجون أتمتة بصرية ذكية تعمل لفترات طويلة على الهاتف دون انهيار الذاكرة أو استنزاف البطارية.",
+    "en": "Users requiring continuous, battery-efficient on-device visual automation on Android with deterministic recovery."
+  },
+  "problem": {
+    "ar": "محركات الأتمتة التقليدية على الهواتف تنشئ وتدمر صور Bitmap بحجم ~8MB في كل إطار مما يسبب تشنج الهاتف وانهيار التطبيق (`OutOfMemory` / `Recycled Bitmap Crash`)، كما أن الاعتماد على نقرات عمياء بإحداثيات ثابتة يوقع النظام في حلقات لا نهائية عند تغير حالة الشاشة.",
+    "en": "Conventional mobile screen automation allocates ~8MB bitmaps every frame — causing severe GC stutter and recycled-bitmap crashes — while blind hardcoded coordinate taps trap the device in infinite UI loops."
+  },
+  "solution": {
+    "ar": "بناء محرك مطابقة قوالب `TemplateMatcher.kt` بخوارزمية ZNCC يستخدم ذاكرة محلية لكل خيط (`ThreadLocal ReusableScaleBuffer`) وإزاحات صفوف محسوبة مسبقًا (`offsetsForStride`) لتصفير تخصيص الذاكرة في كل إطار، ودمجه مع آلة حالة ذكية (`AutomationEngine.kt`) وGoogle ML Kit OCR وبث اللوجز لحظيًا لواجهة Flutter.",
+    "en": "Built a custom ZNCC `TemplateMatcher.kt` utilizing `ThreadLocal` `ReusableScaleBuffer` and precalculated `offsetsForStride` arrays for zero per-frame GC churn, driving a 5,264-line state machine (`AutomationEngine.kt`) with ML Kit OCR, SQLite session sync, and real-time Flutter MethodChannel logs."
+  },
+  "manualVsAutomated": {
+    "ar": "بدلًا من النقر الافتراضي الأعمى عند فشل الرصد، يلتزم المحرك بعتبات ثقة صارمة (86%–92%) داخل نطاق آمن (Safe ROI)، ويستخدم أمر الرجوع النظامي `GLOBAL_ACTION_BACK` عند الطوارئ، ويصغّر التطبيق تلقائيًا لتوفير البطارية إذا تجاوز الانتظار 15 دقيقة.",
+    "en": "Replaces blind fallback taps with strict 86%–92% ZNCC confidence gates inside a Safe ROI boundary, system `GLOBAL_ACTION_BACK` recovery, and automatic battery-saving app minimization during waits exceeding 15 minutes."
+  },
+  "capabilities": [
+    {
+      "ar": "محرك ZNCC متعدد المقاييس ومتوازي الخيوط بصفر تخصيص ذاكرة لكل إطار (`ReusableScaleBuffer` + `PreparedTemplate`).",
+      "en": "Multi-scale parallel ZNCC template matcher with zero per-frame heap allocation (`ReusableScaleBuffer` + `PreparedTemplate`)."
+    },
+    {
+      "ar": "آلة حالة ذاتية (`AutomationEngine.kt` — 5,264 سطرًا) تدير أولويات المهام، طوابير SQLite، وتوفير البطارية أثناء الانتظار الطويل.",
+      "en": "Autonomous 5,264-line Kotlin state machine managing task priorities, SQLite queue synchronization, and long-wait battery minimization."
+    },
+    {
+      "ar": "تكامل ثنائي بين الرؤية الحاسوبية (CV) وقراءة النصوص (Google ML Kit OCR) مع حظر النقرات العشوائية.",
+      "en": "Dual Computer Vision (ZNCC) and Google ML Kit OCR pipeline enforcing a zero-hardcoded-tap policy."
+    },
+    {
+      "ar": "بوابة ترخيص مزدوجة (`NativeLicenseGate.kt` + Supabase) مع بث حي لسجل العمليات والإحداثيات إلى واجهة Flutter.",
+      "en": "Native + Supabase licensing gate (`NativeLicenseGate.kt`) and real-time `MethodChannel` telemetry streaming to Flutter."
+    }
+  ],
+  "architecture": {
+    "overviewAr": "تتكون المعمارية من واجهة تحكم وترخيص مبنية بـ Flutter تتواصل عبر `MethodChannel` مع طبقة أندرويد أصيلة (Kotlin) تضم خدمات التقاط الشاشة، ومحرك الرؤية الحاسوبية ZNCC، ومحلل النصوص OCR، وآلة الحالة الرئيسية.",
+    "overviewEn": "Hybrid architecture pairing a Flutter control/licensing UI with a high-performance native Kotlin service layer housing `ScreenCaptureService`, `TemplateMatcher` (ZNCC), `ScreenTextRecognizer` (ML Kit), and `AutomationEngine`.",
+    "pipelineSteps": [
+      {
+        "step": "01",
+        "titleAr": "التقاط الإطار وإعادة تدوير الذاكرة (Frame Capture & ThreadLocal Buffer)",
+        "titleEn": "ScreenCaptureService & ThreadLocal Buffer Reuse",
+        "detailAr": "تحجيم منطقة الفحص الصافية (Safe ROI) داخل `ReusableScaleBuffer` دون إنشاء كائنات Bitmap جديدة.",
+        "detailEn": "Downscales the Safe ROI into a thread-local `ReusableScaleBuffer` without allocating new Bitmaps or IntArrays."
+      },
+      {
+        "step": "02",
+        "titleAr": "الفحص البصري المتوازي وقراءة النصوص (Parallel ZNCC + ML Kit OCR)",
+        "titleEn": "Multi-Scale ZNCC Matching & ML Kit OCR Verification",
+        "detailAr": "مطابقة القوالب المفرغة عبر إزاحات البكسل المحسوبة مسبقًا بعتبات ثقة 86%–92% مع تحقق OCR للنصوص والأوقات.",
+        "detailEn": "Scans pre-normalized templates using cached row-stride offsets at 86%–92% thresholds alongside OCR timer parsing."
+      },
+      {
+        "step": "03",
+        "titleAr": "اتخاذ القرار ومزامنة SQLite (State Machine & Queue Sync)",
+        "titleEn": "Priority State Machine, Gesture Dispatch & SQLite Sync",
+        "detailAr": "تنفيذ الإيماءة المؤكدة أو التراجع الآمن `GLOBAL_ACTION_BACK`، وتحديث حالة الجلسات في SQLite وبث السجل لواجهة Flutter.",
+        "detailEn": "Dispatches verified gestures or `GLOBAL_ACTION_BACK`, updates local SQLite session state, and streams telemetry to Flutter."
+      }
+    ],
+    "systemBoundariesAr": "يعمل بالكامل على جهاز أندرويد محليًا عبر `AccessibilityService` و`MediaProjection`، ويتصل بـ Supabase للتحقق من صلاحية الترخيص فقط.",
+    "systemBoundariesEn": "Executes 100% on-device via Android `AccessibilityService` and `MediaProjection`, connecting externally only to Supabase for license validation."
+  },
+  "technologies": [
+    "Flutter / Dart",
+    "Kotlin (Android Native)",
+    "Custom ZNCC Computer Vision",
+    "Google ML Kit OCR",
+    "Android AccessibilityService & MediaProjection",
+    "SQLite Local Sync",
+    "Supabase Auth & Licensing"
+  ],
+  "challenges": [
+    {
+      "id": "PHC-CH-1",
+      "type": "verified_fix",
+      "titleAr": "تصفير استنزاف الذاكرة (Zero GC Churn) ومنع انهيار Bitmap Recycled أثناء المسح المتوازي",
+      "titleEn": "Eliminating 8MB/Frame GC Churn & Bitmap Recycling Crashes in Parallel CV Scanning",
+      "problemAr": "فحص الشاشة المستمر بمقاييس متعددة في خيوط متوازية كان يستهلك ~8MB لكل إطار ويسبب انهيارًا مفاجئًا عند محاولة قراءة Bitmap تم تحريرها.",
+      "problemEn": "Continuous multi-scale template scanning across worker threads allocated ~8MB per frame and triggered fatal `recycled bitmap` exceptions during lifecycle transitions.",
+      "whyImportantAr": "تطبيقات الأتمتة الخلفية على الهواتف يجب أن تعمل لساعات دون رفع حرارة الجهاز أو إيقاف الخدمة من نظام أندرويد.",
+      "whyImportantEn": "On-device background automation must run for hours without thermal throttling, GC pauses, or Android OS process kills.",
+      "solutionAr": "تصميم `ReusableScaleBuffer` محلي لكل خيط (`ThreadLocal`) يعيد استخدام مصفوفة البكسلات وBitmap التحجيم، مع حساب إزاحات الصفوف مرة واحدة لكل عرض شاشة (`offsetsForStride`)، وتأمين دورة حياة الـ Bitmap في الـ Commit `50927ed`.",
+      "solutionEn": "Implemented `ThreadLocal` `ReusableScaleBuffer` reusing pixel arrays and scaling bitmaps, cached 1D pixel offsets via `offsetsForStride(stride)`, and hardened bitmap/service lifecycle checks in commit `50927ed`.",
+      "proofRef": "android/app/src/main/kotlin/com/sys/display/assist/cv/TemplateMatcher.kt:27-85 & git commit 50927ed",
+      "impactAr": "أداء بصري فائق السرعة بدون تخصيص ذاكرة متكرر واستقرار كامل للجلسات الطويلة.",
+      "impactEn": "Zero per-frame heap allocation overhead during template scans and elimination of bitmap lifecycle crashes.",
+      "lessonAr": "في معالجة الصور الحية على الهواتف، هيكلة البيانات في مصفوفات بدائية متصلة وإعادة تدوير المخازن المحلية للخيوط أهم من تحسين المعادلة الرياضية وحدها.",
+      "lessonEn": "In mobile real-time computer vision, contiguous primitive arrays and thread-local buffer reuse matter more than algorithmic tweaks alone."
+    },
+    {
+      "id": "PHC-CH-2",
+      "type": "verified_fix",
+      "titleAr": "منع إحياء الجلسات المنتهية في SQLite وكسر حلقة تبديل الخريطة اللانهائية",
+      "titleEn": "Fixing SQLite Session Resurrection & Breaking Infinite Map-Toggle Loops",
+      "problemAr": "ظهور بطاقات مهام مكررة وإعادة تفعيل جلسات مكتملة في قاعدة البيانات المحلية، إضافة إلى نقرة انتظار أسفل يسار الشاشة كانت تضغط بالخطأ على زر تبديل العاصمة/الخريطة.",
+      "problemEn": "Completed sessions were occasionally resurrected in SQLite causing duplicate dispatches, while an idle bottom-left tap overlapped the map toggle button.",
+      "whyImportantAr": "نقرة واحدة خاطئة في حلقة الأتمتة كفيلة بإخراج المحرك من الشاشة المستهدفة وإدخاله في دوران لا نهائي.",
+      "whyImportantEn": "A single misplaced coordinate in an autonomous loop can derail state tracking into an infinite toggle cycle.",
+      "solutionAr": "ضبط مطابقة اكتمال المسيرة ومنع إحياء الجلسات المنتهية في SQLite (`d5dc166`)، وحذف نقرة الانتظار أسفل اليسار (`a52ed58`) مع توثيق خطة الحظر التام للنقرات الافتراضية (`AUTOMATION_UPGRADE_PLAN.md`).",
+      "solutionEn": "Hardened SQLite march completion matching and session state finality (`d5dc166`), removed the bottom-left idle tap (`a52ed58`), and instituted a zero-hardcoded-tap policy (`AUTOMATION_UPGRADE_PLAN.md`).",
+      "proofRef": "phone_commander/.git commits d5dc166, a52ed58 & AUTOMATION_UPGRADE_PLAN.md:10-44",
+      "impactAr": "تزامن دقيق للطوابير النشطة واختفاء حلقات التبديل العشوائي للشاشة.",
+      "impactEn": "Deterministic queue tracking and complete elimination of unintended map-toggle loops.",
+      "lessonAr": "كل نقرة في نظام أتمتة بصري يجب أن تكون مشروطة برصد مؤكد (CV/OCR)؛ النقرات الاحتياطية العمياء تخلق أعطالًا أصعب من الفشل الصريح.",
+      "lessonEn": "Every interaction in a visual automation loop must be gated by positive CV/OCR detection; blind fallback taps create failure modes worse than explicit retries."
+    }
+  ],
+  "evidence": [
+    {
+      "claimId": "PHC-01",
+      "claimAr": "محرك مطابقة القوالب ZNCC بصفر استنزاف للذاكرة عبر ReusableScaleBuffer وoffsetsForStride",
+      "claimEn": "Zero-GC-churn ZNCC TemplateMatcher using ThreadLocal ReusableScaleBuffer and precalculated stride offsets",
+      "relationType": "EXTRACTED",
+      "evidencePath": "android/app/src/main/kotlin/com/sys/display/assist/cv/TemplateMatcher.kt",
+      "lineOrSymbol": "Lines 15-85 (PreparedTemplate, ReusableScaleBuffer)",
+      "confidence": "HIGH",
+      "visibility": "public",
+      "verificationStatus": "verified"
+    },
+    {
+      "claimId": "PHC-02",
+      "claimAr": "محرك الأتمتة الرئيسي (5,264 سطرًا) مع آلة حالة التحالف وتصغير التطبيق لتوفير البطارية",
+      "claimEn": "5,264-line AutomationEngine with AllianceFlowStep state machine and battery-saving auto-minimize",
+      "relationType": "EXTRACTED",
+      "evidencePath": "android/app/src/main/kotlin/com/sys/display/assist/engine/AutomationEngine.kt",
+      "lineOrSymbol": "Lines 63-95 (AllianceFlowStep, longWaitMinimizeEnabled)",
+      "confidence": "HIGH",
+      "visibility": "public",
+      "verificationStatus": "verified"
+    },
+    {
+      "claimId": "PHC-03",
+      "claimAr": "إصلاحات موثقة في Git لمنع انهيار Bitmap Recycled ومنع تكرار الجلسات في SQLite",
+      "claimEn": "Verified git commits resolving bitmap recycling crashes, SQLite queue resurrection, and map toggle loops",
+      "relationType": "EXTRACTED",
+      "evidencePath": "phone_commander/.git",
+      "lineOrSymbol": "Commits 50927ed, d5dc166, a52ed58, 41c9490",
+      "confidence": "HIGH",
+      "visibility": "public",
+      "verificationStatus": "verified"
+    },
+    {
+      "claimId": "PHC-04",
+      "claimAr": "مصفوفة عتبات الرصد البصري (86%–92%) وهيكل بث السجلات الحية لواجهة Flutter",
+      "claimEn": "Calibrated 86%–92% ZNCC detection threshold matrix and real-time Flutter MethodChannel log schema",
+      "relationType": "EXTRACTED",
+      "evidencePath": "AUTOMATION_UPGRADE_PLAN.md",
+      "lineOrSymbol": "Lines 10-86 (Hardcoded tap audit, AutomationLogPayload, Thresholds Matrix)",
+      "confidence": "HIGH",
+      "visibility": "public",
+      "verificationStatus": "verified"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/media/projects/phone-commander/cv-safe-roi-zones.webp",
+      "altAr": "تحديد منطقة الفحص البصري الصافية (Safe ROI) باللون الأخضر لعزل أشرطة الواجهة عن مساحة الخريطة",
+      "altEn": "Computer-vision Safe ROI green boundary isolating playable map area from HUD overlays (privacy-sanitized)",
+      "captionAr": "لقطة تشخيصية لمنطقة الفحص الصافية (`Safe ROI` — بعد طمس الإحداثيات والدردشة) التي يحصر فيها محرك ZNCC البحث لتسريع الأداء ومنع الرصد الخاطئ.",
+      "captionEn": "Diagnostic view of the green Safe ROI boundary (with player coordinates and chat redacted) restricting ZNCC scanning to avoid HUD false positives.",
+      "kind": "diagnostic_output",
+      "width": 1400,
+      "height": 630
+    },
+    {
+      "src": "/media/projects/phone-commander/zncc-vision-architecture.svg",
+      "altAr": "مخطط معمارية محرك الرؤية الحاسوبية ZNCC وآلة الحالة وبث السجلات إلى Flutter",
+      "altEn": "Phone Commander Zero-GC ZNCC computer vision and Flutter telemetry architecture diagram",
+      "captionAr": "مخطط معماري يوضح دورة الإطار من `ReusableScaleBuffer` حتى مطابقة ZNCC المتوازية ومزامنة SQLite.",
+      "captionEn": "Architectural diagram showing zero-GC frame scaling, parallel ZNCC matching, SQLite queue sync, and Flutter MethodChannel streaming.",
+      "kind": "architecture_diagram",
+      "width": 1200,
+      "height": 540
+    }
+  ],
+  "results": [
+    {
+      "metric": "0 MB/Frame",
+      "labelAr": "تخصيص ذاكرة جديدة لكل إطار بفضل إعادة استخدام المخازن المحلية للخيوط",
+      "labelEn": "Per-frame bitmap heap allocation eliminated via ThreadLocal ReusableScaleBuffer",
+      "sourceRef": "TemplateMatcher.kt:62-85"
+    },
+    {
+      "metric": "86% – 92%",
+      "labelAr": "نطاق عتبات الثقة المعتمدة في خوارزمية ZNCC لمنع النقرات الخاطئة",
+      "labelEn": "Calibrated ZNCC confidence gates preventing false-positive UI interactions",
+      "sourceRef": "AUTOMATION_UPGRADE_PLAN.md:76-85"
+    },
+    {
+      "metric": "5,264 Lines",
+      "labelAr": "حجم محرك آلة الحالة الذاتية والتعافي من الأخطاء في Kotlin",
+      "labelEn": "Autonomous state-machine and error recovery implementation in AutomationEngine.kt",
+      "sourceRef": "AutomationEngine.kt:1-5264"
+    },
+    {
+      "metric": "1,704 Nodes",
+      "labelAr": "عقدة برمجية مفهرسة عبر طبقات Kotlin الأصيلة وتطبيق Flutter",
+      "labelEn": "Indexed AST symbols across native Android Kotlin and Flutter Dart layers",
+      "sourceRef": ".portfolio-intelligence/project-index/phone-commander.json"
+    }
+  ],
+  "skillsProven": [
+    "Real-Time Mobile Computer Vision (Custom ZNCC & OCR)",
+    "Low-Level Memory & GC Optimization (ThreadLocal Buffers)",
+    "Native Android Accessibility & MediaProjection Engineering",
+    "Flutter-to-Native MethodChannel Bridge & Telemetry",
+    "Autonomous State-Machine & Crash Recovery Design"
+  ],
+  "reviewFlags": [
+    "Confirm personal role attribution",
+    "Local phone_commander.db and .env excluded from public bundle"
+  ],
+  "graphStats": {
+    "totalFiles": 389,
+    "totalMb": 38.49,
+    "nodes": 1704,
+    "edges": 3056
+  },
+  "updatedAt": "2026-11-19"
+}

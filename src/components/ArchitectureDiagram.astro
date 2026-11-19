@@ -1,0 +1,69 @@
+---
+interface PipelineStep {
+  step: string;
+  titleAr: string;
+  titleEn: string;
+  detailAr: string;
+  detailEn: string;
+}
+
+interface Props {
+  overviewAr: string;
+  overviewEn: string;
+  pipelineSteps: PipelineStep[];
+  systemBoundariesAr: string;
+  systemBoundariesEn: string;
+  locale: 'ar' | 'en';
+}
+
+const {
+  overviewAr,
+  overviewEn,
+  pipelineSteps,
+  systemBoundariesAr,
+  systemBoundariesEn,
+  locale,
+} = Astro.props;
+---
+
+<div class="bg-[#0B1220] text-[#F5F7FA] rounded-2xl border border-[#182438] p-6 sm:p-8 shadow-md">
+  <div class="mb-6">
+    <span class="inline-block font-mono text-xs uppercase tracking-wider text-[#18B8A7] mb-2">
+      {locale === 'ar' ? 'التصميم المعماري وتدفق العمليات' : 'System Architecture & Execution Pipeline'}
+    </span>
+    <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
+      {locale === 'ar' ? overviewAr : overviewEn}
+    </p>
+  </div>
+
+  <!-- Pipeline Steps Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+    {pipelineSteps.map((st) => (
+      <div class="bg-[#182438] rounded-xl p-5 border border-slate-700/70 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between gap-2 mb-2.5">
+            <span class="px-2.5 py-0.5 rounded bg-[#2663EB]/25 text-[#93C5FD] border border-[#2663EB]/40 font-mono text-xs font-bold">
+              {locale === 'ar' ? `المرحلة ${st.step}` : `STAGE ${st.step}`}
+            </span>
+          </div>
+          <h4 class="font-bold text-white text-base mb-1.5">
+            {locale === 'ar' ? st.titleAr : st.titleEn}
+          </h4>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            {locale === 'ar' ? st.detailAr : st.detailEn}
+          </p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- System Boundaries -->
+  <div class="p-4 rounded-xl bg-[#111C2D] border border-slate-800 flex flex-col sm:flex-row sm:items-center gap-3">
+    <span class="font-mono text-xs uppercase tracking-wider text-[#18B8A7] shrink-0">
+      {locale === 'ar' ? 'حدود النظام والبيئة:' : 'System Boundaries:'}
+    </span>
+    <p class="text-xs sm:text-sm text-slate-300">
+      {locale === 'ar' ? systemBoundariesAr : systemBoundariesEn}
+    </p>
+  </div>
+</div>
