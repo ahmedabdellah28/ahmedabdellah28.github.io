@@ -17,76 +17,77 @@ const projects = (await getCollection('projects', ({ data }) => data.visibility 
   (a, b) => a.data.featuredOrder - b.data.featuredOrder
 );
 
+const visualProjects = projects.filter((p) => p.data.screenshots.length > 0);
+const headlessProjects = projects.filter((p) => p.data.screenshots.length === 0);
+
 const allCategories = Array.from(new Set(projects.flatMap((p) => p.data.category)));
 const allStatuses = Array.from(new Set(projects.map((p) => p.data.status)));
 
 const categoryHumanLabels: Record<string, { ar: string; en: string }> = {
-  AI: { ar: 'ذكاء اصطناعي (AI)', en: 'Artificial Intelligence (AI)' },
-  Automation: { ar: 'أتمتة ذكية (Automation)', en: 'Smart Automation' },
+  AI: { ar: 'ذكاء اصطناعي ومونتاج آلي (AI)', en: 'AI & Automated Montage' },
+  Automation: { ar: 'أتمتة وتخفي Anti-Bot', en: 'Automation & Anti-Bot' },
   Web: { ar: 'تطبيقات ومنصات ويب (Web)', en: 'Web Platforms & Apps' },
-  Mobile: { ar: 'تطبيقات موبايل (Mobile)', en: 'Mobile Applications' },
+  Mobile: { ar: 'تطبيقات موبايل (Flutter / Android)', en: 'Mobile Apps (Flutter / Android)' },
   Desktop: { ar: 'أنظمة سطح مكتب (Desktop)', en: 'Desktop Systems' },
-  Algorithm: { ar: 'خوارزميات وحل قيود (Algorithm)', en: 'Algorithms & Scheduling' },
-  API: { ar: 'خدمات وواجهات خلفية (Backend/API)', en: 'Backend & APIs' },
-  CLI: { ar: 'أدوات تشغيل سريعة (CLI)', en: 'CLI Tools' },
+  Algorithm: { ar: 'خوارزميات وحل قيود (CP-SAT)', en: 'Algorithms & CP-SAT' },
+  API: { ar: 'خدمات خلفية ومزامنة (Backend/Realtime)', en: 'Backend & Realtime Sync' },
+  CLI: { ar: 'محركات خلفية (Headless/CLI)', en: 'Headless Engines (CLI)' },
 };
 
 const pageTitle =
   locale === 'ar'
     ? 'جميع الأعمال والمشاريع السبعة — احمد عبداللاه'
-    : 'All 7 Projects & Case Studies — Ahmed Abdellah';
+    : 'All 7 Projects & Engines — Ahmed Abdellah';
 const pageDesc =
   locale === 'ar'
-    ? 'استعرض جميع المشاريع والأنظمة السبعة: المعاناة قبل الحل، النقلة والنتيجة الحاسمة، مع بحث وتصفية فورية.'
-    : 'Explore all 7 software systems: the struggle before the solution, the breakthrough, and measurable results with instant search.';
+    ? 'استعرض 5 تطبيقات ومنصات مرئية و2 محركات أتمتة خلفية: الفكرة، العائق البرمجي، والنتيجة.'
+    : 'Explore 5 visual applications and 2 headless automation engines: Idea, Technical Obstacle, and Result.';
 ---
 
 <BaseLayout title={pageTitle} description={pageDesc} locale={locale} currentPath={`/${locale}/projects`}>
   <section class="border-b border-white/10 py-10 sm:py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <span class="text-xs uppercase tracking-wider text-amber-400 font-bold">
-        {locale === 'ar' ? 'معرض الأعمال الكامل · 7 أنظمة حقيقية' : 'Complete Portfolio · 7 Real Systems'}
+        {locale === 'ar' ? 'معرض الأعمال الكامل · 5 تطبيقات مرئية + 2 محركات خلفية' : 'Complete Portfolio · 5 Visual Apps + 2 Headless Engines'}
       </span>
       <h1 class="text-3xl sm:text-4xl font-extrabold text-white mt-2">
         {locale === 'ar'
-          ? 'المشاريع السبعة: من المعاناة والتعقيد إلى أنظمة تعمل بكفاءة'
-          : 'All 7 Projects: From Operational Pain to High-Impact Systems'}
+          ? 'المشاريع السبعة (الفكرة ← العائق البرمجي ← النتيجة)'
+          : 'All 7 Systems (Idea → Technical Obstacle → Result)'}
       </h1>
-      <p class="text-sm sm:text-base text-slate-300 mt-3 max-w-3xl leading-relaxed">
+      <p class="text-sm sm:text-base text-slate-300 mt-2 max-w-3xl leading-relaxed">
         {locale === 'ar'
-          ? 'تصفح جميع الأنظمة التي طورتها، أو ابحث مباشرة باسم المشروع أو نوع المشكلة أو التقنية.'
-          : 'Browse every system I built, or filter immediately by domain, status, or keyword.'}
+          ? 'مقسمة بوضوح إلى تطبيقات ومنصات مرئية بلقطات حقيقية، ومحركات أتمتة خلفية تشرح ميزتها والمكتبات المستخدمة فيها مباشرة.'
+          : 'Clearly divided into visual applications with real screenshots/phone frames and background automation engines.'}
       </p>
     </div>
   </section>
 
   <!-- Interactive Filter & Search Controls -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-    <div class="glass-panel rounded-2xl p-5 mb-8 space-y-4">
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
+    <div class="glass-panel rounded-2xl p-5 space-y-4">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <!-- Search Input -->
         <div>
           <label for="project-search" class="block text-xs font-bold text-slate-200 mb-1.5">
-            {locale === 'ar' ? 'بحث سريع (اسم المشروع، المشكلة، التقنية)' : 'Quick Search (Project, Problem, Tech)'}
+            {locale === 'ar' ? 'بحث سريع (المشروع، المكتبة، العائق البرمجي)' : 'Quick Search (Project, Library, Obstacle)'}
           </label>
           <input
             id="project-search"
             type="search"
-            placeholder={locale === 'ar' ? 'ابحث هنا... مثل: جدول، فيديو، متجر، طبي، هاتف' : 'Search... e.g. timetable, video, store, medical, phone'}
+            placeholder={locale === 'ar' ? 'مثال: عناية، ROK، Flutter، CP-SAT، OpenCV...' : 'e.g. Enaya, ROK, Flutter, CP-SAT, OpenCV...'}
             class="w-full px-3.5 py-2.5 rounded-xl border border-white/15 text-sm bg-[#050914]/80 text-white placeholder:text-slate-400 focus:border-blue-400"
           />
         </div>
 
-        <!-- Category Filter -->
         <div>
           <label for="category-filter" class="block text-xs font-bold text-slate-200 mb-1.5">
-            {locale === 'ar' ? 'نوع النظام' : 'System Domain'}
+            {locale === 'ar' ? 'التخصص' : 'Domain'}
           </label>
           <select
             id="category-filter"
             class="w-full px-3.5 py-2.5 rounded-xl border border-white/15 text-sm bg-[#050914]/80 text-white focus:border-blue-400"
           >
-            <option value="all">{locale === 'ar' ? 'جميع المجالات (7 مشاريع)' : 'All Domains (7 Projects)'}</option>
+            <option value="all">{locale === 'ar' ? 'جميع التخصصات (7 مشاريع)' : 'All Domains (7 Projects)'}</option>
             {allCategories.map((cat) => (
               <option value={cat}>
                 {categoryHumanLabels[cat] ? categoryHumanLabels[cat][locale] : cat}
@@ -95,7 +96,6 @@ const pageDesc =
           </select>
         </div>
 
-        <!-- Status Filter -->
         <div>
           <label for="status-filter" class="block text-xs font-bold text-slate-200 mb-1.5">
             {locale === 'ar' ? 'حالة النظام' : 'System Status'}
@@ -128,18 +128,54 @@ const pageDesc =
       </div>
     </div>
 
-    <!-- Projects Grid -->
-    <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-      {projects.map((entry, idx) => (
-        <div
-          class="project-item flex"
-          data-categories={entry.data.category.join(',').toLowerCase()}
-          data-status={entry.data.status.toLowerCase()}
-          data-search={`${entry.data.titleAr} ${entry.data.titleEn} ${entry.data.humanCategoryAr || ''} ${entry.data.humanCategoryEn || ''} ${entry.data.struggleAr || ''} ${entry.data.struggleEn || ''} ${entry.data.triumphAr || ''} ${entry.data.triumphEn || ''} ${entry.data.summaryAr} ${entry.data.summaryEn} ${entry.data.technologies.join(' ')}`.toLowerCase()}
-        >
-          <ProjectCard project={entry.data} locale={locale} index={idx} />
-        </div>
-      ))}
+    <!-- Section 1: 5 Visual Applications -->
+    <div class="space-y-5">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-wider text-amber-400">
+          {locale === 'ar' ? 'القسم الأول · 5 مشاريع' : 'Section 1 · 5 Projects'}
+        </span>
+        <h2 class="text-2xl font-extrabold text-white mt-0.5">
+          {locale === 'ar' ? '📱 تطبيقات ومنصات مرئية' : '📱 Visual Applications & Platforms'}
+        </h2>
+      </div>
+
+      <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {visualProjects.map((entry, idx) => (
+          <div
+            class="project-item flex"
+            data-categories={entry.data.category.join(',').toLowerCase()}
+            data-status={entry.data.status.toLowerCase()}
+            data-search={`${entry.data.titleAr} ${entry.data.titleEn} ${entry.data.humanCategoryAr || ''} ${entry.data.humanCategoryEn || ''} ${entry.data.struggleAr || ''} ${entry.data.struggleEn || ''} ${entry.data.triumphAr || ''} ${entry.data.triumphEn || ''} ${entry.data.summaryAr} ${entry.data.summaryEn} ${entry.data.technologies.join(' ')}`.toLowerCase()}
+          >
+            <ProjectCard project={entry.data} locale={locale} index={idx} />
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Section 2: 2 Headless Automation Engines -->
+    <div class="pt-8 border-t border-white/10 space-y-5">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-wider text-blue-400">
+          {locale === 'ar' ? 'القسم الثاني · مشروعان بدون واجهة رسومية' : 'Section 2 · 2 Headless Systems'}
+        </span>
+        <h2 class="text-2xl font-extrabold text-white mt-0.5">
+          {locale === 'ar' ? '⚙️ محركات أتمتة وأدوات خلفية' : '⚙️ Headless Automation Engines'}
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {headlessProjects.map((entry, idx) => (
+          <div
+            class="project-item flex"
+            data-categories={entry.data.category.join(',').toLowerCase()}
+            data-status={entry.data.status.toLowerCase()}
+            data-search={`${entry.data.titleAr} ${entry.data.titleEn} ${entry.data.humanCategoryAr || ''} ${entry.data.humanCategoryEn || ''} ${entry.data.struggleAr || ''} ${entry.data.struggleEn || ''} ${entry.data.triumphAr || ''} ${entry.data.triumphEn || ''} ${entry.data.summaryAr} ${entry.data.summaryEn} ${entry.data.technologies.join(' ')}`.toLowerCase()}
+          >
+            <ProjectCard project={entry.data} locale={locale} index={idx + 5} />
+          </div>
+        ))}
+      </div>
     </div>
 
     <!-- Empty Filter State -->

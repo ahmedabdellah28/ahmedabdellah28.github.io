@@ -1,11 +1,11 @@
 {
   "slug": "school-timetable",
-  "titleAr": "نظام الجدول المدرسي الذكي",
-  "titleEn": "Smart School Timetable System",
+  "titleAr": "نظام الجدول المدرسي الذكي — حل القيود الرياضية (CP-SAT)",
+  "titleEn": "Smart School Timetable — Google OR-Tools CP-SAT Solver",
   "summaryAr": "منظومة سطح مكتب وويب سحابية (PyQt6 + FastAPI + React/TS) لبناء جداول الحصص المدرسية بصفر تعارضات حتمية عبر Google OR-Tools CP-SAT، مع محرك تشخيص مسبق للاستحالة وإصلاح موضعي ذكي وتصدير PDF/Excel عربي RTL.",
   "summaryEn": "Desktop (PyQt6) and cloud SaaS (FastAPI + React/TS) school scheduling platform achieving zero hard violations via Google OR-Tools CP-SAT, pre-solve mathematical feasibility diagnostics, minimal-perturbation smart repair, and Arabic RTL PDF/Excel exports.",
-  "valuePropositionAr": "حل جداول المدارس المعقدة (حتى 600 حصة) في ثوانٍ بصفر تضارب، مع إتاحة التعديل اليدوي بالسحب والإفلات وإصلاح التعارضات تلقائيًا بأقل تغيير ممكن في الجدول.",
-  "valuePropositionEn": "Solves complex school timetables (up to 600 weekly periods) in seconds with 0% hard conflicts, featuring interactive drag-and-drop rescheduling with causal minimal-perturbation repair.",
+  "valuePropositionAr": "الفكرة: توليد جدول مدرسي كامل لمئات الحصص وعشرات المعلمين في ثوانٍ بصفر تضارب، مع تعديل يدوي ذكي وتصدير PDF عربي.",
+  "valuePropositionEn": "Idea: Generating 100% conflict-free school timetables for 600+ periods in seconds with interactive drag-and-drop repair and Arabic PDF export.",
   "category": [
     "desktop",
     "web",
@@ -15,7 +15,7 @@
   "status": "production",
   "visibility": "published",
   "featured": true,
-  "featuredOrder": 2,
+  "featuredOrder": 4,
   "role": {
     "ar": "تصميم المعمارية ونمذجة القيود الرياضية وتطوير الواجهات",
     "en": "System Architecture, Constraint Modeling (CP-SAT) & Full-Stack Development"
@@ -193,16 +193,6 @@
       "kind": "real_screenshot",
       "width": 1400,
       "height": 875
-    },
-    {
-      "src": "/media/projects/school-timetable/architecture-cpsat.svg",
-      "altAr": "مخطط معمارية محرك الجدول المدرسي OR-Tools CP-SAT والفاحص المستقل والإصلاح الذكي",
-      "altEn": "School Timetable CP-SAT solver, Zero-Trust Validator, and Smart Repair architecture diagram",
-      "captionAr": "مخطط تدفق البيانات من فحص الجدوى الرياضي المسبق حتى الحل بـ CP-SAT والتدقيق المستقل والإصلاح الموضعي.",
-      "captionEn": "System flow from pre-solve feasibility diagnostics through CP-SAT optimization, zero-trust validation, and minimal-perturbation repair.",
-      "kind": "architecture_diagram",
-      "width": 1200,
-      "height": 540
     }
   ],
   "results": [
@@ -249,10 +239,10 @@
     "edges": 16500
   },
   "updatedAt": "2026-11-19",
-  "humanCategoryAr": "أنظمة جدولة ذكية (سطح مكتب وويب)",
-  "humanCategoryEn": "Smart Scheduling Platform (Desktop & Web)",
-  "struggleAr": "إعداد جدول لـ 600 حصة وعشرات المعلمين كان يستغرق أسابيع يدويًا، وعند غياب معلم أو تحريك حصة واحدة ينهار الجدول بالكامل بسلسلة تضاربات مستحيلة التتبع.",
-  "struggleEn": "Scheduling 600 lessons across dozens of teachers took weeks manually—and moving a single lesson triggered a chain reaction of impossible teacher collisions.",
-  "triumphAr": "محرك رياضي يبني الجدول الكامل في ثوانٍ بصفر تضارب (0%)، وعند سحب أي حصة يعيد ترتيب أضيق نطاق ممكن تلقائيًا ويشرح للمدير من تأثر ولماذا قبل الحفظ.",
-  "triumphEn": "Mathematical engine solving full school schedules in seconds with 0% conflicts, featuring smart drag-and-drop repair that explains every affected lesson before saving."
+  "humanCategoryAr": "Python · OR-Tools CP-SAT · PySide6 · FastAPI",
+  "humanCategoryEn": "Python · OR-Tools CP-SAT · PySide6 · FastAPI",
+  "struggleAr": "العائق البرمجي: تعارض الشروط المعقدة (أنصبة، تفرغ، حصص مثبتة) وكسر الجدول بالكامل عندما يسحب المدير حصة واحدة يدويًا لموعد مشغول.",
+  "struggleEn": "Technical Obstacle: Solving interlocking constraints (quotas, off-days, pinned slots) and preventing silent schedule corruption during manual drag-and-drop.",
+  "triumphAr": "الحل والنتيجة: صياغة القيود خطياً في Google OR-Tools CP-SAT مع كشف التناقض قبل الحل، ومحرك إصلاح موضعي (Smart Repair) يعرض أثر نقل أي حصة قبل الحفظ.",
+  "triumphEn": "Breakthrough: Formulated linear CP-SAT constraints with pre-solve feasibility diagnosis and an explainable Smart-Repair diff preview before saving."
 }

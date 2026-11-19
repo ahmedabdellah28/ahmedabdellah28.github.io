@@ -1,11 +1,11 @@
 {
   "slug": "gmail-options-suite",
-  "titleAr": "منظومة أتمتة المتصفح المتعددة",
-  "titleEn": "Multi-Slot Browser Automation Suite",
+  "titleAr": "محرك أتمتة المتصفحات المتعددة — عزل البصمة وتخفي Anti-Bot",
+  "titleEn": "Multi-Slot Browser Automation — Fingerprint Isolation & Anti-Bot Engine",
   "summaryAr": "منصة أتمتة بايثون معيارية مستقلة مع لوحة إدارة، تدير سلوتات متصفح متوازية معزولة كليًا (BrowserContext + Proxy Locking + Humanization) وتتعامل مع حالات الفشل والتصنيف الذري للملفات.",
   "summaryEn": "Modular standalone Python browser automation suite with an admin panel, managing isolated multi-slot Camoufox/Playwright contexts, proxy locking, Bezier humanization, thread-safe atomic result routing, and deep forensic stealth auditing.",
-  "valuePropositionAr": "تشغيل مهام متصفح متوازية بعزل 100% للجلسات والبروكسيات مع تحديث ذري آمن للملفات وتدقيق جنائي عميق لسطح الكشف.",
-  "valuePropositionEn": "Executes concurrent browser workflows with 100% session/proxy isolation, thread-safe atomic state persistence, and forensic anti-detection auditing.",
+  "valuePropositionAr": "ماذا يفعل: محرك أتمتة خلفي يدير حتى 20 جلسة متصفح متزامنة (Slots) مع عزل كامل للبروفايلات والكوكيز والبروكسي لكل حساب.",
+  "valuePropositionEn": "What It Does: Headless browser orchestration engine running up to 20 concurrent browser slots with strict profile, cookie, and proxy isolation.",
   "category": [
     "automation",
     "desktop",
@@ -15,7 +15,7 @@
   "status": "functional",
   "visibility": "published",
   "featured": false,
-  "featuredOrder": 6,
+  "featuredOrder": 7,
   "role": {
     "ar": "تصميم معمارية الأتمتة والتدقيق الجنائي للمتصفحات",
     "en": "Automation Systems Architecture & Browser Forensics Analysis"
@@ -174,18 +174,7 @@
       "verificationStatus": "verified"
     }
   ],
-  "screenshots": [
-    {
-      "src": "/media/projects/gmail-options-suite/slot-isolation-architecture.svg",
-      "altAr": "مخطط معمارية عزل سلوتات المتصفح المتوازية وقفل البروكسيات والتصنيف الذري",
-      "altEn": "Multi-Slot Browser Engine context isolation, proxy locking, and atomic failure routing diagram",
-      "captionAr": "رسم معماري توضيحي (`Illustrative Architecture Diagram`) يوضح دورة حياة السلوت من قفل البروكسي وإنشاء `BrowserContext` حتى التصنيف الذري وتدمير الجلسة.",
-      "captionEn": "Illustrative architecture diagram showing slot lifecycle from proxy lock acquisition and fresh `BrowserContext` creation to thread-safe result routing and teardown.",
-      "kind": "architecture_diagram",
-      "width": 1200,
-      "height": 540
-    }
-  ],
+  "screenshots": [],
   "results": [
     {
       "metric": "100% عزل",
@@ -229,10 +218,10 @@
     "edges": 4374
   },
   "updatedAt": "2026-11-19",
-  "humanCategoryAr": "أتمتة متصفحات متوازية وعزل جلسات",
-  "humanCategoryEn": "Concurrent Browser Automation & Session Isolation",
-  "struggleAr": "تشغيل عشرات المهام المتوازية على المتصفح كان يعاني من تسرب الكوكيز والبصمة بين الجلسات، وتصادم البروكسيات، وتلف ملفات البيانات عند أي توقف مفاجئ.",
-  "struggleEn": "Running concurrent browser tasks suffered from cross-session cookie leaks, proxy collisions across threads, and corrupted data files on unexpected halts.",
-  "triumphAr": "نظام سلوتات متوازية يدمر الجلسة بالكامل بعد كل عملية لعزل البيانات 100%، مع قفل حصري للبروكسي وحفظ لحظي آمن يمنع ضياع أو تكرار أي سجل.",
-  "triumphEn": "Multi-slot engine enforcing complete session destruction per task for 100% isolation, paired with exclusive proxy locking and crash-safe atomic file updates."
+  "humanCategoryAr": "Python · Playwright · Selenium · Multithreading · SQLite",
+  "humanCategoryEn": "Python · Playwright · Selenium · Multithreading · SQLite",
+  "struggleAr": "العائق البرمجي: كشف الأتمتة عند تشغيل حسابات متعددة بالتوازي، وتصادم الخيوط (Race Conditions) عند نقل أو حذف ملفات الحسابات، وتكرار سحب الجلسات المنتهية.",
+  "struggleEn": "Technical Obstacle: Anti-bot detection across parallel sessions, thread race conditions during file pruning, and re-queuing expired SQLite sessions.",
+  "triumphAr": "الميزة والنتيجة: عزل كل متصفح في مجلد مستقل (`slot_id`) لمنع تسرب البصمة، وتأمين نقل الملفات بأقفال ذرية (`threading.Lock`)، وفلترة الجلسات المنتهية تلقائياً.",
+  "triumphEn": "Key Feature & Result: Isolated per-slot browser profiles (`slot_id`), atomic `threading.Lock` failure recovery, and SQLite session deduplication."
 }

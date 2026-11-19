@@ -1,11 +1,11 @@
 {
   "slug": "remix-sole-marketplace",
-  "titleAr": "متجر سول للأحذية (SOLE)",
-  "titleEn": "SOLE Footwear Marketplace",
+  "titleAr": "متجر سول للأحذية (SOLE) — حماية الـ Rate Limit وتطبيع البيانات",
+  "titleEn": "SOLE Footwear Marketplace — Quota Protection & Binary Security",
   "summaryAr": "تطبيق تجارة إلكترونية وكتالوج رقمي ثنائي اللغة (React 19 + Express + Supabase + Cloudinary) يحوّل أرشيف صور الاستوديو إلى متجر سريع مع لوحة إدارة، فحص Magic Bytes للصور، وحماية ضد حقن PostgREST وPath Traversal.",
   "summaryEn": "Full-stack footwear marketplace (React 19, Express, TypeScript, Supabase, Cloudinary) transforming studio photo archives into a high-speed storefront with an admin panel, binary Magic-Byte upload validation, PostgREST injection guards, and offline static fallback.",
-  "valuePropositionAr": "تحويل مجلدات صور المنتجات الملتقطة بالكاميرا أو واتساب تلقائيًا إلى متجر إلكتروني أنيق وسريع ومحصن أمنيًا مع استمرارية عمل حتى عند انقطاع قاعدة البيانات.",
-  "valuePropositionEn": "Automatically normalizes raw studio/WhatsApp image folders into an editorial footwear storefront with binary upload security and static JSON fallback resilience.",
+  "valuePropositionAr": "الفكرة: متجر إلكتروني ثنائي اللغة يدير ويعرض 506 منتجاً سحابياً بسرعة فائقة مع لوحة إدارة محمية.",
+  "valuePropositionEn": "Idea: High-speed bilingual footwear marketplace serving 506 cloud-hosted products with a hardened admin suite.",
   "category": [
     "web",
     "API",
@@ -14,7 +14,7 @@
   "status": "production",
   "visibility": "published",
   "featured": true,
-  "featuredOrder": 3,
+  "featuredOrder": 5,
   "role": {
     "ar": "تطوير Full-Stack TypeScript وتحصين أمن تطبيقات الويب",
     "en": "Full-Stack TypeScript & Web Application Security Engineering"
@@ -173,16 +173,6 @@
       "kind": "real_screenshot",
       "width": 1400,
       "height": 875
-    },
-    {
-      "src": "/media/projects/remix-sole-marketplace/security-architecture.svg",
-      "altAr": "مخطط معمارية متجر سول وبوابة فحص البايتات السحرية وعزل الكتالوج العام",
-      "altEn": "SOLE Marketplace full-stack architecture and Magic-Byte security diagram",
-      "captionAr": "مخطط معماري يوضح طبقات الأمان (`security.ts`) وتطبيع الكتالوج وعزل الزوار عن فحص Cloudinary المباشر.",
-      "captionEn": "Architecture diagram illustrating Magic-Byte upload filtering, PostgREST injection guards, bilingual normalization, and Supabase/fallback catalog delivery.",
-      "kind": "architecture_diagram",
-      "width": 1200,
-      "height": 540
     }
   ],
   "results": [
@@ -229,10 +219,10 @@
     "edges": 848
   },
   "updatedAt": "2026-11-19",
-  "humanCategoryAr": "تجارة إلكترونية ومتاجر سحابية",
-  "humanCategoryEn": "E-Commerce & Cloud Storefront",
-  "struggleAr": "أكثر من 500 صورة أحذية مرفوعة مباشرة من الكاميرا وواتساب بأسماء مشوهة (IMG-WA0019) ومجلدات مختلطة، مع خطر توقف المتجر عند نفاد حصة السحابة أو رفع ملفات خبيثة.",
-  "struggleEn": "500+ raw WhatsApp/camera shoe photos with cryptic names (IMG-WA0019) and mixed folders, risking site downtime from cloud API limits and malicious file uploads.",
-  "triumphAr": "تحويل تلقائي لأرشيف الصور الخام إلى متجر عربي/إنجليزي فاخر (506 منتجًا في 15 قسمًا) يعمل بسرعة فائقة دون استهلاك حصة السحابة ومحصن بفحص البصمة الثنائية للصور.",
-  "triumphEn": "Automated transformation of raw photo archives into a fast 506-product bilingual storefront with zero live cloud API drain on visitors and binary upload security."
+  "humanCategoryAr": "React 19 · TypeScript · Express · Prisma · Cloudinary",
+  "humanCategoryEn": "React 19 · TypeScript · Express · Prisma · Cloudinary",
+  "struggleAr": "العائق البرمجي: استنزاف حصة Cloudinary API (Rate Limit) مع كل زيارة للعميل، وفوضى أسماء صور واتساب، وخطر رفع ملفات خبيثة منتحلة لامتداد صورة.",
+  "struggleEn": "Technical Obstacle: Exhausting Cloudinary Admin API rate limits on visitor traffic, messy WhatsApp filenames, and spoofed malicious uploads.",
+  "triumphAr": "الحل والنتيجة: عزل زيارات العملاء لتقرأ من الكاش وقاعدة البيانات بصفر استهلاك للـ API، وفحص البصمة الثنائية (Magic Bytes) للملفات، وتنظيف الأسماء تلقائياً.",
+  "triumphEn": "Breakthrough: Zero live Cloudinary API quota drain on customer visits, binary Magic-Byte upload validation, and automated bilingual title normalization."
 }

@@ -45,8 +45,10 @@ const t = UI_LABELS[locale];
 const title = locale === 'ar' ? project.titleAr : project.titleEn;
 const humanCat =
   locale === 'ar'
-    ? project.humanCategoryAr || project.category.join(' · ')
-    : project.humanCategoryEn || project.category.join(' · ');
+    ? project.humanCategoryAr || project.technologies.slice(0, 4).join(' · ')
+    : project.humanCategoryEn || project.technologies.slice(0, 4).join(' · ');
+const ideaText =
+  locale === 'ar' ? project.valuePropositionAr : project.valuePropositionEn;
 const struggle =
   locale === 'ar'
     ? project.struggleAr || project.valuePropositionAr
@@ -55,10 +57,14 @@ const triumph =
   locale === 'ar'
     ? project.triumphAr || project.summaryAr
     : project.triumphEn || project.summaryEn;
-const cover = project.screenshots[0];
-const secondMedia =
-  project.screenshots.find((s, i) => i > 0 && s.kind === 'architecture_diagram') ||
-  project.screenshots[1];
+
+// Only real screenshots / phone mockups (never SVG architecture diagrams)
+const visualShots = project.screenshots.filter((s) => s.kind !== 'architecture_diagram');
+const hasVisuals = visualShots.length > 0;
+const cover = visualShots[0];
+const secondMedia = visualShots[1];
+const thirdMedia = visualShots[2];
+
 const statusText = t.statusLabels[project.status];
 const href = `/${locale}/projects/${project.slug}`;
 const imgId = `card-img-${project.slug}`;
@@ -77,6 +83,8 @@ const coverAlt = cover ? (locale === 'ar' ? cover.altAr : cover.altEn) : title;
 const coverCap = cover ? (locale === 'ar' ? (cover.captionAr || cover.altAr) : (cover.captionEn || cover.altEn)) : title;
 const secondAlt = secondMedia ? (locale === 'ar' ? secondMedia.altAr : secondMedia.altEn) : title;
 const secondCap = secondMedia ? (locale === 'ar' ? (secondMedia.captionAr || secondMedia.altAr) : (secondMedia.captionEn || secondMedia.altEn)) : title;
+const thirdAlt = thirdMedia ? (locale === 'ar' ? thirdMedia.altAr : thirdMedia.altEn) : title;
+const thirdCap = thirdMedia ? (locale === 'ar' ? (thirdMedia.captionAr || thirdMedia.altAr) : (thirdMedia.captionEn || thirdMedia.altEn)) : title;
 ---
 
 <article
@@ -85,88 +93,119 @@ const secondCap = secondMedia ? (locale === 'ar' ? (secondMedia.captionAr || sec
   data-status={project.status}
   data-tech={project.technologies.join(',')}
 >
-  <!-- Visual Header with Synchronized Media Toggle & Zoom -->
-  <div class="relative overflow-hidden bg-[#050914] aspect-[16/10] flex flex-col justify-between border-b border-white/10">
-    {cover && (
-      <img
-        id={imgId}
-        src={cover.src}
-        alt={coverAlt}
-        width={cover.width}
-        height={cover.height}
-        loading="lazy"
-        decoding="async"
-        class="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-[1.02] transition-transform duration-300"
-      />
-    )}
-    <div class="absolute inset-0 bg-gradient-to-t from-[#050914]/95 via-transparent to-[#050914]/60 pointer-events-none"></div>
-
-    <!-- Top Status Badge & Synchronized Lightbox Zoom Button -->
-    <div class="relative z-10 p-3.5 flex items-center justify-between gap-2">
-      <span class:list={['px-2.5 py-1 rounded-full text-[11px] font-bold border backdrop-blur-md', statusBadgeStyles[project.status]]}>
-        {statusText}
-      </span>
-
+  {hasVisuals ? (
+    <!-- MODE A: Visual Project Header with Real Phone Mockups / Screenshots & Quick Switcher -->
+    <div class="relative overflow-hidden bg-[#050914] aspect-[16/10] flex flex-col justify-between border-b border-white/10">
       {cover && (
-        <button
-          id={`zoom-${imgId}`}
-          type="button"
-          data-lightbox-src={cover.src}
-          data-lightbox-alt={coverAlt}
-          data-lightbox-caption={coverCap}
-          data-lightbox-badge={title}
-          class="px-2.5 py-1 rounded-lg bg-[#050914]/85 hover:bg-blue-600 text-white text-[11px] font-semibold border border-white/15 backdrop-blur-md transition-colors cursor-pointer flex items-center gap-1 min-h-[32px]"
-          aria-label={locale === 'ar' ? `تكبير صورة ${title}` : `Zoom image for ${title}`}
-        >
-          <svg class="w-3.5 h-3.5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16zM11 8v6M8 11h6" />
-          </svg>
-          <span>{locale === 'ar' ? 'تكبير الصورة' : 'Zoom'}</span>
-        </button>
+        <img
+          id={imgId}
+          src={cover.src}
+          alt={coverAlt}
+          width={cover.width}
+          height={cover.height}
+          loading="lazy"
+          decoding="async"
+          class="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-[1.02] transition-transform duration-300"
+        />
+      )}
+      <div class="absolute inset-0 bg-gradient-to-t from-[#050914]/90 via-transparent to-[#050914]/55 pointer-events-none"></div>
+
+      <!-- Top Status Badge & Lightbox Zoom Button -->
+      <div class="relative z-10 p-3 flex items-center justify-between gap-2">
+        <span class:list={['px-2.5 py-1 rounded-full text-[11px] font-bold border backdrop-blur-md', statusBadgeStyles[project.status]]}>
+          {statusText}
+        </span>
+
+        {cover && (
+          <button
+            id={`zoom-${imgId}`}
+            type="button"
+            data-lightbox-src={cover.src}
+            data-lightbox-alt={coverAlt}
+            data-lightbox-caption={coverCap}
+            data-lightbox-badge={title}
+            class="px-2.5 py-1 rounded-lg bg-[#050914]/85 hover:bg-blue-600 text-white text-[11px] font-semibold border border-white/15 backdrop-blur-md transition-colors cursor-pointer flex items-center gap-1 min-h-[32px]"
+            aria-label={locale === 'ar' ? `تكبير صورة ${title}` : `Zoom image for ${title}`}
+          >
+            <svg class="w-3.5 h-3.5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16zM11 8v6M8 11h6" />
+            </svg>
+            <span>{locale === 'ar' ? 'تكبير' : 'Zoom'}</span>
+          </button>
+        )}
+      </div>
+
+      <!-- Bottom Multi-Screen Switcher (Only when project has 2+ real screenshots) -->
+      {secondMedia && cover && (
+        <div class="relative z-10 p-3 flex items-center justify-between gap-2 flex-wrap">
+          <div class="flex items-center gap-1.5">
+            <button
+              type="button"
+              aria-pressed="true"
+              data-switch-target={imgId}
+              data-switch-src={cover.src}
+              data-switch-alt={coverAlt}
+              data-switch-caption={coverCap}
+              data-switch-width={String(cover.width)}
+              data-switch-height={String(cover.height)}
+              class="card-media-btn px-2.5 py-1 rounded-lg bg-blue-600 text-white text-[11px] font-semibold cursor-pointer border border-blue-400 transition-colors"
+            >
+              {locale === 'ar' ? 'شاشة 1' : 'View 1'}
+            </button>
+            <button
+              type="button"
+              aria-pressed="false"
+              data-switch-target={imgId}
+              data-switch-src={secondMedia.src}
+              data-switch-alt={secondAlt}
+              data-switch-caption={secondCap}
+              data-switch-width={String(secondMedia.width)}
+              data-switch-height={String(secondMedia.height)}
+              class="card-media-btn px-2.5 py-1 rounded-lg bg-[#050914]/85 hover:bg-white/10 text-slate-200 text-[11px] font-semibold cursor-pointer border border-white/15 transition-colors"
+            >
+              {locale === 'ar' ? 'شاشة 2' : 'View 2'}
+            </button>
+            {thirdMedia && (
+              <button
+                type="button"
+                aria-pressed="false"
+                data-switch-target={imgId}
+                data-switch-src={thirdMedia.src}
+                data-switch-alt={thirdAlt}
+                data-switch-caption={thirdCap}
+                data-switch-width={String(thirdMedia.width)}
+                data-switch-height={String(thirdMedia.height)}
+                class="card-media-btn px-2.5 py-1 rounded-lg bg-[#050914]/85 hover:bg-white/10 text-slate-200 text-[11px] font-semibold cursor-pointer border border-white/15 transition-colors"
+              >
+                {locale === 'ar' ? 'شاشة 3' : 'View 3'}
+              </button>
+            )}
+          </div>
+          {visualShots.length > 3 && (
+            <span class="px-2 py-0.5 rounded-md bg-[#050914]/85 text-amber-300 text-[11px] font-bold border border-amber-400/30">
+              {locale === 'ar' ? `+${visualShots.length} شاشات بالمعرض` : `+${visualShots.length} Screens`}
+            </span>
+          )}
+        </div>
       )}
     </div>
+  ) : (
+    <!-- MODE B: Headless / Background Engine Header (No Fake Screenshot — Direct Feature & Stack Spotlight) -->
+    <div class="px-5 pt-5 pb-3 border-b border-white/10 bg-gradient-to-r from-blue-950/40 via-[#070E20] to-emerald-950/30 flex items-center justify-between gap-2 flex-wrap">
+      <span class="px-2.5 py-1 rounded-lg bg-amber-500/15 text-amber-300 text-xs font-extrabold border border-amber-400/30">
+        {locale === 'ar' ? '⚙️ محرك أتمتة خلفي (Headless Engine)' : '⚙️ Headless Automation Engine'}
+      </span>
+      <span class:list={['px-2.5 py-1 rounded-full text-[11px] font-bold border', statusBadgeStyles[project.status]]}>
+        {statusText}
+      </span>
+    </div>
+  )}
 
-    <!-- Bottom Synchronized Media Switcher (Updates img + alt + zoom modal together) -->
-    {secondMedia && cover && (
-      <div class="relative z-10 p-3 flex items-center justify-between gap-2 flex-wrap">
-        <div class="flex items-center gap-1.5">
-          <button
-            type="button"
-            aria-pressed="true"
-            data-switch-target={imgId}
-            data-switch-src={cover.src}
-            data-switch-alt={coverAlt}
-            data-switch-caption={coverCap}
-            data-switch-width={String(cover.width)}
-            data-switch-height={String(cover.height)}
-            class="card-media-btn px-2.5 py-1 rounded-lg bg-blue-600 text-white text-[11px] font-semibold cursor-pointer border border-blue-400 transition-colors"
-          >
-            {locale === 'ar' ? 'معاينة النظام' : 'System View'}
-          </button>
-          <button
-            type="button"
-            aria-pressed="false"
-            data-switch-target={imgId}
-            data-switch-src={secondMedia.src}
-            data-switch-alt={secondAlt}
-            data-switch-caption={secondCap}
-            data-switch-width={String(secondMedia.width)}
-            data-switch-height={String(secondMedia.height)}
-            class="card-media-btn px-2.5 py-1 rounded-lg bg-[#050914]/85 hover:bg-white/10 text-slate-200 text-[11px] font-semibold cursor-pointer border border-white/15 transition-colors"
-          >
-            {locale === 'ar' ? 'مخطط العمل' : 'Workflow'}
-          </button>
-        </div>
-      </div>
-    )}
-  </div>
-
-  <!-- Card Body: Human Domain, Title, Dramatic Struggle vs Triumph, Metrics & CTA -->
+  <!-- Card Body: Libraries Pill, Title, 3 Direct Story Points (Idea -> Technical Obstacle -> Breakthrough) -->
   <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between gap-4">
     <div class="space-y-3">
-      <!-- Human-friendly domain badge -->
       <div class="flex items-center justify-between gap-2 flex-wrap">
-        <span class="px-2.5 py-1 rounded-lg bg-blue-500/15 text-blue-300 text-xs font-bold border border-blue-400/25">
+        <span class="px-2.5 py-1 rounded-lg bg-blue-500/15 text-blue-300 font-mono text-[11px] font-bold border border-blue-400/25">
           {humanCat}
         </span>
       </div>
@@ -177,20 +216,18 @@ const secondCap = secondMedia ? (locale === 'ar' ? (secondMedia.captionAr || sec
         </a>
       </h3>
 
-      <!-- High-Impact Struggle vs. Triumph Box -->
+      <!-- Ultra-Concise 3-Point Technical Story: Idea -> Technical Obstacle -> Breakthrough -->
       <div class="space-y-2 text-xs sm:text-[13px] leading-relaxed">
+        <div class="p-2.5 rounded-xl bg-white/[0.04] border border-white/10">
+          <span class="text-slate-100">{ideaText}</span>
+        </div>
+
         <div class="p-2.5 rounded-xl bg-rose-950/35 border border-rose-500/25">
-          <strong class="text-rose-300 font-bold block mb-0.5">
-            {locale === 'ar' ? '🔥 المعاناة قبل الحل:' : '🔥 The Struggle:'}
-          </strong>
           <span class="text-slate-200">{struggle}</span>
         </div>
 
         <div class="p-2.5 rounded-xl bg-emerald-950/35 border border-emerald-500/25">
-          <strong class="text-emerald-300 font-bold block mb-0.5">
-            {locale === 'ar' ? '⚡ النقلة والنتيجة:' : '⚡ The Breakthrough:'}
-          </strong>
-          <span class="text-slate-100">{triumph}</span>
+          <span class="text-slate-100 font-medium">{triumph}</span>
         </div>
       </div>
     </div>
@@ -201,7 +238,7 @@ const secondCap = secondMedia ? (locale === 'ar' ? (secondMedia.captionAr || sec
         <div class="grid grid-cols-2 gap-2">
           {topMetrics.map((res) => (
             <div class="px-3 py-2 rounded-xl bg-white/[0.04] border border-white/10">
-              <span class="block text-sm sm:text-base font-extrabold text-amber-300 leading-tight">
+              <span class="block text-sm font-extrabold text-amber-300 leading-tight">
                 {res.metric}
               </span>
               <span class="block text-[11px] text-slate-300 truncate">
@@ -217,7 +254,11 @@ const secondCap = secondMedia ? (locale === 'ar' ? (secondMedia.captionAr || sec
         href={href}
         class="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-blue-600/20 hover:bg-blue-600 group-hover:bg-blue-600 text-white font-bold text-xs sm:text-sm border border-blue-400/30 group-hover:border-blue-500 transition-colors min-h-[42px]"
       >
-        <span>{t.readCaseStudy}</span>
+        <span>
+          {hasVisuals
+            ? (locale === 'ar' ? 'فتح المعرض والتفاصيل التقنية' : 'View Screens & Tech Specs')
+            : (locale === 'ar' ? 'فتح تفاصيل المحرك والمكتبات' : 'View Engine Specs & Stack')}
+        </span>
         <svg
           class:list={['w-4 h-4 transition-transform', locale === 'ar' ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1']}
           fill="none"

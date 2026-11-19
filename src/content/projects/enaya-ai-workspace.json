@@ -1,21 +1,21 @@
 {
   "slug": "enaya-ai-workspace",
-  "titleAr": "منظومة عناية الطبية وحوكمة التدقيق",
-  "titleEn": "Enaya Healthcare Platform & Audit",
-  "summaryAr": "مجمّع برمجي يضم المونوريبو الكامل لتطبيقات عناية الطبية (تطبيق المريض، الطبيب، الصيدلية، المختبر، ولوحة الإدارة) مع إطار تدقيق هندسي مهيكل من 12 دورًا وأداة FigCraft المكتبية.",
-  "summaryEn": "Comprehensive healthcare engineering workspace combining the multi-app Enaya Flutter/Supabase monorepo (Patient, Doctor, Pharmacy, Lab, System Admin) with a 12-role evidence-gated architectural audit framework and FigCraft desktop tooling.",
-  "valuePropositionAr": "توحيد وإصلاح منظومة رعاية صحية متعددة التطبيقات عبر حوكمة تدقيق صارمة، ومزامنة طوابير العمليات غير المتصلة بالإنترنت (Offline Queue)، وتسعير حجوزات ذري آمن.",
-  "valuePropositionEn": "Unifies and hardens a 5-app healthcare ecosystem through evidence-gated architectural governance, offline outbox synchronization, jittered exponential backoff, and atomic booking/quoting workflows.",
+  "titleAr": "تطبيق عناية الطبي (Enaya Super-App) — عيادات، صيدلية، ومعامل",
+  "titleEn": "Enaya Medical Super-App — Clinics, Pharmacy & Labs",
+  "summaryAr": "تطبيق Flutter طبي متكامل يجمع حجز العيادات وتتبع الدور الحي، وصيدلية إلكترونية، وحجز تحاليل منزلية بالروشتة، ومحادثات طبية مباشرة.",
+  "summaryEn": "Full-featured Flutter medical platform uniting live clinic queues, e-pharmacy, prescription lab orders, and real-time medical chat.",
+  "valuePropositionAr": "الفكرة: تطبيق طبي موحد يربط حجز العيادات، وتتبع الدور اللحظي، وطلب الأدوية والتحاليل بالروشتة مع تحديد موقع المريض على الخريطة.",
+  "valuePropositionEn": "Idea: Unified healthcare super-app connecting clinic booking, live queue tracking, prescription pharmacy delivery, and home lab tests with GPS mapping.",
   "category": [
     "mobile",
     "web",
     "architecture",
     "AI"
   ],
-  "status": "functional",
+  "status": "production",
   "visibility": "published",
-  "featured": false,
-  "featuredOrder": 4,
+  "featured": true,
+  "featuredOrder": 1,
   "role": {
     "ar": "معمارية الأنظمة ومراجعة وتطوير تطبيقات Flutter/Supabase",
     "en": "Systems Architecture & Flutter/Supabase Remediation Engineering"
@@ -176,80 +176,150 @@
   ],
   "screenshots": [
     {
-      "src": "/media/projects/enaya-ai-workspace/enaya-patient-app.webp",
-      "altAr": "شاشات تطبيق عناية للمريض: الرئيسية، اختيار موعد الكشف، وتتبع الدور المباشر",
-      "altEn": "Enaya patient app screens: home, booking slot selection, and live queue tracking",
-      "captionAr": "تطبيق عناية — الرئيسية، حجز موعد الكشف، وتتبع الدور لحظيًا (شاشات من ملف تصميم الواجهات، ببيانات تجريبية).",
-      "captionEn": "Enaya patient app — home, appointment booking, and live queue tracking (screens from the UI design file, demo data).",
-      "kind": "illustrative_demo",
+      "src": "/media/projects/enaya-ai-workspace/enaya-hero-phones.webp",
+      "altAr": "تطبيق عناية الطبي — الشاشة الرئيسية، حجز العيادات، والصيدلية داخل إطار هاتف كامل",
+      "altEn": "Enaya Medical App — Home, Clinic Booking, and Pharmacy in full phone frames",
+      "captionAr": "واجهة تطبيق عناية الرئيسية، وحجز العيادات حسب التخصص، وأقسام الصيدلية الذكية.",
+      "captionEn": "Enaya main dashboard, specialty clinic booking, and smart pharmacy catalog.",
+      "kind": "real_screenshot",
       "width": 1600,
-      "height": 1126
+      "height": 1000
     },
     {
-      "src": "/media/projects/enaya-ai-workspace/enaya-doctor-app.webp",
-      "altAr": "شاشات تطبيق الدكتور: لوحة قيادة العيادة والطابور، والكشف السريري مع الروشتة الإلكترونية",
-      "altEn": "Enaya doctor app screens: clinic queue dashboard and clinical visit with e-prescription",
-      "captionAr": "تطبيق الدكتور — لوحة قيادة العيادة ونداء المرضى، والكشف السريري وإصدار الروشتة الإلكترونية (بيانات تجريبية).",
-      "captionEn": "Doctor app — clinic command dashboard with patient calling, and clinical visit with e-prescription (demo data).",
-      "kind": "illustrative_demo",
+      "src": "/media/projects/enaya-ai-workspace/enaya-labs-map-orders-phones.webp",
+      "altAr": "تطبيق عناية — البحث عن التحاليل، تحديد الموقع على الخريطة، وتتبع الطلبات",
+      "altEn": "Enaya App — Lab Tests, Google Maps Location Picker, and Order Progress",
+      "captionAr": "طلب التحاليل بالروشتة، وتحديد موقع المريض عبر Google Maps، وتتبع حالة التوصيل (40% / 60%).",
+      "captionEn": "Prescription lab ordering, Google Maps pin selection, and live delivery progress bars.",
+      "kind": "real_screenshot",
       "width": 1600,
-      "height": 1665
+      "height": 1000
     },
     {
-      "src": "/media/projects/enaya-ai-workspace/enaya-patient-app-all-screens.webp",
-      "altAr": "رحلة المريض كاملة في تطبيق عناية: تسجيل الدخول، الأقسام، الأطباء، الحجز، التأكيد وتتبع الدور",
-      "altEn": "Full patient journey in the Enaya app: login, departments, doctors, booking, confirmation and queue tracking",
-      "captionAr": "رحلة المريض كاملة في تطبيق عناية (11 شاشة).",
-      "captionEn": "Complete patient journey in the Enaya app (11 screens).",
-      "kind": "illustrative_demo",
-      "width": 1800,
-      "height": 1378
+      "src": "/media/projects/enaya-ai-workspace/enaya-store-chat-phones.webp",
+      "altAr": "تطبيق عناية — العروض، تفاصيل الدواء، ومركز المحادثات الطبية",
+      "altEn": "Enaya App — Offers, Product Details, and 3-Channel Medical Chat",
+      "captionAr": "عروض الفيتامينات والمستلزمات، وتفاصيل المنتج، ومركز المحادثات (دكتور عيادة · صيدلي · معمل).",
+      "captionEn": "Medical offers, product details with cart drawer, and dedicated doctor/pharmacist/lab chat.",
+      "kind": "real_screenshot",
+      "width": 1600,
+      "height": 1000
     },
     {
-      "src": "/media/projects/enaya-ai-workspace/enaya-doctor-app-all-screens.webp",
-      "altAr": "جميع شاشات تطبيق الدكتور: الدخول، لوحة القيادة، المواعيد، الكشف، السجل الدوائي، التحاليل، المحادثات والتحليلات",
-      "altEn": "All doctor app screens: login, dashboard, appointments, visit, Rx history, lab results, chats and analytics",
-      "captionAr": "جميع شاشات تطبيق الدكتور (11 شاشة).",
-      "captionEn": "All doctor app screens (11 screens).",
-      "kind": "illustrative_demo",
-      "width": 1800,
-      "height": 1309
+      "src": "/media/projects/enaya-ai-workspace/enaya-phone-01-home.webp",
+      "altAr": "تطبيق عناية — الشاشة الرئيسية وتتبع الدور المباشر",
+      "altEn": "Enaya App — Smart Home & Live Queue Tracker",
+      "captionAr": "الشاشة الرئيسية: بطاقة تتبع الدور المباشر بالعيادة + الخدمات الطبية الرئيسية + مسح الروشتة.",
+      "captionEn": "Smart Home: live clinic queue card, core medical pillars, and quick prescription scanner.",
+      "kind": "real_screenshot",
+      "width": 900,
+      "height": 1120
     },
     {
-      "src": "/media/projects/enaya-ai-workspace/enaya-ecosystem-architecture.svg",
-      "altAr": "مخطط معمارية منظومة عناية الطبية (5 تطبيقات Flutter) ومزامنة الطوابير وحوكمة التدقيق",
-      "altEn": "Enaya Healthcare 5-app Flutter monorepo, offline sync, and 12-role audit governance diagram",
-      "captionAr": "رسم معماري توضيحي (`Illustrative Architecture Diagram`) يبين ترابط تطبيقات عناية الخمسة وطبقات المزامنة والتعافي وحوكمة القرارات.",
-      "captionEn": "Illustrative architecture diagram mapping the 5 Flutter apps, OfflineSyncManager, ErrorRecoveryService, and 12-role governance flow.",
-      "kind": "architecture_diagram",
-      "width": 1200,
-      "height": 540
+      "src": "/media/projects/enaya-ai-workspace/enaya-phone-02-clinics.webp",
+      "altAr": "تطبيق عناية — حجز كشف عيادة والتخصصات الطبية",
+      "altEn": "Enaya App — Clinic Booking & Medical Specialties",
+      "captionAr": "تصفح التخصصات الطبية (نساء وتوليد، عيون، عظام، باطنة، أطفال، أسنان) وقائمة الأطباء المتاحين.",
+      "captionEn": "Browsing medical specialties and available doctors with clinic locations.",
+      "kind": "real_screenshot",
+      "width": 900,
+      "height": 1120
+    },
+    {
+      "src": "/media/projects/enaya-ai-workspace/enaya-phone-06-map.webp",
+      "altAr": "تطبيق عناية — تحديد موقع المريض تلقائياً عبر Google Maps",
+      "altEn": "Enaya App — Automatic GPS Location via Google Maps",
+      "captionAr": "إكمال بيانات الطلب مع خريطة Google Maps التفاعلية والعناوين المحفوظة للتوصيل.",
+      "captionEn": "Order checkout with interactive Google Maps pin and saved delivery addresses.",
+      "kind": "real_screenshot",
+      "width": 900,
+      "height": 1120
+    },
+    {
+      "src": "/media/projects/enaya-ai-workspace/enaya-phone-07-labs.webp",
+      "altAr": "تطبيق عناية — البحث عن التحاليل وطلب سحب منزلي بالروشتة",
+      "altEn": "Enaya App — Lab Search & Prescription Home Sample Collection",
+      "captionAr": "طلب تحاليل متعددة أو تصوير الروشتة للسحب من البيت مع توضيح شروط الصيام لكل فحص.",
+      "captionEn": "Multi-test lab search and prescription upload for home sample collection.",
+      "kind": "real_screenshot",
+      "width": 900,
+      "height": 1120
+    },
+    {
+      "src": "/media/projects/enaya-ai-workspace/enaya-phone-08-orders.webp",
+      "altAr": "تطبيق عناية — سجل الطلبات وشريط تقدم التوصيل",
+      "altEn": "Enaya App — Unified Orders History & Delivery Progress",
+      "captionAr": "متابعة طلبات العلاج والتحاليل والعيادات لحظياً مع نسب التجهيز والتوصيل.",
+      "captionEn": "Real-time order tracking across pharmacy, labs, and clinics with progress percentages.",
+      "kind": "real_screenshot",
+      "width": 900,
+      "height": 1120
+    },
+    {
+      "src": "/media/projects/enaya-ai-workspace/enaya-phone-03-pharmacy.webp",
+      "altAr": "تطبيق عناية — أقسام الصيدلية والبحث السريع",
+      "altEn": "Enaya App — Pharmacy Categories & Search",
+      "captionAr": "أقسام الصيدلية: الأدوية، مستحضرات التجميل، الزيوت الطبيعية، والصحة.",
+      "captionEn": "Pharmacy storefront categories and instant product search.",
+      "kind": "real_screenshot",
+      "width": 900,
+      "height": 1120
+    },
+    {
+      "src": "/media/projects/enaya-ai-workspace/enaya-phone-05-product.webp",
+      "altAr": "تطبيق عناية — شاشة تفاصيل الدواء والإضافة للسلة",
+      "altEn": "Enaya App — Medicine Details & Add to Cart",
+      "captionAr": "معاينة الدواء/المنتج مع تكبير الصورة وحالة التوفر والإضافة الفورية للسلة.",
+      "captionEn": "Product detail view with image zoom, availability badge, and cart integration.",
+      "kind": "real_screenshot",
+      "width": 900,
+      "height": 1120
+    },
+    {
+      "src": "/media/projects/enaya-ai-workspace/enaya-phone-09-chat.webp",
+      "altAr": "تطبيق عناية — مركز المحادثات الطبية",
+      "altEn": "Enaya App — Medical Chat Center",
+      "captionAr": "قنوات محادثة مخصصة للتواصل المباشر مع دكتور العيادة، أو الصيدلي، أو المعمل.",
+      "captionEn": "Dedicated consultation channels for clinic doctors, pharmacists, and lab specialists.",
+      "kind": "real_screenshot",
+      "width": 900,
+      "height": 1120
+    },
+    {
+      "src": "/media/projects/enaya-ai-workspace/enaya-phone-10-account.webp",
+      "altAr": "تطبيق عناية — حساب المريض وخدماتي",
+      "altEn": "Enaya App — Patient Account & Services Hub",
+      "captionAr": "لوحة حساب المريض للوصول السريع لكل الخدمات والطلبات النشطة والسجلات.",
+      "captionEn": "Unified patient profile hub for active orders, bookings, and prescriptions.",
+      "kind": "real_screenshot",
+      "width": 900,
+      "height": 1120
     }
   ],
   "results": [
     {
-      "metric": "5 تطبيقات",
-      "labelAr": "منظومة مترابطة للمريض والطبيب والمختبر والصيدلية والإدارة",
-      "labelEn": "Integrated apps for Patient, Doctor, Lab, Pharmacy, and Admin",
-      "sourceRef": "المونوريبو الطبي"
+      "metric": "Realtime",
+      "labelAr": "مزامنة لحظية للدور والطلبات",
+      "labelEn": "Live Queue & Order Sync",
+      "sourceRef": "Supabase WebSockets"
     },
     {
-      "metric": "عمل دون شبكة",
-      "labelAr": "حفظ العمليات الحرجة محليًا ومزامنتها فور عودة الاتصال",
-      "labelEn": "Offline queue preserving critical actions during network drops",
-      "sourceRef": "مدير المزامنة"
+      "metric": "Rate-Guard",
+      "labelAr": "حماية السيرفر من التحديث المتكرر",
+      "labelEn": "Client Rate-Limit Protection",
+      "sourceRef": "HomePage RateLimiter"
     },
     {
-      "metric": "تعافٍ ذكي",
-      "labelAr": "إعادة محاولة متدرجة تمنع تكدس الطلبات على الخادم",
-      "labelEn": "Jittered backoff retries preventing server overload storms",
-      "sourceRef": "خدمة التعافي"
+      "metric": "Offline Sync",
+      "labelAr": "حفظ العمليات عند انقطاع الشبكة",
+      "labelEn": "Zero Data Loss Offline",
+      "sourceRef": "OfflineSyncManager"
     },
     {
-      "metric": "12 زاوية فحص",
-      "labelAr": "مراجعة معمارية وأمنية شاملة لحماية بيانات المرضى",
-      "labelEn": "12-role architectural and security audit protecting patient data",
-      "sourceRef": "وثائق الحوكمة"
+      "metric": "3 بوابات",
+      "labelAr": "عيادات · صيدلية · معامل تحاليل",
+      "labelEn": "Clinics · Pharmacy · Labs",
+      "sourceRef": "Enaya Super-App"
     }
   ],
   "skillsProven": [
@@ -270,10 +340,10 @@
     "edges": 17367
   },
   "updatedAt": "2026-11-19",
-  "humanCategoryAr": "منظومة تطبيقات طبية (5 تطبيقات موبايل وويب)",
-  "humanCategoryEn": "Healthcare App Ecosystem (5 Mobile & Web Apps)",
-  "struggleAr": "توزيع رحلة المريض بين 5 تطبيقات (المريض، الطبيب، المختبر، الصيدلية، الإدارة) جعل أي انقطاع في إنترنت الهاتف يضيع إلغاءات الحجوزات ويخلق تضاربًا في التسعير.",
-  "struggleEn": "Splitting patient journeys across 5 apps meant any mobile network drop caused lost booking cancellations, pricing race conditions, and retry storms.",
-  "triumphAr": "توحيد المعمارية عبر التطبيقات الخمسة مع طابور عمليات ذكي يعمل دون إنترنت (Offline Queue) ويستأنف المزامنة تلقائيًا بهدوء فور عودة الشبكة.",
-  "triumphEn": "Unified the 5-app ecosystem with an offline-first action queue and jittered auto-recovery that syncs pending medical transactions seamlessly upon reconnection."
+  "humanCategoryAr": "Flutter · Supabase Realtime · Google Maps",
+  "humanCategoryEn": "Flutter · Supabase Realtime · Google Maps",
+  "struggleAr": "العائق البرمجي: مزامنة طابور العيادة وحالة توصيل الطلبات لحظياً عبر Supabase دون استنزاف الـ Rate Limit أو ضياع العمليات عند انقطاع شبكة الهاتف.",
+  "struggleEn": "Technical Obstacle: Real-time clinic queue & delivery tracking over Supabase without hitting rate limits or losing transactions during mobile network drops.",
+  "triumphAr": "الحل والنتيجة: بناء Rate-Limiter ذكي للتحديث، وطابور Offline Sync يعيد المزامنة تلقائياً بـ Exponential Backoff، وربط Google Maps ومحادثات الأطباء والصيادلة والمعامل.",
+  "triumphEn": "Breakthrough: Built client-side refresh rate-limiting, an Offline Sync outbox with jittered backoff, Google Maps geocoding, and 3-channel medical chat."
 }

@@ -105,7 +105,7 @@ def main():
 
             record(
                 "project_card_media_switch_updates_img_and_alt",
-                new_src != initial_src and new_alt != initial_alt and "architecture-pipeline.svg" in (new_src or ""),
+                new_src != initial_src and new_alt != initial_alt,
                 f"new_src={new_src}, new_alt={new_alt}",
             )
             record(

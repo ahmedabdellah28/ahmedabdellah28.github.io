@@ -1,19 +1,19 @@
 {
   "slug": "rok-vision-controller",
-  "titleAr": "محرك معايرة الشاشات عبر ADB",
-  "titleEn": "Universal ADB Screen Controller",
-  "summaryAr": "أداة تحكم بايثون عبر `uiautomator2` وADB تحل مشكلة اختلاف أبعاد ونسب الشاشات (16:9، 20:9، الأجهزة اللوحية) عبر خوارزمية تحويل إحداثيات مرتكزة على نقاط الإرساء (`ScreenScaler`).",
-  "summaryEn": "Python ADB automation controller using `uiautomator2` that solves multi-device aspect-ratio drift (16:9, 19.5:9, 20:9, tablets) via an anchor-based geometric coordinate transformer (`ScreenScaler`).",
-  "valuePropositionAr": "تشغيل نفس سيناريو التحكم عبر ADB على أي هاتف أو جهاز لوحي مهما اختلفت دقة الشاشة أو نسبة العرض إلى الارتفاع دون إعادة معايرة يدوية.",
-  "valuePropositionEn": "Runs ADB UI automation accurately across arbitrary screen resolutions and aspect ratios (16:9, 19.5:9, 20:9, tablets) without per-device coordinate recalibration.",
+  "titleAr": "تطبيق Touch Assistant وأتمتة Rise of Kingdoms الذكية",
+  "titleEn": "Touch Assistant App & Rise of Kingdoms Anti-Bot Automation",
+  "summaryAr": "تطبيق ومحرك أتمتة للعبة Rise of Kingdoms يدعم النسخة الأساسية والمزدوجة وصيد الموارد والجواهر بتوقيت بشري يمنع الحظر.",
+  "summaryEn": "Android Touch Assistant and ADB/uiautomator2 controller for Rise of Kingdoms with Dual-App support, deficit-based resource hunting, and anti-bot timing.",
+  "valuePropositionAr": "الفكرة: تطبيق تحكم ذكي يصطاد الموارد الأعلى عجزاً (Food, Wood, Stone, Gold, Gems) ويدير عدة شخصيات في النسخة الأساسية والمزدوجة تلقائياً.",
+  "valuePropositionEn": "Idea: Smart Android controller that auto-hunts highest-deficit resources (Food, Wood, Stone, Gold, Gems) across main and dual-app game instances.",
   "category": [
     "automation",
     "CLI"
   ],
-  "status": "functional",
+  "status": "production",
   "visibility": "published",
-  "featured": false,
-  "featuredOrder": 7,
+  "featured": true,
+  "featuredOrder": 2,
   "role": {
     "ar": "تطوير خوارزمية التحويل الهندسي وأتمتة ADB",
     "en": "Geometric UI Scaling & ADB Automation Engineering"
@@ -132,40 +132,60 @@
   ],
   "screenshots": [
     {
-      "src": "/media/projects/rok-vision-controller/anchor-screen-scaler.svg",
-      "altAr": "مخطط تقني يوضح خوارزمية ScreenScaler ونقاط الإرساء الخمس عبر أبعاد الشاشات",
-      "altEn": "Technical diagram of ScreenScaler height-locked coordinate projection across 5 viewport anchors",
-      "captionAr": "رسم تقني توضيحي (`Illustrative Technical Diagram`) يشرح كيف تحافظ خوارزمية `ScreenScaler` على دقة الإحداثيات عند تغير نسبة أبعاد الشاشة.",
-      "captionEn": "Illustrative technical diagram demonstrating how `ScreenScaler` preserves button accuracy across 16:9 and 20:9 aspect ratios.",
-      "kind": "architecture_diagram",
-      "width": 1200,
-      "height": 540
+      "src": "/media/projects/rok-vision-controller/rok-app-and-game-hero.webp",
+      "altAr": "هاتف تطبيق Touch Assistant بجانب شاشة لعبة Rise of Kingdoms",
+      "altEn": "Touch Assistant portrait phone alongside Rise of Kingdoms landscape game phone",
+      "captionAr": "تطبيق Touch Assistant (اختيار النسخة الأساسية/المزدوجة والموارد المستهدفة) بجانب شاشة المدينة في Rise of Kingdoms.",
+      "captionEn": "Touch Assistant app (Main/Dual-App selector & target resource toggles) next to Rise of Kingdoms live city view.",
+      "kind": "real_screenshot",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "src": "/media/projects/rok-vision-controller/rok-app-and-map-search.webp",
+      "altAr": "تطبيق Touch Assistant بجانب شاشة البحث الميداني في خريطة اللعبة",
+      "altEn": "Touch Assistant app alongside in-game resource search map view",
+      "captionAr": "مزامنة أوامر التطبيق مع قائمة البحث الميداني في الخريطة وتحديد المستوى وإرسال الجيوش تلقائياً.",
+      "captionEn": "Synchronizing app commands with the in-game map search overlay and troop dispatch sequence.",
+      "kind": "real_screenshot",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "src": "/media/projects/rok-vision-controller/rok-app-and-characters.webp",
+      "altAr": "تطبيق Touch Assistant بجانب شاشة الإعدادات وتبديل الشخصيات",
+      "altEn": "Touch Assistant app alongside game settings and multi-character switcher",
+      "captionAr": "التدوير التلقائي بين عدة شخصيات وحسابات في دورة مستمرة مع استئناف صيد الموارد.",
+      "captionEn": "Automated multi-character rotation through game settings with continuous gathering loops.",
+      "kind": "real_screenshot",
+      "width": 1600,
+      "height": 1000
     }
   ],
   "results": [
     {
-      "metric": "5 نقاط ارتكاز",
-      "labelAr": "تحويل هندسي يحاكي طريقة تثبيت الأزرار في زوايا الشاشة",
-      "labelEn": "5 viewport anchor zones mirroring real UI layout pinning",
-      "sourceRef": "محول الإحداثيات"
+      "metric": "Anti-Bot",
+      "labelAr": "توقيت بشري عشوائي يمنع الكشف",
+      "labelEn": "Randomized Human Jitter",
+      "sourceRef": "5-10s Click Delay"
     },
     {
-      "metric": "16:9 ← 20:9",
-      "labelAr": "يعمل فورًا على الهواتف والأجهزة اللوحية دون إعادة قياس",
-      "labelEn": "Works across phones and tablets with zero manual recalibration",
-      "sourceRef": "دعم الأبعاد"
+      "metric": "User 0 & 999",
+      "labelAr": "دعم النسخة الأساسية والمزدوجة",
+      "labelEn": "Main & Dual-App Support",
+      "sourceRef": "Touch Assistant UI"
     },
     {
-      "metric": "توقيت طبيعي",
-      "labelAr": "فواصل زمنية متغيرة تحاكي التفاعل البشري الهادئ",
-      "labelEn": "Randomized human-like timing intervals between interactions",
-      "sourceRef": "محرك الدورة"
+      "metric": "5 موارد + Gems",
+      "labelAr": "صيد تلقائي للمورد الأعلى عجزاً",
+      "labelEn": "Auto-Hunts Highest Deficit",
+      "sourceRef": "Gems Hybrid Active"
     },
     {
-      "metric": "تبديل تلقائي",
-      "labelAr": "إدارة دورة العمل عبر عدة حسابات بالتتابع مع عداد حي",
-      "labelEn": "Automated multi-profile rotation loop with live countdowns",
-      "sourceRef": "وحدة التحكم"
+      "metric": "5 Anchors",
+      "labelAr": "معايرة شاشة ديناميكية بلا انحراف",
+      "labelEn": "Dynamic Viewport Scaling",
+      "sourceRef": "ScreenScaler"
     }
   ],
   "skillsProven": [
@@ -184,10 +204,10 @@
     "edges": 108
   },
   "updatedAt": "2026-11-19",
-  "humanCategoryAr": "تحويل هندسي ذكي للشاشات المتعددة",
-  "humanCategoryEn": "Multi-Resolution Adaptive Screen Controller",
-  "struggleAr": "اختلاف أبعاد الشاشات بين الهواتف العريضة (20:9) والأجهزة اللوحية (16:9) كان يجعل النقرات الآلية تضرب خارج الأزرار، مما يجبر المطور على إعادة القياس يدويًا لكل جهاز.",
-  "struggleEn": "Aspect-ratio differences between ultra-wide phones (20:9) and tablets (16:9) caused automated taps to miss buttons, forcing manual recalibration for every device.",
-  "triumphAr": "خوارزمية تحويل هندسي ذكية ترتكز على زوايا الواجهة الخمس وارتفاع الشاشة، لتصيب الأزرار بدقة فورية على أي هاتف أو جهاز لوحي دون إعادة معايرة.",
-  "triumphEn": "Smart anchor-based geometric transformer locking scale to screen height across 5 HUD zones, delivering instant click accuracy on any screen size."
+  "humanCategoryAr": "Android · ADB · uiautomator2 · Anti-Bot Stealth",
+  "humanCategoryEn": "Android · ADB · uiautomator2 · Anti-Bot Stealth",
+  "struggleAr": "العائق البرمجي: تفادي أنظمة كشف البوت (Anti-Bot)، والتعامل مع النسخة المزدوجة (User 0 & Dual App 999)، واختلاف أبعاد الشاشات عند تحريك الخريطة.",
+  "struggleEn": "Technical Obstacle: Evading anti-bot detection, targeting both Main (User 0) & Dual App (999) instances, and handling aspect-ratio drift across screens.",
+  "triumphAr": "الحل والنتيجة: تمويه النقرات بتأخير بشري عشوائي (5-10s Jitter)، ومعايرة الإحداثيات نسبياً على 5 نقاط إرساء، ودعم صيد الجواهر الهجين (Gems Hybrid 7-10).",
+  "triumphEn": "Breakthrough: Human-like randomized click jitter (5-10s), 5-anchor dynamic coordinate scaling, Dual-App targeting, and hybrid gem-hunting logic."
 }

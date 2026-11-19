@@ -3,211 +3,241 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import CTA from '../../components/CTA.astro';
-import { SITE_CONFIG, UI_LABELS } from '../../config/site';
+import { SITE_CONFIG } from '../../config/site';
 
 export function getStaticPaths() {
   return [{ params: { locale: 'ar' } }, { params: { locale: 'en' } }];
 }
 
 const { locale } = Astro.params as { locale: 'ar' | 'en' };
-const t = UI_LABELS[locale];
 
 // Strictly filter published projects only, ordered by featuredOrder
 const allPublished = (await getCollection('projects', ({ data }) => data.visibility === 'published')).sort(
   (a, b) => a.data.featuredOrder - b.data.featuredOrder
 );
 
-// 3 Flagship Featured Projects + 4 Additional Specialized Systems — ALL 7 visible on Homepage!
-const featuredProjects = allPublished.slice(0, 3);
-const additionalProjects = allPublished.slice(3);
+// Split into Section 1: Visual Applications (5 projects with real screenshots/phone frames)
+// and Section 2: Headless Background Automation Engines (2 projects without screenshots)
+const visualProjects = allPublished.filter((p) => p.data.screenshots.length > 0);
+const headlessEngines = allPublished.filter((p) => p.data.screenshots.length === 0);
 
-// D. What I Build / Expertise (4 clear client-value cards)
-const expertiseGroups = [
+// Categorized Libraries & Deep Technical Skills Grid (Shows Libraries & Skills, NOT App Descriptions)
+const skillCategories = [
   {
-    badgeAr: 'تطبيقات ومنصات',
-    badgeEn: 'Web, Mobile & Desktop Apps',
-    titleAr: 'منصات وتطبيقات رقمية متكاملة وسريعة',
-    titleEn: 'Fast, Production-Grade Digital Platforms',
-    valueAr: 'بناء متاجر ومنصات طبية وتطبيقات موبايل وسطح مكتب تدعم العربية والإنجليزية بسلاسة وتتحمل ضغط التشغيل الحقيقي.',
-    valueEn: 'Building e-commerce marketplaces, healthcare suites, and cross-platform apps with native Arabic/English UX.',
-    exampleLabelAr: 'شاهد التطبيق في: متجر سول للأحذية ومنظومة عناية الطبية ←',
-    exampleLabelEn: 'See in action: SOLE Marketplace & Enaya Medical Suite →',
-    exampleHref: `/${locale}/projects/remix-sole-marketplace`,
+    categoryAr: 'AI وصناعة الفيديو والمونتاج الآلي',
+    categoryEn: 'AI Video Compilation & Automated Montage',
+    accent: 'text-amber-300 border-amber-400/30 bg-amber-500/10',
+    items: [
+      {
+        lib: 'Manim & Scene Graph AST',
+        skillAr: 'تحويل النص الخام إلى مشاهد موشن جرافيك وطبقات كاميرا ونصوص عربية متحركة',
+        skillEn: 'Compiling raw scripts into multi-layer camera choreography and RTL kinetic typography',
+      },
+      {
+        lib: 'FFmpeg & RMS Voice Ducking',
+        skillAr: 'خلط 80+ مؤثر صوتي وخفضها تلقائياً بالمللي ثانية فور نطق المعلق الصوتي',
+        skillEn: 'Frame-accurate mixing of 80+ SFX cues with automatic RMS envelope voice ducking',
+      },
+      {
+        lib: 'Faster-Whisper & Edge-TTS',
+        skillAr: 'استخراج الأختام الزمنية للكلمات ومزامنة ظهور البطاقات مع الصوت (< 0.35s)',
+        skillEn: 'Word-level timestamp extraction locking visual card reveals to speech (<0.35s drift)',
+      },
+    ],
   },
   {
-    badgeAr: 'ذكاء اصطناعي وأتمتة',
-    badgeEn: 'AI & Automation Engines',
-    titleAr: 'تحويل العمل اليدوي المرهق إلى خطوط إنتاج آلية',
-    titleEn: 'Turning Grueling Manual Work into Automated Pipelines',
-    valueAr: 'أتمتة العمليات التي تستهلك أيامًا من المونتاج أو المتابعة البصرية أو إدارة المتصفحات المتعددة لتعمل ذاتيًا بدقة.',
-    valueEn: 'Automating multi-hour video rendering, visual screen monitoring, and multi-browser workflows into self-healing pipelines.',
-    exampleLabelAr: 'شاهد التطبيق في: محرك AION Studio لإنتاج الموشن جرافيك ←',
-    exampleLabelEn: 'See in action: AION Studio Motion Graphics Engine →',
-    exampleHref: `/${locale}/projects/image-to-animate`,
+    categoryAr: 'الرؤية الحاسوبية، الأتمتة، وتخفي Anti-Bot',
+    categoryEn: 'Computer Vision, ADB Automation & Anti-Bot Stealth',
+    accent: 'text-emerald-300 border-emerald-400/30 bg-emerald-500/10',
+    items: [
+      {
+        lib: 'OpenCV & Zero-GC ZNCC',
+        skillAr: 'مطابقة القوالب البصرية على شاشة الهاتف بصفر تسريب ذاكرة (0 MB/Frame) عبر ThreadLocal',
+        skillEn: 'On-device template matching with zero per-frame heap allocation via ThreadLocal buffers',
+      },
+      {
+        lib: 'ADB & uiautomator2 (User 0 / 999)',
+        skillAr: 'التحكم بالنسخة الأساسية والمزدوجة للألعاب والتطبيقات مع معايرة الشاشة على 5 نقاط إرساء',
+        skillEn: 'Controlling Main (User 0) & Dual-App (999) instances with 5-anchor dynamic screen scaling',
+      },
+      {
+        lib: 'Playwright · Selenium · Stealth Jitter',
+        skillAr: 'تأخير بشري عشوائي (5-10s) وعزل 20 متصفح متزامن ببصمات وكوكيز مستقلة لمنع كشف البوت',
+        skillEn: 'Human-like randomized click jitter and 20-slot isolated browser profiles to evade bot detection',
+      },
+    ],
   },
   {
-    badgeAr: 'خوارزميات وحل قيود',
-    badgeEn: 'Constraint Solving',
-    titleAr: 'حل الجداول والقيود المستحيلة رياضيًا بدون تضارب',
-    titleEn: 'Solving Complex Scheduling & Operational Constraints',
-    valueAr: 'تحويل القواعد المتشابكة إلى محرك رياضي ينتج جداول خالية 100% من التعارض مع اقتراح بدائل ذكية عند التعديل اليدوي.',
-    valueEn: 'Modeling strict institutional rules mathematically to generate 100% conflict-free schedules with interactive smart repair.',
-    exampleLabelAr: 'شاهد التطبيق في: نظام الجدول المدرسي الذكي ←',
-    exampleLabelEn: 'See in action: Smart School Timetable System →',
-    exampleHref: `/${locale}/projects/school-timetable`,
+    categoryAr: 'تطبيقات الموبايل والويب والمزامنة اللحظية',
+    categoryEn: 'Mobile, Web & Real-Time Synchronization',
+    accent: 'text-blue-300 border-blue-400/30 bg-blue-500/10',
+    items: [
+      {
+        lib: 'Flutter · Bloc / Cubit · GoRouter',
+        skillAr: 'بناء تطبيقات موبايل فائقة السرعة بهوية موحدة وحماية التحديث بـ Rate-Limiter ذكي',
+        skillEn: 'Building production Flutter super-apps with clean Bloc state and client-side rate limiting',
+      },
+      {
+        lib: 'Supabase Realtime · RLS · Offline Outbox',
+        skillAr: 'بث حي لطوابير العيادات والطلبات عبر WebSockets مع طابور أوفلاين يعيد المزامنة بـ Backoff',
+        skillEn: 'Live WebSocket queue broadcasting paired with an Offline Sync outbox and jittered backoff',
+      },
+      {
+        lib: 'React 19 · TypeScript · Prisma · Google Maps',
+        skillAr: 'ربط الخرائط وتحديد الموقع الجغرافي، وبناء متاجر تحمي حصة الـ API وتفحص الملفات بـ Magic Bytes',
+        skillEn: 'GPS geocoding, quota-safe cloud catalogs, and binary Magic-Byte upload verification',
+      },
+    ],
   },
   {
-    badgeAr: 'أمان واعتمادية 24/7',
-    badgeEn: 'Security & Offline Resilience',
-    titleAr: 'حماية البيانات من الضياع وتحصين الأنظمة ضد الاختراق',
-    titleEn: 'Zero Data Loss Offline & Binary Security Hardening',
-    valueAr: 'تخزين المهام محليًا عند انقطاع الإنترنت، وتصفير استنزاف الذاكرة في التشغيل المستمر، وفحص الملفات المرفوعة أمنيًا.',
-    valueEn: 'Persisting queued tasks through network drops, eliminating memory leaks in 24/7 loops, and blocking spoofed uploads.',
-    exampleLabelAr: 'شاهد التطبيق في: Phone Commander وحماية متجر سول ←',
-    exampleLabelEn: 'See in action: Phone Commander & SOLE Security Gate →',
-    exampleHref: `/${locale}/projects/phone-commander`,
+    categoryAr: 'الخوارزميات الرياضية، الأداء، وهندسة العربية',
+    categoryEn: 'Constraint Solving, Performance & Arabic RTL',
+    accent: 'text-purple-300 border-purple-400/30 bg-purple-500/10',
+    items: [
+      {
+        lib: 'Google OR-Tools (CP-SAT Solver)',
+        skillAr: 'حل القيود الرياضية المتشابكة (600+ حصة) بصفر تضارب مع محرك إصلاح موضعي عند التعديل اليدوي',
+        skillEn: 'Mathematical constraint programming for 600+ periods with explainable minimal-perturbation repair',
+      },
+      {
+        lib: 'SQLite WAL & Threading Locks',
+        skillAr: 'طوابير مهام محلية صامدة أمام انقطاع الكهرباء والشبكة مع أقفال ذرية تمنع سباق الخيوط',
+        skillEn: 'Crash-safe SQLite Write-Ahead Logging outboxes and mutex-guarded concurrent file operations',
+      },
+      {
+        lib: 'Arabic Reshaper · Python-BiDi · Lexical Regex',
+        skillAr: 'تشكيل العربية في تقارير PDF والموشن جرافيك وتنظيف أسماء المنتجات المزدوجة تلقائياً',
+        skillEn: 'Native Arabic shaping in ReportLab PDFs, Manim renders, and bilingual catalog normalizers',
+      },
+    ],
   },
 ];
 
-// E. Dramatic Struggle -> Breakthrough Stories (Concise, Client-Magnetic, Zero File-Path Clutter)
-const engineeringStories = [
+// 4 Core Technical Obstacles (Fast Story Format: Obstacle -> Technical Skill -> Result)
+const technicalObstacles = [
   {
-    badgeAr: 'تحدي إنتاج الفيديو الآلي',
-    badgeEn: 'Automated Video Production Challenge',
-    badgeStyle: 'bg-amber-500/15 text-amber-300 border-amber-400/30',
-    projectTitleAr: 'AION Studio',
-    projectTitleEn: 'AION Studio',
-    href: `/${locale}/projects/image-to-animate`,
-    titleAr: 'حين كانت النصوص العربية تتشوه والمؤثرات الصوتية تطغى على صوت المعلق',
-    titleEn: 'When Arabic Captions Broke and Sound Effects Drowned Out the Narrator',
-    problemAr: 'إنتاج فيديو عربي آليًا كان يصطدم بتأخر ظهور النص عن حركة البطاقة، وتراكم عشرات المؤثرات الصوتية فوق صوت الراوي.',
-    problemEn: 'Automated Arabic videos suffered from text lagging behind card animations and overlapping sound effects burying the voiceover.',
-    decisionAr: 'ابتكار خلط صوتي ذكي يخفض الموسيقى والمؤثرات تلقائيًا فور نطق المعلق، مع مزامنة كشف النص مع إطار البطاقة بدقة.',
-    decisionEn: 'Built an automatic voice-ducking audio mixer that lowers SFX whenever narration speaks, paired with frame-locked Arabic text reveal.',
-    outcomeAr: 'فيديو عربي احترافي متزامن بأقل من 0.35 ثانية انحراف، وصفر تداخل صوتي، وفحص جودة آلي قبل التصدير.',
-    outcomeEn: 'Studio-grade Arabic video with <0.35s sync drift, crystal-clear voiceover, and automated QA verification.',
+    tagAr: 'تخفي الأتمتة · Anti-Bot & Dual-App',
+    tagEn: 'Anti-Bot Stealth & Dual-App Control',
+    tagStyle: 'bg-amber-500/15 text-amber-300 border-amber-400/30',
+    titleAr: 'عدم كشف البوت والتحكم بالنسخة الأساسية والمزدوجة (User 0 & 999)',
+    titleEn: 'Evading Bot Detection Across Main (User 0) & Dual-App (999) Instances',
+    obstacleAr: 'النقر الآلي الثابت يُكتشف فوراً في الألعاب والمتصفحات، كما أن اختلاف أبعاد الشاشات وتشغيل نسختين من اللعبة يكسر الإحداثيات.',
+    obstacleEn: 'Static click intervals trigger anti-bot bans immediately, while multi-instance apps and varying screen aspect ratios break fixed coordinates.',
+    skillAr: 'بناء تأخير بشري عشوائي (Randomized Jitter 5-10s)، ومعايرة الإحداثيات نسبياً على 5 نقاط إرساء، وعزل 20 متصفح ببصمات مستقلة.',
+    skillEn: 'Engineered 5-10s randomized human jitter, 5-anchor dynamic viewport scaling, Dual-App user-space switching, and 20-slot profile isolation.',
+    resultAr: 'تشغيل مستمر 24/7 لصيد الموارد وتبديل الشخصيات والحسابات بصفر حظر.',
+    resultEn: 'Continuous 24/7 multi-character resource hunting and browser automation with zero bans.',
   },
   {
-    badgeAr: 'تحدي الجداول المعقدة',
-    badgeEn: 'Complex Scheduling Challenge',
-    badgeStyle: 'bg-blue-500/15 text-blue-300 border-blue-400/30',
-    projectTitleAr: 'نظام الجدول المدرسي الذكي',
-    projectTitleEn: 'Smart School Timetable',
-    href: `/${locale}/projects/school-timetable`,
-    titleAr: 'حين كان تحريك حصة واحدة يدويًا يضرب جدول المدرسة بالكامل في صمت',
-    titleEn: 'When Moving One Lesson Manually Silently Broke the Entire School Schedule',
-    problemAr: 'مدير المدرسة عندما يسحب حصة لموعد مشغول كان يفاجأ بتغير حصص أخرى أو كسر الحصص المثبتة دون أن يعرف السبب.',
-    problemEn: 'Dragging a lesson onto a busy slot previously overwrote schedule entries without showing which other classes were displaced.',
-    decisionAr: 'تحويل السحب والإفلات إلى «إصلاح ذكي شفاف» يعرض للمدير جدولًا واضحًا بالحصص التي ستتحرك وسببها قبل الاعتماد.',
-    decisionEn: 'Turned drag-and-drop into an explainable smart-repair preview showing every affected lesson and reason before saving.',
-    outcomeAr: 'تحكم كامل لمدير المدرسة مع تثبيت الحصص السيادية، وتراجع فوري بضغطة زر، وصفر تضارب في الحصص.',
-    outcomeEn: '100% visibility before saving, strict respect for pinned lessons, instant undo, and 0% schedule conflict.',
+    tagAr: 'المونتاج الذكي · AI Audio/Video Sync',
+    tagEn: 'Frame-Accurate AI Montage & Audio Sync',
+    tagStyle: 'bg-blue-500/15 text-blue-300 border-blue-400/30',
+    titleAr: 'ربط التأثيرات الدقيقة ومهارات الذكاء الاصطناعي للمونتاج بالمللي ثانية',
+    titleEn: 'Binding Kinetic Effects & 80+ SFX Cues to Voiceover at Millisecond Precision',
+    obstacleAr: 'في إنتاج الفيديو الآلي، كانت النصوص العربية تتأخر عن حركة البطاقة، وتتداخل المؤثرات الصوتية فوق صوت المعلق.',
+    obstacleEn: 'In automated video rendering, Arabic text lagged behind card animations while sound effects drowned out the narrator.',
+    skillAr: 'بناء مهارات ذكاء اصطناعي للمونتاج تقفل حركة الكاميرا والنص مع الختم الزمني للكلمة، مع خلط صوتي (RMS Ducking) يخفض المؤثرات أثناء الكلام.',
+    skillEn: 'Built AI montage skills locking camera & text reveals to word timestamps, paired with an automatic RMS voice-ducking audio mixer.',
+    resultAr: 'إنتاج فيديو 1080p وShorts آلياً بانحراف صوت/صورة أقل من 0.35 ثانية.',
+    resultEn: 'Automated 1080p & Shorts rendering with <0.35s A/V sync drift and crystal-clear narration.',
   },
   {
-    badgeAr: 'تحدي الأمان والسرعة',
-    badgeEn: 'Security & Speed Challenge',
-    badgeStyle: 'bg-emerald-500/15 text-emerald-300 border-emerald-400/30',
-    projectTitleAr: 'متجر سول للأحذية (SOLE)',
-    projectTitleEn: 'SOLE Footwear Marketplace',
-    href: `/${locale}/projects/remix-sole-marketplace`,
-    titleAr: 'حماية المتجر من الملفات الخبيثة المنتحلة وإيقاف استنزاف باقة الصور السحابية',
-    titleEn: 'Stopping Disguised Malicious Uploads & Cloud Quota Exhaustion',
-    problemAr: 'قبول الصور بناءً على اسمها فقط يفتح ثغرة لرفع ملفات خبيثة، كما أن فحص السحابة مع كل زائر يبطئ المتجر ويستهلك الباقة.',
-    problemEn: 'Checking only file extensions allows disguised malicious uploads, while scanning cloud folders per visitor kills speed and quota.',
-    decisionAr: 'فحص البصمة الثنائية الحقيقية لكل صورة قبل قبولها، وجعل تصفح العملاء يقرأ فورًا من قاعدة البيانات السريعة والنسخة الاحتياطية.',
-    decisionEn: 'Enforced binary header verification on every upload and isolated customer browsing to fast database & static catalog reads.',
-    outcomeAr: 'صد 100% للملفات المزيفة، وتصفح فوري لـ 506 منتجًا حتى لو تعطل الاتصال بالسحابة الخارجية.',
-    outcomeEn: '100% rejection of spoofed files and instant browsing of 506 products with zero cloud quota drain.',
+    tagAr: 'تطبيق عناية · Rate Limits & Realtime Sync',
+    tagEn: 'Enaya Super-App · Rate Limits & Live Sync',
+    tagStyle: 'bg-emerald-500/15 text-emerald-300 border-emerald-400/30',
+    titleAr: 'حماية الـ Rate Limits ومزامنة طابور العيادات والطلبات لحظياً وأوفلاين',
+    titleEn: 'Rate-Limit Protection, Live Clinic Queues & Offline-First Synchronization',
+    obstacleAr: 'التحديث المتكرر من المرضى يستنزف حصة السيرفر (Rate Limit)، وانقطاع شبكة الهاتف يضيع طلبات الصيدلية والتحاليل.',
+    obstacleEn: 'Frequent manual refreshes exhaust API quotas, while mobile network drops risk losing active pharmacy and lab orders.',
+    skillAr: 'فرض Rate-Limiter ذكي في واجهة Flutter، وبث الطابور عبر Supabase WebSockets، وحفظ العمليات في طابور Offline يعيد المحاولة بـ Exponential Backoff.',
+    skillEn: 'Implemented client-side refresh rate limiting, Supabase Realtime WebSocket queues, and an Offline Sync outbox with jittered backoff.',
+    resultAr: 'تزامن لحظي بين المريض والعيادة والصيدلية والمعمل مع صفر فقدان للبيانات أو استنزاف للـ API.',
+    resultEn: 'Instant sync across clinics, pharmacy, and labs with zero lost transactions or quota exhaustion.',
+  },
+  {
+    tagAr: 'خوارزميات ورؤية حاسوبية · CP-SAT & ZNCC',
+    tagEn: 'CP-SAT Solver & Zero-GC Computer Vision',
+    tagStyle: 'bg-purple-500/15 text-purple-300 border-purple-400/30',
+    titleAr: 'حل 600+ حصة مدرسية بصفر تضارب وتصفير استنزاف ذاكرة الرؤية الحاسوبية',
+    titleEn: 'Solving 600+ Timetable Periods Conflict-Free & Zero-GC Visual Template Matching',
+    obstacleAr: 'تعديل حصة واحدة يدوياً كان يضرب جدول المدرسة، ومطابقة الصور في كل إطار كانت تستهلك 8MB وتوقف المحرك.',
+    obstacleEn: 'Manual timetable edits silently broke constraints, while per-frame ZNCC template matching allocated 8MB/frame causing GC pauses.',
+    skillAr: 'صياغة القيود خطياً في Google OR-Tools CP-SAT مع محرك إصلاح موضعي (Smart Repair)، وإعادة تدوير مصفوفات البكسل عبر ThreadLocal Buffers.',
+    skillEn: 'Formulated linear CP-SAT constraints with explainable Smart-Repair diffs, and eliminated CV heap churn (0 MB/frame) via ThreadLocal buffers.',
+    resultAr: 'جدول مدرسي خالٍ 100% من التعارض في ثوانٍ، ورؤية حاسوبية فورية مستقرة على مدار الساعة.',
+    resultEn: '100% conflict-free schedules in seconds and 24/7 zero-allocation computer vision.',
   },
 ];
 
 const pageTitle =
   locale === 'ar'
-    ? `${SITE_CONFIG.ownerNameAr} — ${SITE_CONFIG.roleTitleAr}`
-    : `${SITE_CONFIG.ownerNameEn} — ${SITE_CONFIG.roleTitleEn}`;
-const pageDesc = locale === 'ar' ? SITE_CONFIG.heroSubheadingAr : SITE_CONFIG.heroSubheadingEn;
+    ? `${SITE_CONFIG.ownerNameAr} — مهندس برمجيات، ذكاء اصطناعي، وأتمتة`
+    : `${SITE_CONFIG.ownerNameEn} — Software, AI & Automation Engineer`;
+const pageDesc =
+  locale === 'ar'
+    ? 'بورتفوليو احمد عبداللاه: تطبيقات Flutter وويب، مهارات الذكاء الاصطناعي للمونتاج، الرؤية الحاسوبية، وأتمتة Anti-Bot.'
+    : 'Portfolio of Ahmed Abdellah: Flutter & Web apps, AI video montage skills, computer vision, and anti-bot automation engines.';
 ---
 
 <BaseLayout title={pageTitle} description={pageDesc} locale={locale} currentPath={`/${locale}/`}>
-  <!-- B. HERO / ABOVE THE FOLD (Direct Value, Fast Access, Studio Portrait) -->
+  <!-- 1. HERO: Direct Human Voice, Fast Story Summary, Studio Portrait -->
   <section class="relative border-b border-white/10 overflow-hidden">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-        <!-- Text Column (7 Cols) -->
-        <div class="lg:col-span-7 space-y-5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+        <div class="lg:col-span-7 space-y-4">
           <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.07] border border-white/15 text-xs font-bold text-amber-300">
             <span class="w-2 h-2 rounded-full bg-emerald-400" aria-hidden="true"></span>
             <span>
               {locale === 'ar'
-                ? `${SITE_CONFIG.ownerNameAr} · ${SITE_CONFIG.roleTitleAr}`
-                : `${SITE_CONFIG.ownerNameEn} · ${SITE_CONFIG.roleTitleEn}`}
+                ? `${SITE_CONFIG.ownerNameAr} · مهندس برمجيات، ذكاء اصطناعي، وأتمتة`
+                : `${SITE_CONFIG.ownerNameEn} · Software, AI & Automation Engineer`}
             </span>
           </div>
 
-          <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-[1.18]">
-            {locale === 'ar' ? SITE_CONFIG.heroHeadingAr : SITE_CONFIG.heroHeadingEn}
+          <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-[1.16]">
+            {locale === 'ar'
+              ? 'أبني تطبيقات ذكية ومحركات أتمتة تحل أعقد العوائق البرمجية.'
+              : 'I Build Smart Apps & Automation Engines That Solve Hard Technical Bottlenecks.'}
           </h1>
 
-          <p class="text-base sm:text-lg text-slate-200 leading-relaxed max-w-2xl">
+          <p class="text-sm sm:text-base text-slate-200 leading-relaxed max-w-2xl">
             {locale === 'ar'
-              ? 'أحوّل العمليات اليدوية المعقدة والمشكلات التقنية المرهقة إلى أنظمة ذكية وتطبيقات سريعة ومستقرة — معروضة أمامك هنا بوضوح: ما المعاناة التي واجهناها، كيف حسمناها، وما النتيجة الفعلية.'
-              : 'I turn painful manual workflows and complex operational bottlenecks into reliable, high-speed software systems — presented clearly with the real struggle, the breakthrough solution, and measurable impact.'}
+              ? 'من تطبيقات الموبايل الطبية المتكاملة (Flutter & Supabase)، إلى مهارات الذكاء الاصطناعي للمونتاج الآلي (Manim & FFmpeg)، ومحركات الأتمتة والرؤية الحاسوبية المضادة للكشف (Anti-Bot & OpenCV) — معروضة هنا باختصار مباشر: الفكرة، العائق البرمجي، والنتيجة.'
+              : 'From full-scale medical mobile super-apps (Flutter & Supabase) to AI video montage compilers (Manim & FFmpeg) and stealth computer-vision automation (Anti-Bot & OpenCV) — presented directly: Idea → Technical Obstacle → Result.'}
           </p>
 
-          <!-- Direct Simplified Access Buttons -->
-          <div class="pt-1 flex flex-wrap items-center gap-3">
+          <!-- Fast Jump Pills -->
+          <div class="pt-1 flex flex-wrap items-center gap-2.5">
             <a
-              href="#featured-work"
-              class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm shadow-lg shadow-blue-600/25 transition-colors min-h-[46px]"
+              href="#visual-projects"
+              class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm shadow-lg shadow-blue-600/25 transition-colors min-h-[44px]"
             >
-              <span>{locale === 'ar' ? 'استكشف المشاريع السبعة الآن' : 'Explore All 7 Projects'}</span>
+              <span>{locale === 'ar' ? '📱 التطبيقات والمنصات المرئية (5)' : '📱 Visual Apps & Platforms (5)'}</span>
             </a>
             <a
-              href="#struggle-stories"
-              class="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-200 font-bold text-sm border border-amber-400/30 transition-colors min-h-[46px]"
+              href="#headless-engines"
+              class="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-white/[0.07] hover:bg-white/15 text-slate-100 font-bold text-xs sm:text-sm border border-white/15 transition-colors min-h-[44px]"
             >
-              <span>{locale === 'ar' ? '🔥 معاناة حقيقية وكيف حسمناها' : '🔥 Real Struggles & Breakthroughs'}</span>
+              <span>{locale === 'ar' ? '⚙️ محركات الأتمتة الخلفية (2)' : '⚙️ Headless Engines (2)'}</span>
             </a>
             <a
-              href={`/${locale}/contact`}
-              class="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-white/[0.06] hover:bg-white/10 text-slate-100 font-semibold text-sm border border-white/15 transition-colors min-h-[46px]"
+              href="#technical-obstacles"
+              class="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-200 font-bold text-xs sm:text-sm border border-amber-400/30 transition-colors min-h-[44px]"
             >
-              <span>{locale === 'ar' ? 'تواصل مباشر' : 'Direct Contact'}</span>
+              <span>{locale === 'ar' ? '🔥 العوائق البرمجية الدقيقة' : '🔥 Hard Technical Obstacles'}</span>
             </a>
-          </div>
-
-          <!-- 3 Crisp Client-Value Pillars -->
-          <div class="pt-4 grid grid-cols-3 gap-2.5 sm:gap-3 text-xs">
-            <div class="p-3 rounded-xl bg-white/[0.05] border border-white/10">
-              <strong class="text-amber-300 block text-sm sm:text-base font-extrabold">
-                {locale === 'ar' ? '7 أنظمة كاملة' : '7 Real Systems'}
-              </strong>
-              <span class="text-slate-300">
-                {locale === 'ar' ? 'معروضة بالكامل أمامك' : 'All shown below'}
-              </span>
-            </div>
-            <div class="p-3 rounded-xl bg-white/[0.05] border border-white/10">
-              <strong class="text-blue-300 block text-sm sm:text-base font-extrabold">
-                {locale === 'ar' ? '0% تضارب' : '0% Conflict'}
-              </strong>
-              <span class="text-slate-300">
-                {locale === 'ar' ? 'حلول حتمية ومفحوصة' : 'Verified outcomes'}
-              </span>
-            </div>
-            <div class="p-3 rounded-xl bg-white/[0.05] border border-white/10">
-              <strong class="text-emerald-300 block text-sm sm:text-base font-extrabold">
-                {locale === 'ar' ? 'عربي / English' : 'Arabic & English'}
-              </strong>
-              <span class="text-slate-300">
-                {locale === 'ar' ? 'واجهات وتجربة أصيلة' : 'Native RTL/LTR UX'}
-              </span>
-            </div>
+            <a
+              href="#libraries-skills"
+              class="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-200 font-bold text-xs sm:text-sm border border-emerald-400/30 transition-colors min-h-[44px]"
+            >
+              <span>{locale === 'ar' ? '🧰 المكتبات والمهارات' : '🧰 Libraries & Skills'}</span>
+            </a>
           </div>
         </div>
 
-        <!-- Studio Portrait Column (5 Cols — Matches Fixed Background Gradient) -->
+        <!-- Studio Portrait Column -->
         <div class="lg:col-span-5 flex justify-center">
-          <div class="relative w-full max-w-[310px] sm:max-w-[360px]">
+          <div class="relative w-full max-w-[290px] sm:max-w-[340px]">
             <div
               class="absolute -inset-2 rounded-[28px] bg-gradient-to-tr from-blue-600/40 via-transparent to-amber-500/35 blur-xl opacity-80"
               aria-hidden="true"
@@ -237,7 +267,7 @@ const pageDesc = locale === 'ar' ? SITE_CONFIG.heroSubheadingAr : SITE_CONFIG.he
                       {locale === 'ar' ? SITE_CONFIG.ownerNameAr : SITE_CONFIG.ownerNameEn}
                     </span>
                     <span class="text-xs text-amber-300 font-semibold">
-                      {locale === 'ar' ? 'مهندس برمجيات ومعماري أنظمة ذكية' : 'Software Engineer & Systems Architect'}
+                      {locale === 'ar' ? 'Flutter · Python · AI · OpenCV · Automation' : 'Flutter · Python · AI · OpenCV · Automation'}
                     </span>
                   </div>
                 </div>
@@ -249,165 +279,145 @@ const pageDesc = locale === 'ar' ? SITE_CONFIG.heroSubheadingAr : SITE_CONFIG.he
     </div>
   </section>
 
-  <!-- C. ALL 7 PROJECTS DIRECTLY ACCESSIBLE ON HOMEPAGE (3 Flagships + 4 Specialized Systems) -->
-  <section id="featured-work" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-9">
-      <div class="max-w-3xl">
+  <!-- 2. SECTION 1: VISUAL APPLICATIONS & PLATFORMS (5 Projects with Real Screenshots & Full Phone Frames) -->
+  <section id="visual-projects" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+      <div>
         <span class="text-xs uppercase tracking-wider text-amber-400 font-bold">
-          {locale === 'ar' ? 'الأعمال والمشاريع (7 أنظمة حقيقية)' : 'Complete Portfolio (7 Real Systems)'}
+          {locale === 'ar' ? 'القسم الأول · 5 تطبيقات ومنصات مرئية بلقطات حقيقية' : 'Section 1 · 5 Visual Applications with Real Screenshots'}
         </span>
         <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">
           {locale === 'ar'
-            ? 'المعاناة التي واجهناها في كل مشروع وكيف حولناها إلى نظام يعمل'
-            : 'The Real Struggle Behind Each Project & How We Solved It'}
+            ? 'تطبيقات ومنصات مرئية (الفكرة ← العائق البرمجي ← النتيجة)'
+            : 'Visual Applications & Platforms (Idea → Technical Obstacle → Result)'}
         </h2>
-        <p class="text-sm sm:text-base text-slate-300 mt-2 leading-relaxed">
-          {locale === 'ar'
-            ? 'كل بطاقة توضح باختصار: ما الأزمة التي كانت تعطل العمل، كيف حسمناها، وما النتيجة الرقمية — مع إمكانية تكبير الصور أو فتح القصة الكاملة بضغطة واحدة.'
-            : 'Every card summarizes the operational pain, the breakthrough solution, and the measurable result — with 1-click image zoom and full case studies.'}
-        </p>
       </div>
       <a
         href={`/${locale}/projects`}
-        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/[0.08] hover:bg-blue-600 text-white text-xs sm:text-sm font-semibold border border-white/15 transition-colors shrink-0 min-h-[42px]"
+        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.08] hover:bg-blue-600 text-white text-xs font-bold border border-white/15 transition-colors shrink-0"
       >
-        <span>{locale === 'ar' ? 'صفحة البحث والتصفية السريعة' : 'Search & Filter View'}</span>
+        <span>{locale === 'ar' ? 'تصفح وبحث في كل المشاريع (7)' : 'Search & Filter All Projects (7)'}</span>
       </a>
     </div>
 
-    <!-- Top 3 Flagship Projects -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-      {featuredProjects.map((entry, idx) => (
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {visualProjects.map((entry, idx) => (
         <ProjectCard project={entry.data} locale={locale} index={idx} />
       ))}
     </div>
-
-    <!-- Remaining 4 Specialized Systems (Immediately Visible — Nothing Hidden!) -->
-    {additionalProjects.length > 0 && (
-      <div class="mt-12 pt-10 border-t border-white/10">
-        <div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-          <div>
-            <span class="text-xs font-bold text-blue-300 uppercase tracking-wider">
-              {locale === 'ar' ? 'أنظمة تخصصية وأدوات أتمتة إضافية (4 مشاريع)' : 'Additional Specialized Systems & Automation Suites (4 Projects)'}
-            </span>
-            <h3 class="text-xl sm:text-2xl font-extrabold text-white mt-1">
-              {locale === 'ar'
-                ? 'منظومات طبية، تحكم بالهواتف، وأتمتة بصرية'
-                : 'Medical Platforms, Mobile Control & Visual Automation'}
-            </h3>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-7">
-          {additionalProjects.map((entry, idx) => (
-            <ProjectCard project={entry.data} locale={locale} index={idx + 3} />
-          ))}
-        </div>
-      </div>
-    )}
   </section>
 
-  <!-- E. DRAMATIC STRUGGLE & BREAKTHROUGH HIGHLIGHTS -->
-  <section id="struggle-stories" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="max-w-3xl mb-9">
-      <span class="text-xs uppercase tracking-wider text-amber-400 font-bold">
-        {locale === 'ar' ? 'معارك تقنية حقيقية' : 'Real Engineering Battles'}
+  <!-- 3. SECTION 2: HEADLESS BACKGROUND AUTOMATION ENGINES (2 Projects Without Screenshots — Direct Feature Cards) -->
+  <section id="headless-engines" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 border-t border-white/10">
+    <div class="mb-7">
+      <span class="text-xs uppercase tracking-wider text-blue-400 font-bold">
+        {locale === 'ar' ? 'القسم الثاني · محركات تعمل في الخلفية بدون واجهة رسومية' : 'Section 2 · Background & Headless Automation Engines'}
       </span>
       <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">
         {locale === 'ar'
-          ? 'أصعب 3 أزمات واجهتنا وكيف حسمناها جذريًا'
-          : '3 Tough Operational Crises & How We Solved Them'}
+          ? 'محركات أتمتة وأدوات خلفية (ماذا تفعل وما ميزتها التقنية؟)'
+          : 'Headless Automation Engines (What They Do & Their Technical Edge)'}
       </h2>
-      <p class="text-sm text-slate-300 mt-2">
-        {locale === 'ar'
-          ? 'قيمة المهندس الحقيقية تظهر حين تتعقد الأمور في الواقع؛ إليك كيف تعاملنا مع أعقد التحديات باختصار.'
-          : 'Real engineering value shows when edge cases break in production. Here is how we turned three painful bottlenecks into reliable outcomes.'}
-      </p>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      {engineeringStories.map((st) => (
-        <article class="reveal-item interactive-card glass-panel rounded-2xl p-6 flex flex-col justify-between gap-5">
-          <div class="space-y-4">
-            <div class="flex items-center justify-between gap-2 flex-wrap">
-              <span class:list={['px-2.5 py-1 rounded-full text-[11px] font-bold border', st.badgeStyle]}>
-                {locale === 'ar' ? st.badgeAr : st.badgeEn}
-              </span>
-              <span class="text-xs font-bold text-slate-300">
-                {locale === 'ar' ? st.projectTitleAr : st.projectTitleEn}
-              </span>
-            </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {headlessEngines.map((entry, idx) => (
+        <ProjectCard project={entry.data} locale={locale} index={idx + 5} />
+      ))}
+    </div>
+  </section>
+
+  <!-- 4. HARD TECHNICAL OBSTACLES (Rate Limits, Sync, Anti-Bot, AI Montage, Enaya Architecture) -->
+  <section id="technical-obstacles" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-white/10">
+    <div class="mb-8">
+      <span class="text-xs uppercase tracking-wider text-amber-400 font-bold">
+        {locale === 'ar' ? 'العوائق البرمجية الدقيقة' : 'Hard Engineering Obstacles'}
+      </span>
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">
+        {locale === 'ar'
+          ? 'تحديات برمجية واجهتني وكيف حسمتها بالكود'
+          : 'Critical Technical Obstacles & How I Solved Them'}
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {technicalObstacles.map((item) => (
+        <article class="glass-panel rounded-2xl p-5 sm:p-6 flex flex-col justify-between gap-4">
+          <div class="space-y-3">
+            <span class:list={['inline-block px-3 py-1 rounded-full text-xs font-bold border', item.tagStyle]}>
+              {locale === 'ar' ? item.tagAr : item.tagEn}
+            </span>
 
             <h3 class="text-base sm:text-lg font-extrabold text-white leading-snug">
-              {locale === 'ar' ? st.titleAr : st.titleEn}
+              {locale === 'ar' ? item.titleAr : item.titleEn}
             </h3>
 
-            <div class="space-y-2.5 text-xs sm:text-sm">
-              <div class="p-3 rounded-xl bg-rose-950/35 border border-rose-500/25">
-                <strong class="text-rose-300 block mb-0.5">{locale === 'ar' ? '🔥 المعاناة:' : '🔥 The Pain:'}</strong>
-                <span class="text-slate-200">{locale === 'ar' ? st.problemAr : st.problemEn}</span>
+            <div class="space-y-2 text-xs sm:text-[13px] leading-relaxed">
+              <div class="p-2.5 rounded-xl bg-rose-950/35 border border-rose-500/25">
+                <strong class="text-rose-300">{locale === 'ar' ? '🔥 العائق: ' : '🔥 Obstacle: '}</strong>
+                <span class="text-slate-200">{locale === 'ar' ? item.obstacleAr : item.obstacleEn}</span>
               </div>
-              <div class="p-3 rounded-xl bg-blue-950/35 border border-blue-500/25">
-                <strong class="text-blue-300 block mb-0.5">{locale === 'ar' ? '⚡ الحل الحاسم:' : '⚡ The Fix:'}</strong>
-                <span class="text-slate-200">{locale === 'ar' ? st.decisionAr : st.decisionEn}</span>
+              <div class="p-2.5 rounded-xl bg-blue-950/35 border border-blue-500/25">
+                <strong class="text-blue-300">{locale === 'ar' ? '⚙️ المهارة والحل: ' : '⚙️ Technical Fix: '}</strong>
+                <span class="text-slate-200">{locale === 'ar' ? item.skillAr : item.skillEn}</span>
               </div>
-              <div class="p-3 rounded-xl bg-emerald-950/35 border border-emerald-500/25">
-                <strong class="text-emerald-300 block mb-0.5">{locale === 'ar' ? '✅ النتيجة:' : '✅ The Result:'}</strong>
-                <span class="text-slate-100 font-semibold">{locale === 'ar' ? st.outcomeAr : st.outcomeEn}</span>
+              <div class="p-2.5 rounded-xl bg-emerald-950/35 border border-emerald-500/25">
+                <strong class="text-emerald-300">{locale === 'ar' ? '✅ النتيجة: ' : '✅ Result: '}</strong>
+                <span class="text-slate-100 font-semibold">{locale === 'ar' ? item.resultAr : item.resultEn}</span>
               </div>
             </div>
           </div>
-
-          <a
-            href={st.href}
-            class="inline-flex items-center justify-between px-4 py-2.5 rounded-xl bg-white/[0.06] hover:bg-blue-600 text-xs font-bold text-white border border-white/10 transition-colors"
-          >
-            <span>{locale === 'ar' ? 'استعرض المشروع بالكامل' : 'View Full Project'}</span>
-            <span>{locale === 'ar' ? '←' : '→'}</span>
-          </a>
         </article>
       ))}
     </div>
   </section>
 
-  <!-- D. WHAT I BUILD / EXPERTISE (4 Understandable Value Groups) -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="max-w-3xl mb-9">
-      <span class="text-xs uppercase tracking-wider text-blue-400 font-bold">
-        {locale === 'ar' ? 'ماذا أقدم لعملك؟' : 'How I Help Clients & Teams'}
-      </span>
-      <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">
-        {locale === 'ar'
-          ? 'حلول عملية مصممة لتوفير الوقت وحماية استقرار عملك'
-          : 'Practical Solutions Built to Save Time & Protect Operations'}
-      </h2>
+  <!-- 5. LIBRARIES & TECHNICAL SKILLS MATRIX (Libraries & Exact Skills, NOT App Descriptions) -->
+  <section id="libraries-skills" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-white/10">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+      <div>
+        <span class="text-xs uppercase tracking-wider text-emerald-400 font-bold">
+          {locale === 'ar' ? 'الخبرة التقنية والأدوات' : 'Technical Stack & Libraries'}
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">
+          {locale === 'ar'
+            ? 'المكتبات والمهارات البرمجية المستخدمة فعلياً'
+            : 'Core Libraries, Frameworks & Low-Level Engineering Skills'}
+        </h2>
+      </div>
+      <a
+        href={`/${locale}/expertise`}
+        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.08] hover:bg-blue-600 text-white text-xs font-bold border border-white/15 transition-colors shrink-0"
+      >
+        <span>{locale === 'ar' ? 'فتح صفحة الخبرات الكاملة ←' : 'View Full Skills Matrix →'}</span>
+      </a>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {expertiseGroups.map((grp) => (
-        <div class="reveal-item interactive-card glass-panel rounded-2xl p-6 flex flex-col justify-between gap-4">
-          <div class="space-y-2.5">
-            <span class="inline-block px-2.5 py-1 rounded-lg bg-blue-500/15 text-blue-300 text-xs font-bold border border-blue-400/25">
-              {locale === 'ar' ? grp.badgeAr : grp.badgeEn}
-            </span>
-            <h3 class="text-lg sm:text-xl font-extrabold text-white">
-              {locale === 'ar' ? grp.titleAr : grp.titleEn}
-            </h3>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              {locale === 'ar' ? grp.valueAr : grp.valueEn}
-            </p>
-          </div>
-          <div class="pt-3 border-t border-white/10 flex items-center justify-between gap-2 text-xs">
-            <a href={grp.exampleHref} class="text-amber-300 hover:text-amber-200 font-bold hover:underline">
-              {locale === 'ar' ? grp.exampleLabelAr : grp.exampleLabelEn}
-            </a>
+      {skillCategories.map((cat) => (
+        <div class="glass-panel rounded-2xl p-5 sm:p-6 space-y-4">
+          <span class:list={['inline-block px-3 py-1 rounded-lg text-xs font-extrabold border', cat.accent]}>
+            {locale === 'ar' ? cat.categoryAr : cat.categoryEn}
+          </span>
+
+          <div class="space-y-3">
+            {cat.items.map((it) => (
+              <div class="p-3 rounded-xl bg-white/[0.04] border border-white/10">
+                <code class="text-xs sm:text-sm font-mono font-extrabold text-amber-300 block mb-1">
+                  {it.lib}
+                </code>
+                <p class="text-xs sm:text-[13px] text-slate-200 leading-relaxed">
+                  {locale === 'ar' ? it.skillAr : it.skillEn}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       ))}
     </div>
   </section>
 
-  <!-- G. CONTACT CTA -->
+  <!-- 6. CONTACT CTA -->
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
     <CTA locale={locale} />
   </div>

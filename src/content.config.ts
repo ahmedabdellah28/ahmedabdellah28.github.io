@@ -107,7 +107,7 @@ const projectsCollection = defineCollection({
     technologies: z.array(z.string()).min(1),
     challenges: z.array(challengeItemSchema).min(1),
     evidence: z.array(evidenceItemSchema).min(1),
-    screenshots: z.array(screenshotItemSchema).min(1),
+    screenshots: z.array(screenshotItemSchema),
     results: z.array(
       z.object({
         metric: z.string().min(1),

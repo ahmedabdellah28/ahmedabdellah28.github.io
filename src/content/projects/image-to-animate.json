@@ -1,11 +1,11 @@
 {
   "slug": "image-to-animate",
-  "titleAr": "AION Studio — إنتاج الموشن جرافيك آليًا",
-  "titleEn": "AION Studio — Automated Motion Graphics Engine",
+  "titleAr": "محرك AION Studio — مهارات الذكاء الاصطناعي للمونتاج الآلي",
+  "titleEn": "AION Studio — AI Video Montage & Frame-Accurate Audio Sync Engine",
   "summaryAr": "خط إنتاج برمجي متكامل يحوّل النصوص ولوحات القصة (Storyboards) إلى فيديوهات موشن جرافيك 16:9 ومقاطع Shorts 9:16 عبر مترجم رسومي من 10 مراحل (ECGC) ومحرك EffectCraft GPU ومحاذاة صوتية على مستوى الكلمة.",
   "summaryEn": "End-to-end CLI-first production engine converting scripts and storyboards into 16:9 whiteboard explainers and 9:16 shorts via a 10-stage ECGC compiler, EffectCraft GPU renderer, and word-level Faster-Whisper synchronization.",
-  "valuePropositionAr": "تحويل النص الخام ولوحة القصة إلى فيديو موشن جرافيك كامل (1080p/720p) متزامن صوتيًا وبصريًا عبر 13 مرحلة محكومة بعقود برمجية دون مونتاج يدوي.",
-  "valuePropositionEn": "Transforms raw scripts and storyboards into broadcast-ready 16:9 explainers and 9:16 shorts through a 13-stage contract-gated GPU pipeline without manual timeline editing.",
+  "valuePropositionAr": "الفكرة: تحويل النص الخام إلى فيديو موشن جرافيك كامل (1080p + Shorts) مرسوم وممنتج ومخلوط صوتياً بالذكاء الاصطناعي دون تدخل يدوي.",
+  "valuePropositionEn": "Idea: Turning raw scripts into broadcast-ready 1080p & Shorts motion-graphics videos with automated AI voiceover, SFX, and camera choreography.",
   "category": [
     "AI",
     "media",
@@ -15,7 +15,7 @@
   "status": "production",
   "visibility": "published",
   "featured": true,
-  "featuredOrder": 1,
+  "featuredOrder": 3,
   "role": {
     "ar": "تصميم المعمارية وتطوير خط الإنتاج والمترجم الرسومي",
     "en": "System Architecture, Pipeline & Graphics Compiler Engineering"
@@ -195,23 +195,13 @@
     },
     {
       "src": "/media/projects/image-to-animate/storyboard-extractor-diagnostics.webp",
-      "altAr": "تشخيص استخراج 55 عنصرًا مستقلاً من لوحة القصة عبر الرؤية الحاسوبية",
-      "altEn": "Computer-vision bounding-box diagnostics isolating 55 distinct storyboard entities",
-      "captionAr": "تشخيص مرحلة الاستخراج الآلي (`preview_diagnostics.png`): فصل 55 عنصرًا وشخصية وأيقونة من لوحة القصة بدقة 3x HD.",
-      "captionEn": "Automated storyboard extractor diagnostics (`preview_diagnostics.png`) isolating 55 discrete visual entities for scene-graph binding.",
-      "kind": "diagnostic_output",
-      "width": 1400,
-      "height": 933
-    },
-    {
-      "src": "/media/projects/image-to-animate/architecture-pipeline.svg",
-      "altAr": "مخطط معمارية خط إنتاج AION Studio V6 من 13 مرحلة والمترجم الرسومي ECGC",
-      "altEn": "AION Studio V6 13-stage pipeline and 10-stage ECGC architecture diagram",
-      "captionAr": "مخطط معماري يوضح تسلسل المراحل الـ 13 من النص والصوت حتى الرندر وفحص الجودة الآلي.",
-      "captionEn": "Architectural diagram of the 13-stage contract pipeline and 10-stage ECGC compilation flow.",
-      "kind": "architecture_diagram",
-      "width": 1200,
-      "height": 540
+      "altAr": "مخرجات محرك استخراج وتقطيع المشاهد بالرؤية الحاسوبية",
+      "altEn": "Computer-vision storyboard asset extractor output",
+      "captionAr": "استخراج وتقطيع المشاهد والبطاقات آلياً بالرؤية الحاسوبية قبل التحريك.",
+      "captionEn": "Automated computer-vision storyboard segmentation prior to motion rendering.",
+      "kind": "real_screenshot",
+      "width": 1280,
+      "height": 1106
     }
   ],
   "results": [
@@ -258,10 +248,10 @@
     "edges": 8111
   },
   "updatedAt": "2026-11-19",
-  "humanCategoryAr": "ذكاء اصطناعي وإنتاج فيديو آلي",
-  "humanCategoryEn": "AI & Automated Video Production",
-  "struggleAr": "إنتاج فيديو موشن جرافيك واحد كان يستغرق أيامًا من القص اليدوي والمزامنة كلمة بكلمة، مع تداخل أكثر من 80 مؤثرًا صوتيًا فوق صوت المعلق وتشوه النصوص العربية أثناء الحركة.",
-  "struggleEn": "Producing a single explainer video took days of manual cutout and word-by-word syncing, plagued by 80+ overlapping sound effects drowning narration and ghosted Arabic captions.",
-  "triumphAr": "محرك آلي من 13 مرحلة يحوّل النص ولوحة القصة إلى فيديو 1080p ومقاطع Shorts متزامنة بالثانية، مع خفض تلقائي للمؤثرات الصوتية أثناء الكلام وفحص جودة ذاتي.",
-  "triumphEn": "A 13-stage automated engine turning scripts and storyboards into 1080p videos and Shorts synced to the millisecond, with automatic voice ducking and self-verifying QA."
+  "humanCategoryAr": "Python · Manim · FFmpeg · Whisper · Edge-TTS",
+  "humanCategoryEn": "Python · Manim · FFmpeg · Whisper · Edge-TTS",
+  "struggleAr": "العائق البرمجي: مزامنة ظهور النصوص العربية وحركة الكاميرا والمؤثرات الصوتية (80+ SFX) مع نبرات صوت المعلق بالمللي ثانية دون طغيان المؤثرات على الكلام.",
+  "struggleEn": "Technical Obstacle: Frame-locking Arabic kinetic text, camera moves, and 80+ SFX cues to voiceover timestamps without drowning out speech.",
+  "triumphAr": "الحل والنتيجة: بناء مهارات ذكاء اصطناعي للمونتاج تربط كل حركة بختم زمني للكلمة، مع خلط صوتي ذكي (RMS Voice Ducking) يخفض المؤثرات أثناء النطق وانحراف < 0.35 ثانية.",
+  "triumphEn": "Breakthrough: Built AI montage skills binding animations to word timestamps, paired with an RMS voice-ducking mixer achieving <0.35s A/V drift."
 }

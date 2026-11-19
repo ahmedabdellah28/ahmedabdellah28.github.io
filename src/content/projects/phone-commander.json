@@ -1,11 +1,11 @@
 {
   "slug": "phone-commander",
-  "titleAr": "Phone Commander — أتمتة الهاتف بالرؤية الحاسوبية",
-  "titleEn": "Phone Commander — Mobile Vision Automation",
+  "titleAr": "محرك Phone Commander — رؤية حاسوبية فورية (OpenCV / ZNCC)",
+  "titleEn": "Phone Commander — Zero-GC Computer Vision & ADB/WebSocket Engine",
   "summaryAr": "تطبيق Flutter وأندرويد أصيل (Kotlin) يجمع بين محرك مطابقة قوالب بصري فائق السرعة (ZNCC) بدون استنزاف للذاكرة (Zero GC Churn) وخدمة Accessibility مع بوابة ترخيص أصلية (NativeLicenseGate) وسجل عمليات حي.",
   "summaryEn": "Hybrid Flutter and native Android (Kotlin) automation platform pairing a custom thread-local, zero-GC-churn ZNCC computer vision engine and ML Kit OCR with an autonomous state-machine loop and native license verification.",
-  "valuePropositionAr": "تنفيذ أتمتة بصرية مستمرة على أجهزة أندرويد بعتبات ثقة مضبوطة (86%–92%) وبدون استنزاف ذاكرة المعالج (Zero GC Churn) مع مراقبة حية من داخل واجهة Flutter.",
-  "valuePropositionEn": "Delivers long-running on-device visual automation on Android using configured 86%–92% ZNCC confidence thresholds, zero per-frame bitmap heap churn, and live Flutter console telemetry.",
+  "valuePropositionAr": "ماذا يفعل: محرك خلفي يربط الهواتف بالكمبيوتر عبر ADB وWebSockets ليرصد الأزرار والعناصر بصرياً على الشاشة وينفذ المهام على مدار الساعة.",
+  "valuePropositionEn": "What It Does: Background engine bridging Android devices and PCs over ADB & WebSockets to visually detect screen elements and execute 24/7 tasks.",
   "category": [
     "mobile",
     "AI",
@@ -14,7 +14,7 @@
   "status": "functional",
   "visibility": "published",
   "featured": false,
-  "featuredOrder": 5,
+  "featuredOrder": 6,
   "role": {
     "ar": "تطوير أنظمة أندرويد الأصيلة (Kotlin) والرؤية الحاسوبية وواجهة Flutter",
     "en": "Android Native (Kotlin), Computer Vision & Flutter Systems Engineering"
@@ -173,28 +173,7 @@
       "verificationStatus": "verified"
     }
   ],
-  "screenshots": [
-    {
-      "src": "/media/projects/phone-commander/cv-safe-roi-zones.webp",
-      "altAr": "تحديد منطقة الفحص البصري الصافية (Safe ROI) باللون الأخضر لعزل أشرطة الواجهة عن مساحة الخريطة",
-      "altEn": "Computer-vision Safe ROI green boundary isolating playable map area from HUD overlays (privacy-sanitized)",
-      "captionAr": "لقطة تشخيصية لمنطقة الفحص الصافية (`Safe ROI` — بعد طمس الإحداثيات والدردشة) التي يحصر فيها محرك ZNCC البحث لتسريع الأداء ومنع الرصد الخاطئ.",
-      "captionEn": "Diagnostic view of the green Safe ROI boundary (with player coordinates and chat redacted) restricting ZNCC scanning to avoid HUD false positives.",
-      "kind": "diagnostic_output",
-      "width": 1400,
-      "height": 630
-    },
-    {
-      "src": "/media/projects/phone-commander/zncc-vision-architecture.svg",
-      "altAr": "مخطط معمارية محرك الرؤية الحاسوبية ZNCC وآلة الحالة وبث السجلات إلى Flutter",
-      "altEn": "Phone Commander Zero-GC ZNCC computer vision and Flutter telemetry architecture diagram",
-      "captionAr": "مخطط معماري يوضح دورة الإطار من `ReusableScaleBuffer` حتى مطابقة ZNCC المتوازية ومزامنة SQLite.",
-      "captionEn": "Architectural diagram showing zero-GC frame scaling, parallel ZNCC matching, SQLite queue sync, and Flutter MethodChannel streaming.",
-      "kind": "architecture_diagram",
-      "width": 1200,
-      "height": 540
-    }
-  ],
+  "screenshots": [],
   "results": [
     {
       "metric": "0 MB/إطار",
@@ -239,10 +218,10 @@
     "edges": 3056
   },
   "updatedAt": "2026-11-19",
-  "humanCategoryAr": "رؤية حاسوبية وأتمتة هواتف أندرويد",
-  "humanCategoryEn": "Mobile Computer Vision & Android Automation",
-  "struggleAr": "المسح البصري المستمر للشاشة كان يلتهم 8 ميجابايت من الذاكرة في كل إطار فيسبب سخونة الهاتف وانهيار التطبيق، بينما كانت النقرات الافتراضية تدخله في حلقات لا نهائية.",
-  "struggleEn": "Continuous screen vision scanning allocated 8MB of memory every frame—causing thermal throttling and crashes—while blind fallback taps trapped the phone in infinite loops.",
-  "triumphAr": "محرك رؤية حاسوبية مُعاد الهندسة بصفر استنزاف للذاكرة (0 MB/Frame)، يرفض أي نقرة غير مؤكدة بصريًا، ويصغّر التطبيق تلقائيًا لتوفير البطارية مع شاشة متابعة حية.",
-  "triumphEn": "Re-engineered zero-memory-churn computer vision engine (0 MB/frame) that bans blind taps, auto-minimizes during long waits to save battery, and streams live logs."
+  "humanCategoryAr": "Kotlin · Python · OpenCV ZNCC · WebSockets · SQLite WAL",
+  "humanCategoryEn": "Kotlin · Python · OpenCV ZNCC · WebSockets · SQLite WAL",
+  "struggleAr": "العائق البرمجي: مطابقة القوالب البصرية (ZNCC) في كل إطار كانت تستهلك ~8MB من الذاكرة وتسبب توقف المحرك (GC Pauses)، مع ضياع الأوامر عند انقطاع الـ WebSocket.",
+  "struggleEn": "Technical Obstacle: Per-frame ZNCC template matching allocated ~8MB/frame causing severe GC pauses, while WebSocket drops lost queued commands.",
+  "triumphAr": "الميزة والنتيجة: تصفير تخصيص الذاكرة (0 MB/Frame) عبر ThreadLocal Buffers، وبناء طابور SQLite WAL محلي يستأنف العمليات تلقائياً فور عودة الاتصال.",
+  "triumphEn": "Key Feature & Result: Eliminated memory churn (0 MB/frame) via ThreadLocal buffers and built a persistent SQLite WAL outbox for zero lost tasks."
 }

@@ -17,37 +17,117 @@ for (const p of published) {
   projectTitlesMap[p.data.slug] = { ar: p.data.titleAr, en: p.data.titleEn };
 }
 
+const libraryGroups = [
+  {
+    titleAr: 'AI وصناعة الفيديو والمونتاج الآلي',
+    titleEn: 'AI Video Compilation & Automated Montage',
+    badgeClass: 'bg-amber-500/15 text-amber-300 border-amber-400/30',
+    libs: [
+      { name: 'Manim & Scene Graph V2 AST', descAr: 'ترجمة السيناريو إلى مشاهد حركية، كاميرات متعددة الطبقات، ونصوص عربية متحركة.', descEn: 'Compiling scripts into multi-layer camera choreography and RTL kinetic typography.' },
+      { name: 'FFmpeg & RMS Voice Ducking', descAr: 'خلط أكثر من 80 مؤثراً صوتياً مع خفض تلقائي للمؤثرات بالمللي ثانية أثناء نطق المعلق.', descEn: 'Mixing 80+ SFX cues with automatic millisecond RMS voice ducking during narration.' },
+      { name: 'Faster-Whisper & Edge-TTS', descAr: 'استخراج التوقيت الدقيق لكل كلمة لقفل ظهور البطاقات مع الصوت (< 0.35s انحراف).', descEn: 'Word-level timestamp alignment locking visual reveals to voiceover (<0.35s drift).' },
+    ],
+  },
+  {
+    titleAr: 'الرؤية الحاسوبية، الأتمتة، وتخفي Anti-Bot',
+    titleEn: 'Computer Vision, ADB Automation & Anti-Bot Stealth',
+    badgeClass: 'bg-emerald-500/15 text-emerald-300 border-emerald-400/30',
+    libs: [
+      { name: 'OpenCV & Zero-GC ZNCC (Kotlin/Python)', descAr: 'رصد العناصر بصرياً على الشاشة بصفر تخصيص ذاكرة لكل إطار (0 MB/Frame) عبر ThreadLocal.', descEn: 'On-device template matching with zero per-frame memory churn via ThreadLocal buffers.' },
+      { name: 'ADB & uiautomator2 (User 0 & Dual-App 999)', descAr: 'التحكم بالنسخة الأساسية والمزدوجة للألعاب والتطبيقات مع معايرة الشاشة على 5 نقاط إرساء.', descEn: 'Controlling Main (User 0) & Dual-App (999) instances with 5-anchor dynamic screen scaling.' },
+      { name: 'Playwright · Selenium · Randomized Jitter', descAr: 'تأخير بشري عشوائي (5-10s) وعزل 20 متصفحاً متزامناً ببصمات وكوكيز مستقلة لمنع كشف البوت.', descEn: '5-10s human-like click jitter and 20-slot isolated browser profiles to prevent bot detection.' },
+    ],
+  },
+  {
+    titleAr: 'تطبيقات الموبايل والويب والمزامنة اللحظية',
+    titleEn: 'Mobile, Web & Real-Time Synchronization',
+    badgeClass: 'bg-blue-500/15 text-blue-300 border-blue-400/30',
+    libs: [
+      { name: 'Flutter · Bloc / Cubit · GoRouter', descAr: 'بناء تطبيقات موبايل متكاملة (عيادات، صيدلية، معامل) مع حماية التحديث بـ Rate-Limiter ذكي.', descEn: 'Production Flutter super-apps with modular Bloc state and client-side refresh rate limiting.' },
+      { name: 'Supabase Realtime · RLS · Offline Outbox', descAr: 'مزامنة لحظية لطابور العيادة والطلبات عبر WebSockets مع طابور أوفلاين يعيد المحاولة بـ Backoff.', descEn: 'Live WebSocket queue broadcasting paired with an Offline Sync outbox and jittered backoff.' },
+      { name: 'React 19 · TypeScript · Prisma · Google Maps', descAr: 'تحديد موقع المريض جغرافياً، وحماية حصة الـ Cloud API، وفحص الملفات المرفوعة بـ Magic Bytes.', descEn: 'GPS geocoding, quota-safe cloud catalogs, and binary Magic-Byte upload verification.' },
+    ],
+  },
+  {
+    titleAr: 'الخوارزميات الرياضية، الأداء، وهندسة العربية',
+    titleEn: 'Constraint Solving, Performance & Arabic RTL',
+    badgeClass: 'bg-purple-500/15 text-purple-300 border-purple-400/30',
+    libs: [
+      { name: 'Google OR-Tools (CP-SAT Solver)', descAr: 'حل جداول 600+ حصة مدرسية بصفر تضارب مع محرك إصلاح موضعي (Smart Repair) عند السحب والإفلات.', descEn: 'Mathematical constraint solving for 600+ periods with explainable minimal-perturbation repair.' },
+      { name: 'SQLite WAL & Threading Mutex Locks', descAr: 'طوابير مهام محلية صامدة أمام انقطاع الشبكة مع أقفال ذرية تمنع تصادم الخيوط (Race Conditions).', descEn: 'Crash-safe SQLite Write-Ahead Logging outboxes and mutex-guarded concurrent file operations.' },
+      { name: 'Arabic Reshaper · Python-BiDi · Lexical Regex', descAr: 'تشكيل النصوص العربية في تقارير PDF والموشن جرافيك وتطبيع الكتالوجات المختلطة تلقائياً.', descEn: 'Native Arabic shaping in ReportLab PDFs, Manim renders, and bilingual catalog normalizers.' },
+    ],
+  },
+];
+
 const pageTitle =
   locale === 'ar'
-    ? 'الخبرات والقدرات الهندسية — احمد عبداللاه'
-    : 'Engineering Expertise & Capabilities — Ahmed Abdellah';
+    ? 'المكتبات والمهارات الهندسية — احمد عبداللاه'
+    : 'Libraries & Engineering Skills — Ahmed Abdellah';
 const pageDesc =
   locale === 'ar'
-    ? 'مصفوفة الخبرات الهندسية المرتبطة بالمشاريع الحقيقية والأدلة البرمجية عبر 7 أنظمة.'
-    : 'Engineering capabilities backed by concrete architectural decisions, tests, and source-code evidence across 7 codebases.';
+    ? 'دليل المكتبات، والأدوات، والمهارات البرمجية الدقيقة المستخدمة فعلياً في مشاريع الذكاء الاصطناعي، والأتمتة، وتطبيقات الموبايل والويب.'
+    : 'Core libraries, frameworks, and low-level engineering skills applied across AI video compilers, anti-bot automation, and Flutter/Web platforms.';
 ---
 
 <BaseLayout title={pageTitle} description={pageDesc} locale={locale} currentPath={`/${locale}/expertise`}>
-  <section class="border-b border-white/10 py-12 sm:py-14">
+  <section class="border-b border-white/10 py-10 sm:py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <span class="font-mono text-xs uppercase tracking-wider text-amber-400">
-        {locale === 'ar' ? 'الخبرات الهندسية الموثقة · 6 مجالات' : 'Verified Engineering Domains · 6 Areas'}
+      <span class="font-mono text-xs uppercase tracking-wider text-amber-400 font-bold">
+        {locale === 'ar' ? 'المكتبات والمهارات التقنية · 12 مكتبة وتقنية رئيسية' : 'Technical Stack & Libraries · 12 Core Technologies'}
       </span>
       <h1 class="text-3xl sm:text-4xl font-extrabold text-white mt-2">
-        {locale === 'ar' ? 'الخبرات والأدلة التقنية' : 'Engineering Expertise & Proof Matrix'}
+        {locale === 'ar' ? 'المكتبات والمهارات البرمجية المستخدمة فعلياً' : 'Core Libraries & Low-Level Engineering Skills'}
       </h1>
-      <p class="text-sm sm:text-base text-slate-300 mt-3 max-w-3xl leading-relaxed">
+      <p class="text-sm sm:text-base text-slate-300 mt-2 max-w-3xl leading-relaxed">
         {locale === 'ar'
-          ? 'بدلًا من سرد قوائم تقنيات عامة، توثق هذه الصفحة القدرات الهندسية التي يثبتها الكود المصدري فعليًا: ماذا تعني لصاحب العمل، وكيف نُفذت تقنيًا، وأي المشاريع تبرهن عليها.'
-          : 'Rather than listing unverified buzzwords, this matrix links every capability to its practical business value, technical implementation, and supporting projects.'}
+          ? 'ملخص مباشر للمكتبات والأدوات التي أستخدمها والمهارة الدقيقة المنفذة بكل أداة — من خوارزميات الجدولة والرؤية الحاسوبية إلى تخفي البوتات وتطبيقات الموبايل.'
+          : 'A direct breakdown of the libraries and tools I use and the exact engineering capability implemented with each.'}
       </p>
     </div>
   </section>
 
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
-    {ENGINEERING_STRENGTHS.map((strength) => (
-      <SkillProof strength={strength} locale={locale} projectTitlesMap={projectTitlesMap} />
-    ))}
+  <!-- Direct Libraries & Skills Grid -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {libraryGroups.map((grp) => (
+        <div class="glass-panel rounded-2xl p-6 space-y-4">
+          <span class:list={['inline-block px-3 py-1 rounded-lg text-xs font-extrabold border', grp.badgeClass]}>
+            {locale === 'ar' ? grp.titleAr : grp.titleEn}
+          </span>
+          <div class="space-y-3">
+            {grp.libs.map((lib) => (
+              <div class="p-3.5 rounded-xl bg-white/[0.04] border border-white/10">
+                <code class="text-xs sm:text-sm font-mono font-extrabold text-amber-300 block mb-1">
+                  {lib.name}
+                </code>
+                <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">
+                  {locale === 'ar' ? lib.descAr : lib.descEn}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Deep Technical Proof Matrix -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 border-t border-white/10 space-y-6">
+    <div>
+      <span class="text-xs uppercase tracking-wider text-blue-400 font-bold">
+        {locale === 'ar' ? 'تفاصيل التنفيذ البرمجي' : 'Deep Engineering Proofs'}
+      </span>
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">
+        {locale === 'ar' ? 'كيف وُظفت هذه المكتبات في حل العوائق البرمجية؟' : 'How These Libraries Solved Production Bottlenecks'}
+      </h2>
+    </div>
+
+    <div class="space-y-6">
+      {ENGINEERING_STRENGTHS.map((strength) => (
+        <SkillProof strength={strength} locale={locale} projectTitlesMap={projectTitlesMap} />
+      ))}
+    </div>
   </section>
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
