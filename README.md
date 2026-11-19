@@ -1,4 +1,4 @@
-# بورتفوليو أحمد عبد الله الهندسي — Ahmed Abdellah Engineering Portfolio (`ahmedabdellah28.github.io`)
+# بورتفوليو احمد عبداللاه الهندسي — Ahmed Abdellah Engineering Portfolio (`ahmedabdellah28.github.io`)
 
 موقع بورتفوليو شخصي إنتاجي باللغتين العربية (`RTL`) والإنجليزية (`LTR`) مبني بتقنيات **Astro 5 (Static Site Generation - SSG) + TypeScript + Tailwind CSS 4 + Content Collections**، ومُجهّز للنشر المجاني على **GitHub Pages** (`https://ahmedabdellah28.github.io`).
 

@@ -23,7 +23,7 @@ export interface SiteOwnerConfig {
 }
 
 export const SITE_CONFIG: SiteOwnerConfig = {
-  ownerNameAr: 'أحمد عبد الله',
+  ownerNameAr: 'احمد عبداللاه',
   ownerNameEn: 'Ahmed Abdellah',
   roleTitleAr: 'مهندس برمجيات ومعماري أنظمة ذكية وأتمتة',
   roleTitleEn: 'Software Engineer · AI & Automation Systems Architect',

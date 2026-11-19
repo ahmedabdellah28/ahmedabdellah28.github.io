@@ -11,7 +11,7 @@ const { locale } = Astro.params as { locale: 'ar' | 'en' };
 
 const pageTitle =
   locale === 'ar'
-    ? 'عنّي ومنهجية العمل — أحمد عبد الله'
+    ? 'عنّي ومنهجية العمل — احمد عبداللاه'
     : 'About & Engineering Methodology — Ahmed Abdellah';
 const pageDesc =
   locale === 'ar'
@@ -61,7 +61,7 @@ const principles = [
         {locale === 'ar' ? 'الهوية الهندسية وطريقة العمل' : 'Engineering Identity & Approach'}
       </span>
       <h1 class="text-3xl sm:text-4xl font-extrabold text-white mt-2">
-        {locale === 'ar' ? 'أحمد عبد الله — نبذة ومنهجية بناء الأنظمة' : 'Ahmed Abdellah — About & Engineering Approach'}
+        {locale === 'ar' ? 'احمد عبداللاه — نبذة ومنهجية بناء الأنظمة' : 'Ahmed Abdellah — About & Engineering Approach'}
       </h1>
       <p class="text-base sm:text-lg text-slate-300 mt-3 max-w-3xl leading-relaxed">
         {locale === 'ar' ? SITE_CONFIG.taglineAr : SITE_CONFIG.taglineEn}
@@ -76,7 +76,7 @@ const principles = [
         <div class="relative w-full max-w-[280px] rounded-2xl overflow-hidden bg-[#050914] border border-white/15 shadow-xl">
           <img
             src="/media/profile/ahmed-abdellah.webp"
-            alt={locale === 'ar' ? 'أحمد عبد الله' : 'Ahmed Abdellah'}
+            alt={locale === 'ar' ? 'احمد عبداللاه' : 'Ahmed Abdellah'}
             width="800"
             height="800"
             loading="eager"
