@@ -176,6 +176,46 @@
   ],
   "screenshots": [
     {
+      "src": "/media/projects/enaya-ai-workspace/enaya-patient-app.webp",
+      "altAr": "شاشات تطبيق عناية للمريض: الرئيسية، اختيار موعد الكشف، وتتبع الدور المباشر",
+      "altEn": "Enaya patient app screens: home, booking slot selection, and live queue tracking",
+      "captionAr": "تطبيق عناية — الرئيسية، حجز موعد الكشف، وتتبع الدور لحظيًا (شاشات من ملف تصميم الواجهات، ببيانات تجريبية).",
+      "captionEn": "Enaya patient app — home, appointment booking, and live queue tracking (screens from the UI design file, demo data).",
+      "kind": "illustrative_demo",
+      "width": 1600,
+      "height": 1126
+    },
+    {
+      "src": "/media/projects/enaya-ai-workspace/enaya-doctor-app.webp",
+      "altAr": "شاشات تطبيق الدكتور: لوحة قيادة العيادة والطابور، والكشف السريري مع الروشتة الإلكترونية",
+      "altEn": "Enaya doctor app screens: clinic queue dashboard and clinical visit with e-prescription",
+      "captionAr": "تطبيق الدكتور — لوحة قيادة العيادة ونداء المرضى، والكشف السريري وإصدار الروشتة الإلكترونية (بيانات تجريبية).",
+      "captionEn": "Doctor app — clinic command dashboard with patient calling, and clinical visit with e-prescription (demo data).",
+      "kind": "illustrative_demo",
+      "width": 1600,
+      "height": 1665
+    },
+    {
+      "src": "/media/projects/enaya-ai-workspace/enaya-patient-app-all-screens.webp",
+      "altAr": "رحلة المريض كاملة في تطبيق عناية: تسجيل الدخول، الأقسام، الأطباء، الحجز، التأكيد وتتبع الدور",
+      "altEn": "Full patient journey in the Enaya app: login, departments, doctors, booking, confirmation and queue tracking",
+      "captionAr": "رحلة المريض كاملة في تطبيق عناية (11 شاشة).",
+      "captionEn": "Complete patient journey in the Enaya app (11 screens).",
+      "kind": "illustrative_demo",
+      "width": 1800,
+      "height": 1378
+    },
+    {
+      "src": "/media/projects/enaya-ai-workspace/enaya-doctor-app-all-screens.webp",
+      "altAr": "جميع شاشات تطبيق الدكتور: الدخول، لوحة القيادة، المواعيد، الكشف، السجل الدوائي، التحاليل، المحادثات والتحليلات",
+      "altEn": "All doctor app screens: login, dashboard, appointments, visit, Rx history, lab results, chats and analytics",
+      "captionAr": "جميع شاشات تطبيق الدكتور (11 شاشة).",
+      "captionEn": "All doctor app screens (11 screens).",
+      "kind": "illustrative_demo",
+      "width": 1800,
+      "height": 1309
+    },
+    {
       "src": "/media/projects/enaya-ai-workspace/enaya-ecosystem-architecture.svg",
       "altAr": "مخطط معمارية منظومة عناية الطبية (5 تطبيقات Flutter) ومزامنة الطوابير وحوكمة التدقيق",
       "altEn": "Enaya Healthcare 5-app Flutter monorepo, offline sync, and 12-role audit governance diagram",

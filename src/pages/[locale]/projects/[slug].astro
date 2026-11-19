@@ -147,7 +147,9 @@ const structuredData = {
             <span class="text-xs text-amber-300 font-bold">
               {heroMedia.kind === 'real_screenshot'
                 ? (locale === 'ar' ? 'واجهة النظام الفعلية' : 'Live System Interface')
-                : (locale === 'ar' ? 'مخطط عمل النظام' : 'System Workflow Diagram')}
+                : heroMedia.kind === 'illustrative_demo'
+                  ? (locale === 'ar' ? 'واجهات التطبيق' : 'App Screens')
+                  : (locale === 'ar' ? 'مخطط عمل النظام' : 'System Workflow Diagram')}
             </span>
             <button
               type="button"
