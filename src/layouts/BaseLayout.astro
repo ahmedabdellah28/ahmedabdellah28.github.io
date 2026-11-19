@@ -27,7 +27,7 @@ const t = UI_LABELS[locale];
 // Compute language switch URL preserving internal route equivalent
 const cleanSubPath = currentPath.replace(/^\/(ar|en)(\/|$)/, '/');
 const switchHref = `/${otherLocale}${cleanSubPath.startsWith('/') ? cleanSubPath : '/' + cleanSubPath}`;
-const siteOrigin = Astro.site ? Astro.site.origin : 'https://ahmed-abdellah.github.io';
+const siteOrigin = Astro.site ? Astro.site.origin : 'https://ahmedabdellah28.github.io';
 const canonicalUrl = `${siteOrigin}${canonicalPath || `/${locale}${cleanSubPath}`}`;
 const altArUrl = `${siteOrigin}/ar${cleanSubPath}`;
 const altEnUrl = `${siteOrigin}/en${cleanSubPath}`;

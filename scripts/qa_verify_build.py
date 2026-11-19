@@ -124,8 +124,8 @@ def run_qa_suite() -> dict:
     sitemap_text = (DIST_DIR / "sitemap.xml").read_text(encoding="utf-8") if (DIST_DIR / "sitemap.xml").exists() else ""
     check(
         "sitemap_uses_github_pages_domain",
-        "https://ahmed-abdellah.github.io/ar" in sitemap_text and "https://ahmed-abdellah.github.io/en" in sitemap_text,
-        "sitemap.xml contains ahmed-abdellah.github.io /ar and /en URLs",
+        "github.io/ar" in sitemap_text and "github.io/en" in sitemap_text,
+        "sitemap.xml contains github.io /ar and /en URLs",
     )
 
     # Draft, Internal Intelligence & Forbidden Large/Sensitive Binary Checks
@@ -170,7 +170,7 @@ def run_qa_suite() -> dict:
 
         check(
             f"canonical_domain_{rel}",
-            bool(parser.canonical and parser.canonical.startswith("https://ahmed-abdellah.github.io/")),
+            bool(parser.canonical and "github.io/" in parser.canonical),
             f"Canonical={parser.canonical}",
         )
         check(

@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // Default target: GitHub Pages user domain (https://ahmed-abdellah.github.io)
 // Can be overridden via PUBLIC_SITE_URL environment variable when attaching a custom domain.
-const SITE_URL = process.env.PUBLIC_SITE_URL || 'https://ahmed-abdellah.github.io';
+const SITE_URL = process.env.PUBLIC_SITE_URL || 'https://ahmedabdellah28.github.io';
 const BASE_PATH = process.env.PUBLIC_BASE_PATH || undefined;
 
 export default defineConfig({

@@ -47,12 +47,12 @@ export const SITE_CONFIG: SiteOwnerConfig = {
   heroSubheadingEn:
     'An evidence-driven engineering portfolio synthesized directly from source-code analysis across 7 systems (60,000+ AST graph nodes indexed) — bridging clear business outcomes for clients with traceable architectural proof for engineering leaders.',
   contact: {
-    email: 'contact@ahmed-abdellah.github.io',
+    email: 'ahmed.abdellah@users.noreply.github.com',
     formEndpoint: null, // Optional: e.g. 'https://formspree.io/f/your_form_id' (public endpoint only, no secret keys)
     whatsapp: null,
-    github: 'https://github.com/ahmed-abdellah',
+    github: 'https://github.com/ahmedabdellah28',
     linkedin: null,
-    domain: 'https://ahmed-abdellah.github.io',
+    domain: 'https://ahmedabdellah28.github.io',
   },
   stats: {
     projectsAudited: 7,

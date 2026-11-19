@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 
 export const GET: APIRoute = async ({ site }) => {
-  const origin = site ? site.origin : 'https://ahmed-abdellah.github.io';
+  const origin = site ? site.origin : 'https://ahmedabdellah28.github.io';
   const published = await getCollection('projects', ({ data }) => data.visibility === 'published');
   const locales = ['ar', 'en'];
   const staticPages = ['', '/projects', '/expertise', '/about', '/contact'];
