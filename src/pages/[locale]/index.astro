@@ -11,6 +11,166 @@ const text = (a: string, e: string) => (ar ? a : e);
 const projects = (
   await getCollection("projects", ({ data }) => data.visibility === "published")
 ).sort((a, b) => a.data.featuredOrder - b.data.featuredOrder);
+
+// Public case-study copy excludes source files, code symbols and repository references.
+const publicDescriptions: Record<string, string[][]> = {
+  "phone-commander": [
+    [
+      "أتمتة شاشات الهاتف قد تتعطل بسبب ضغط الذاكرة أو تغيّر أماكن العناصر.",
+      "Mobile screen automation can fail under memory pressure or when interface elements move."
+    ],
+    [
+      "محرك أندرويد يجمع الرؤية الحاسوبية والتعرف على النصوص مع إدارة المهام ومزامنة الجلسات وعرض المتابعة في Flutter.",
+      "An Android engine combining computer vision and text recognition with task management, session synchronization and a Flutter monitoring interface."
+    ],
+    [
+      "يعتمد تنفيذ الإجراءات على تأكيد بصري أو نصي بدل النقر العشوائي، مع التعافي من الحالات غير المتوقعة وتقليل استهلاك البطارية أثناء الانتظار.",
+      "Actions depend on visual or text confirmation instead of blind taps, with recovery from unexpected states and battery-saving behavior during long waits."
+    ],
+    [
+      "مطابقة الصور والتعرف على النصوص وإدارة أولويات المهام.",
+      "Image matching, text recognition and task-priority management."
+    ],
+    [
+      "مزامنة الجلسات وعرض الخطوات ونتائج المطابقة لحظيًا.",
+      "Session synchronization and live reporting of steps and match scores."
+    ]
+  ],
+  "gmail-options-suite": [
+    [
+      "تشغيل عدة جلسات متصفح بالتوازي يحتاج إلى منع تداخل بيانات الجلسات وتعارض تحديث الملفات.",
+      "Running parallel browser sessions requires preventing shared session state and conflicting file updates."
+    ],
+    [
+      "نظام لتوزيع المهام على جلسات متصفح معزولة، وإغلاق الجلسات بعد كل مهمة، وتنظيم النتائج والتعامل مع الفشل.",
+      "A system that allocates tasks to isolated browser sessions, closes sessions after each task, organizes results and handles failures."
+    ],
+    [
+      "يستبدل الجلسة المشتركة بجلسات منفصلة مع حفظ آمن للنتائج أثناء العمل المتوازي.",
+      "Replaces shared sessions with isolated execution and safe result storage during concurrent work."
+    ],
+    [
+      "عزل الجلسات وإدارة دورة حياتها وتوزيع المهام المتوازية.",
+      "Session isolation, lifecycle management and parallel task allocation."
+    ],
+    [
+      "تحديثات ملفات آمنة وتصنيف النتائج والتعامل مع الأعطال.",
+      "Safe file updates, categorized results and failure handling."
+    ]
+  ],
+  "school-timetable": [
+    [
+      "إعداد جدول يراعي المعلمين والفصول والحصص المتاحة يدويًا يستغرق وقتًا، وتعديل حصة قد يسبب تعارضات متتابعة.",
+      "Building a timetable around teachers, classes and availability is time-consuming, and moving one lesson can cause further conflicts."
+    ],
+    [
+      "نظام جدولة باستخدام Google OR-Tools، بواجهة مكتبية تعمل دون اتصال ونسخة ويب، مع فحص قابلية الحل والتحقق من الجدول وإصلاح التعديلات.",
+      "A Google OR-Tools scheduling system with an offline desktop interface and a web version, feasibility checks, timetable validation and repair tools."
+    ],
+    [
+      "يوضح أسباب تعذر الجدولة وأثر نقل الحصص قبل اعتماد التعديل، بدل المحاولة والخطأ اليدوي.",
+      "Explains infeasible schedules and previews the effect of moving lessons before committing changes, instead of manual trial and error."
+    ],
+    [
+      "توليد جداول بلا تعارض وفق القيود المحددة وفحص مستقل للنتائج.",
+      "Constraint-based timetable generation with independent result validation."
+    ],
+    [
+      "تعديل بالسحب والإفلات وتصدير عربي إلى PDF وExcel.",
+      "Drag-and-drop repair and Arabic PDF and Excel export."
+    ]
+  ],
+  "enaya-ai-workspace": [
+    [
+      "ربط خدمات المرضى والأطباء والصيدليات والمعامل يحتاج إلى اتساق البيانات والتعامل مع انقطاع الشبكة وحماية الوصول.",
+      "Connecting patients, doctors, pharmacies and laboratories requires consistent data, network-failure handling and access protection."
+    ],
+    [
+      "تطبيقات Flutter مرتبطة بخدمات Supabase، مع تحسين المزامنة بعد عودة الاتصال وإعادة محاولة الطلبات وإدارة تدفق الأحداث بين الخدمات.",
+      "Flutter applications connected through Supabase, with improved reconnection synchronization, request retries and event flow across services."
+    ],
+    [
+      "يعيد مزامنة الإجراءات المعلقة عند عودة الاتصال ويتعامل مع أخطاء الشبكة المؤقتة بدل فقد سير العمل.",
+      "Synchronizes queued actions after reconnection and handles temporary network errors rather than abandoning the workflow."
+    ],
+    [
+      "حجز العيادات ومتابعة الطوابير وطلبات الصيدلية والمعامل.",
+      "Clinic booking, queue tracking, pharmacy requests and laboratory workflows."
+    ],
+    [
+      "مزامنة دون اتصال وإعادة المحاولة ومتابعة عروض الأسعار والإيصالات والنزاعات.",
+      "Offline synchronization, retries, and workflows for quotes, receipts and disputes."
+    ]
+  ],
+  "remix-sole-marketplace": [
+    [
+      "كتالوج كبير من صور المنتجات يحتاج إلى أسماء منظمة وتحميل سريع، دون استنزاف خدمات الصور أو قبول ملفات ضارة.",
+      "A large product-photo catalog needs organized titles and fast loading without exhausting image-service quotas or accepting harmful uploads."
+    ],
+    [
+      "متجر أحذية ثنائي اللغة ينظم أسماء المنتجات آليًا ويستخدم كتالوجًا بديلًا وصورًا متجاوبة مع فحص نوع الملفات المرفوعة.",
+      "A bilingual footwear storefront with automatic product-title cleanup, a fallback catalog, responsive images and uploaded-file type checks."
+    ],
+    [
+      "ينظم الصور وأسماءها ويجهز أحجام العرض المناسبة بدل إعادة التسمية والتحجيم يدويًا.",
+      "Organizes images and titles and prepares suitable display sizes instead of manual renaming and resizing."
+    ],
+    [
+      "تنظيم كتالوج المنتجات وعرض عربي وإنجليزي وصور متجاوبة.",
+      "Product-catalog organization, Arabic and English presentation and responsive images."
+    ],
+    [
+      "فحص الملفات وإدارة الكتالوج مع بديل عند تعطل خدمة البيانات.",
+      "Upload checks and catalog management with fallback data when the main service is unavailable."
+    ]
+  ],
+  "image-to-animate": [
+    [
+      "إنتاج فيديو توضيحي يدويًا يتطلب تجهيز الصور وتوقيت الحركة مع الكلام وضبط الصوت، ثم إعادة العمل عند تغيير النص.",
+      "Manual explainer-video production requires preparing images, timing motion to speech and balancing audio, then revisiting the work when the script changes."
+    ],
+    [
+      "مسار إنتاج آلي يحول النص إلى تعليق صوتي ومشاهد ورسوم متحركة، ثم يصدر فيديو مع فحوص للصوت والصورة.",
+      "An automated pipeline turning scripts into narration, scenes and motion graphics, then exporting video with audio and visual checks."
+    ],
+    [
+      "يربط العناصر بكلمات التعليق ويضبط المزج الصوتي ويفحص المخرجات بدل المزامنة اليدوية إطارًا بإطار.",
+      "Connects visual assets to narration words, balances audio and checks outputs instead of manual frame-by-frame synchronization."
+    ],
+    [
+      "توقيت على مستوى الكلمة وإعداد الصور وتحريك المشاهد.",
+      "Word-level timing, image preparation and scene animation."
+    ],
+    [
+      "إخراج أفقي ورأسي وفحص الإطارات والصوت وتزامنهما.",
+      "Widescreen and vertical output with frame, audio and synchronization checks."
+    ]
+  ],
+  "rok-vision-controller": [
+    [
+      "تغيّر أبعاد شاشات أندرويد يجعل إحداثيات النقر الثابتة غير دقيقة.",
+      "Different Android screen dimensions make fixed tap coordinates unreliable."
+    ],
+    [
+      "متحكم يكيّف مواضع عناصر الواجهة وفق ارتفاع الشاشة ونقاط ارتكاز واضحة، مع دعم الوضع الأفقي ونسخ التطبيق المتعددة.",
+      "A controller adapting interface positions to screen height and defined anchor points, with landscape and multiple-app-instance support."
+    ],
+    [
+      "يحوّل مواقع العناصر حسب أبعاد الجهاز بدل إعداد قائمة إحداثيات مستقلة لكل شاشة.",
+      "Transforms interface positions for each device instead of maintaining a separate coordinate table for every screen."
+    ],
+    [
+      "تكييف مواقع العناصر باستخدام خمس مناطق ارتكاز للشاشة.",
+      "Adapting interface positions using five screen-anchor regions."
+    ],
+    [
+      "تنظيم اتجاه الشاشة واستهداف شبكة الشخصيات مع متابعة دورات التنفيذ.",
+      "Landscape normalization, character-grid targeting and execution-cycle monitoring."
+    ]
+  ]
+};
+const publicCopy = (slug: string, item: number) => publicDescriptions[slug][item][ar ? 0 : 1];
+
 const name = ar ? SITE_CONFIG.ownerNameAr : SITE_CONFIG.ownerNameEn;
 const nav = [
   ["work", text("الأعمال", "Work")],
@@ -76,6 +236,7 @@ const illustration = (slug: string, ar: boolean) => {
  </svg>`.replace(/&/g, "&amp;");
 };
 
+const publicCaption = (caption: string) => caption.replace(/`creative_contact_sheet\.png`/g, ar ? "لوحة معاينة المشاهد" : "scene preview sheet").replace(/`([^`]+)`/g, "$1");
 const origin = SITE_CONFIG.contact.domain;
 const profileSchema = {
   "@context": "https://schema.org",
@@ -88,7 +249,6 @@ const profileSchema = {
     url: origin,
     image: `${origin}/media/profile/ahmed-abdellah.webp`,
     jobTitle: ar ? SITE_CONFIG.roleTitleAr : SITE_CONFIG.roleTitleEn,
-    sameAs: [SITE_CONFIG.contact.github],
   },
 };
 ---
@@ -208,8 +368,8 @@ const profileSchema = {
           </div>
           <p>
             {text(
-              "النتيجة أولًا. التفاصيل والصور والأدلة داخل كل مشروع، من غير ما تخرج من الصفحة.",
-              "The result comes first. Open any project for details, screenshots, and evidence without leaving this page.",
+              "النتيجة أولًا. التفاصيل والصور داخل كل مشروع، من غير ما تخرج من الصفحة.",
+              "The result comes first. Open any project for details and screenshots without leaving this page.",
             )}
           </p>
         </div>
@@ -284,8 +444,8 @@ const profileSchema = {
                   <summary>
                     <span>
                       {text(
-                        "تفاصيل المشروع والصور والأدلة",
-                        "Project details, screenshots & evidence",
+                        "تفاصيل المشروع والصور",
+                        "Project details & screenshots",
                       )}
                     </span>
                     <span class="plus" aria-hidden="true">
@@ -296,11 +456,11 @@ const profileSchema = {
                     <div class="detail-grid">
                       <div>
                         <h4>{text("المشكلة", "The problem")}</h4>
-                        <p>{p.problem[locale]}</p>
+                        <p>{publicCopy(p.slug, 0)}</p>
                       </div>
                       <div>
                         <h4>{text("الحل", "The solution")}</h4>
-                        <p>{p.solution[locale]}</p>
+                        <p>{publicCopy(p.slug, 1)}</p>
                       </div>
                       <div>
                         <h4>{text("الدور والجمهور", "Role & audience")}</h4>
@@ -314,15 +474,15 @@ const profileSchema = {
                             "Manual vs. automated",
                           )}
                         </h4>
-                        <p>{p.manualVsAutomated[locale]}</p>
+                        <p>{publicCopy(p.slug, 2)}</p>
                       </div>
                     </div>
                     <h4>
                       {text("القدرات المنفّذة", "Implemented capabilities")}
                     </h4>
                     <ul class="capabilities">
-                      {p.capabilities.map((c) => (
-                        <li>{c[locale]}</li>
+                      {[3, 4].map((item) => (
+                        <li>{publicCopy(p.slug, item)}</li>
                       ))}
                     </ul>
                     <div class="metrics">
@@ -330,10 +490,6 @@ const profileSchema = {
                         <div>
                           <strong dir="auto">{r.metric}</strong>
                           <p>{ar ? r.labelAr : r.labelEn}</p>
-                          <small>
-                            {text("مرجع المشروع: ", "Project reference: ")}
-                            <bdi>{r.sourceRef}</bdi>
-                          </small>
                         </div>
                       ))}
                     </div>
@@ -361,108 +517,12 @@ const profileSchema = {
                               />
                             </a>
                             <figcaption>
-                              {ar ? s.captionAr : s.captionEn}
+                              {publicCaption(ar ? s.captionAr : s.captionEn)}
                             </figcaption>
                           </figure>
                         ))}
                       </div>
                     )}
-                    <details class="technical">
-                      <summary>
-                        {text(
-                          "التفاصيل الهندسية والمراجع",
-                          "Engineering details & references",
-                        )}
-                      </summary>
-                      <div class="technical-body">
-                        <h4>{text("التقنيات", "Technologies")}</h4>
-                        <p dir="ltr">{p.technologies.join(" · ")}</p>
-                        <h4>{text("بنية النظام", "System architecture")}</h4>
-                        <p>
-                          {ar
-                            ? p.architecture.overviewAr
-                            : p.architecture.overviewEn}
-                        </p>
-                        <ol>
-                          {p.architecture.pipelineSteps.map((s) => (
-                            <li>
-                              <strong>{ar ? s.titleAr : s.titleEn}</strong>
-                              <p>{ar ? s.detailAr : s.detailEn}</p>
-                            </li>
-                          ))}
-                        </ol>
-                        <p>
-                          {ar
-                            ? p.architecture.systemBoundariesAr
-                            : p.architecture.systemBoundariesEn}
-                        </p>
-                        <h4>
-                          {text("التحديات والقرارات", "Challenges & decisions")}
-                        </h4>
-                        {p.challenges.map((c) => (
-                          <div class="challenge">
-                            <span class="evidence-state">
-                              {c.type === "verified_fix"
-                                ? text("إصلاح موثق بالمشروع", "Documented fix")
-                                : c.type === "preventive_design"
-                                  ? text("تصميم وقائي", "Preventive design")
-                                  : c.type === "possible_risk"
-                                    ? text(
-                                        "خطر مرصود، وليس إصلاحًا مثبتًا",
-                                        "Identified risk, not a verified fix",
-                                      )
-                                    : text("قيد المراجعة", "Under review")}
-                            </span>
-                            <h5>{ar ? c.titleAr : c.titleEn}</h5>
-                            <p>{ar ? c.problemAr : c.problemEn}</p>
-                            <p>{ar ? c.whyImportantAr : c.whyImportantEn}</p>
-                            <p>{ar ? c.solutionAr : c.solutionEn}</p>
-                            <p>{ar ? c.impactAr : c.impactEn}</p>
-                            <p>{ar ? c.lessonAr : c.lessonEn}</p>
-                            <small>
-                              <bdi>{c.proofRef}</bdi>
-                            </small>
-                          </div>
-                        ))}
-                        <h4>
-                          {text(
-                            "مراجع الأدلة في المشروع",
-                            "Project evidence references",
-                          )}
-                        </h4>
-                        <p class="evidence-note">
-                          {text(
-                            "المراجع التالية محفوظة من ملف المشروع الأصلي. هي إحالات إلى الكود والاختبارات، وليست تدقيقًا مستقلًا جديدًا.",
-                            "These references are preserved from the original project records. They point to source code and tests, not a new independent audit.",
-                          )}
-                        </p>
-                        <ul class="evidence-list">
-                          {p.evidence
-                            .filter((e) => e.visibility === "public")
-                            .map((e) => (
-                              <li>
-                                <strong>{ar ? e.claimAr : e.claimEn}</strong>
-                                <small>
-                                  {e.verificationStatus === "verified" &&
-                                  e.relationType === "EXTRACTED"
-                                    ? text(
-                                        "موثق في سجل المشروع",
-                                        "Documented in project record",
-                                      )
-                                    : text(
-                                        "استنتاج أو غير متحقق منه",
-                                        "Inferred or unverified",
-                                      )}{" "}
-                                  · {e.confidence}
-                                </small>
-                                <code>
-                                  {e.evidencePath} : {e.lineOrSymbol}
-                                </code>
-                              </li>
-                            ))}
-                        </ul>
-                      </div>
-                    </details>
                   </div>
                 </details>
               </article>
@@ -551,14 +611,6 @@ const profileSchema = {
           <p class="contact-number">
             <bdi>+201039659917</bdi>
           </p>
-          <a
-            class="github-link"
-            href={SITE_CONFIG.contact.github}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {text("تصفّح مشاريعي على GitHub", "Explore my projects on GitHub")} ↗
-          </a>
         </div>
       </section>
     </main>
