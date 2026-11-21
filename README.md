@@ -1,82 +1,42 @@
-# بورتفوليو احمد عبداللاه الهندسي — Ahmed Abdellah Engineering Portfolio (`ahmedabdellah28.github.io`)
+# Ahmed Abdellah | Single-scroll portfolio
 
-موقع بورتفوليو شخصي إنتاجي باللغتين العربية (`RTL`) والإنجليزية (`LTR`) مبني بتقنيات **Astro 5 (Static Site Generation - SSG) + TypeScript + Tailwind CSS 4 + Content Collections**، ومُجهّز للنشر المجاني على **GitHub Pages** (`https://ahmedabdellah28.github.io`).
+بورتفوليو احمد عبداللاه بصفحة واحدة قابلة للتمرير لكل لغة، مبني بـ Astro مع محتوى عربي RTL وإنجليزي LTR.
 
----
+## العرض
 
-## 1. الروابط الرسمية
+- `/ar/`: الصفحة العربية.
+- `/en/`: الصفحة الإنجليزية.
+- الرئيسية، الأعمال، الخبرات، عنّي، والتواصل أقسام داخل نفس الصفحة.
+- تفاصيل المشاريع والصور والمراجع تفتح داخل الصفحة بعناصر `details` الأصلية، وتعمل دون JavaScript.
+- روابط الصفحات السابقة تتحول تلقائيًا إلى القسم أو المشروع الموافق. لا توجد صفحات محتوى منفصلة في تجربة التنقل الجديدة.
+- `/sitemap.xml` يحتوي على نسختي اللغة فقط. ملفات المسارات القديمة موجودة لحماية الروابط السابقة، وليست صفحات محتوى إضافية.
 
-- **الموقع العام (العربية — RTL):** `https://ahmedabdellah28.github.io/ar/`
-- **النسخة الإنجليزية (English — LTR):** `https://ahmedabdellah28.github.io/en/`
-- **خريطة الموقع (`Sitemap`):** `https://ahmedabdellah28.github.io/sitemap.xml`
-- **مستودع GitHub:** `https://github.com/ahmedabdellah28/ahmedabdellah28.github.io`
+## التشغيل والفحص
 
----
-
-## 2. التشغيل والاختبار المحلي (Local Development & QA)
-
-> على جهاز التطوير الحالي، إذا لم يكن `node` في متغير `PATH` للجلسة، أضفه أولًا:
-> ```powershell
-> $env:PATH = "C:\\Users\\loper\\AppData\\Local\\hermes\\tools\\node-26.7.0-win32-x64;" + $env:PATH
-> ```
-
-```powershell
-cd d:\بورتفيليو\portfolio
-
-# 1. تثبيت الحزم
-npm install
-
-# 2. تشغيل خادم التطوير المحلي
+```sh
+npm ci
 npm run dev
-
-# 3. بناء النسخة الإنتاجية الثابتة في dist/
 npm run build
-
-# 4. تشغيل فحوص البناء والأمان وSEO (226 فحصًا آليًا)
-python scripts/qa_verify_build.py
-
-# 5. تشغيل اختبارات المتصفح التفاعلية عبر Playwright والتقاط صور المقارنة (33 اختبارًا)
-python scripts/playwright_e2e_audit.py
+npm run test:qa
+npm run preview
 ```
 
----
+فحص Python يتحقق من بنية النسختين، الروابط الداخلية، الصور المحلية، مسارات التحويل، واستبعاد المشاريع غير المنشورة. لا يدعي قياس سرعة التحميل أو مراجعة بصرية أو اختبار كل الروابط الخارجية. يلزم فحص المتصفح بعد أي تعديل بصري، وعلى الموبايل أيضًا.
 
-## 3. تعديل بيانات التواصل والهوية (`src/config/site.ts`)
+## تعديل المحتوى
 
-تُدار جميع إعدادات الهوية والنطاق الأساسي (`SITE_URL = 'https://ahmedabdellah28.github.io'`) وقنوات التواصل من ملف واحد فقط: [`src/config/site.ts`](src/config/site.ts).
+- `src/pages/[locale]/index.astro`: تصميم الصفحة والنصوص العامة والقائمة.
+- `src/content/projects/*.json`: بيانات المشاريع الأصلية، الصور، النتائج، القرارات، والمراجع. يعرض الموقع فقط `visibility: published`، والمراجع ذات `visibility: public`.
+- `src/config/site.ts`: الهوية وقنوات التواصل. لا تضف بريدًا أو هاتفًا تخمينيًا. النسخة الحالية تعرض رابط GitHub الموجود فقط، ولا تعرض فورم لا يستقبل الرسائل.
+- `public/media/`: الصور الأصلية.
+- `src/pages/[locale]/about.astro` والملفات المشابهة: تحويلات الروابط القديمة إلى أقسام الصفحة.
 
-لتفعيل بريد عمل مباشر أو خدمة نماذج خارجية (مثل Formspree) في صفحة التواصل:
-```ts
-contact: {
-  email: 'your-real-email@domain.com',
-  emailStatus: 'verified',
-  formEndpoint: 'https://formspree.io/f/your_public_form_id', // اختياري بدون أي مفتاح سري
-  github: 'https://github.com/ahmedabdellah28',
-  linkedin: 'https://linkedin.com/in/...',
-  domain: SITE_URL,
-}
-```
+أسماء المشاريع والأرقام والمراجع محفوظة من المصدر الأصلي. المراجع الداخلية ليست روابط إلى مستودعات عامة بالضرورة، ولا تعني إجراء تدقيق مستقل جديد.
 
----
+## GitHub Pages
 
-## 4. الوثائق الهندسية وتقارير التدقيق (`docs/`)
+سير النشر الموجود في `.github/workflows/deploy.yml` يبني المشروع عند تحديث فرع `main` أو التشغيل اليدوي. يجب أن تكون إعدادات Pages في المستودع متوافقة مع مصدر GitHub Actions. نجاح البناء المحلي لا يثبت نجاح النشر. تحقق من نتيجة التشغيل ومن الصفحة المنشورة بعد الرفع. لا تغيّر خصوصية المستودع لحل مشكلة نشر دون قرار صاحبه.
 
-- [`docs/audit/PORTFOLIO_AUDIT_V2.md`](docs/audit/PORTFOLIO_AUDIT_V2.md) — جدول أخطاء `P0/P1/P2` وحالة إصلاحها والتحقق منها.
-- [`docs/audit/BEFORE_AFTER.md`](docs/audit/BEFORE_AFTER.md) — مقارنة التغييرات البصرية والهيكلية وروابط صور `before/` و`after/`.
-- [`docs/design/DESIGN_SYSTEM.md`](docs/design/DESIGN_SYSTEM.md) — نظام التصميم، الخلفية الداكنة الثابتة المستوحاة من جرادينت صورة البروفايل، التباين، والخطوط.
-- [`docs/design/MOTION_GUIDELINES.md`](docs/design/MOTION_GUIDELINES.md) — نظام الحركة الهادئة ودعم `prefers-reduced-motion`.
-- [`docs/audit/QA_REPORT.md`](docs/audit/QA_REPORT.md) — نتائج اختبارات البناء (`226/226`) وPlaywright (`33/33`).
-- [`docs/audit/OWNER_DECISIONS.md`](docs/audit/OWNER_DECISIONS.md) — البيانات الاختيارية التي تنتظر مدخلات المالك (مثل البريد العام).
+## Dependency maintenance
 
----
-
-## 5. النشر على GitHub Pages
-
-يعمل ملف [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) باستخدام الإجراء الرسمي `withastro/action@v3` و`actions/deploy-pages@v4` عند الدفع إلى الفرع `main`:
-
-```powershell
-cd d:\بورتفيليو\portfolio
-git add .
-git commit -m "feat: redesign portfolio with fixed portrait dark gradient and V2 audit fixes"
-git push origin main
-```
+The existing dependency lock is unchanged by the single-page redesign. A November 21, 2026 `npm audit` reported six affected package groups, including Astro and Sharp. A separate, tested framework upgrade is recommended. The critical Astro image advisory requires processing an untrusted AVIF image: https://github.com/advisories/GHSA-26w7-cxv4-gfx2 . This portfolio currently emits static HTML and references local media with ordinary image tags; it does not provide a visitor image-upload or runtime image-processing endpoint. That limits the observed exposure for this deployment, but does not clear the dependency findings or replace a security review. Reassess before introducing uploads, SSR, untrusted CMS content, or image optimization.
