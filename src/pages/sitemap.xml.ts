@@ -1,30 +1,9 @@
-import type { APIRoute } from 'astro';
-import { getCollection } from 'astro:content';
-
-export const GET: APIRoute = async ({ site }) => {
-  const origin = site ? site.origin : 'https://ahmedabdellah28.github.io';
-  const published = await getCollection('projects', ({ data }) => data.visibility === 'published');
-  const locales = ['ar', 'en'];
-  const staticPages = ['', '/projects', '/expertise', '/about', '/contact'];
-
-  const urls: string[] = [];
-  for (const loc of locales) {
-    for (const pg of staticPages) {
-      urls.push(`${origin}/${loc}${pg}`);
-    }
-    for (const proj of published) {
-      urls.push(`${origin}/${loc}/projects/${proj.data.slug}`);
-    }
-  }
-
+import type { APIRoute } from "astro";
+export const GET: APIRoute = ({ site }) => {
+  const origin = site?.origin || "https://ahmedabdellah28.github.io";
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map((u) => `  <url><loc>${u}</loc></url>`).join('\n')}
-</urlset>`;
-
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${origin}/ar/</loc></url><url><loc>${origin}/en/</loc></url></urlset>`;
   return new Response(xml, {
-    headers: {
-      'Content-Type': 'application/xml; charset=utf-8',
-    },
+    headers: { "Content-Type": "application/xml; charset=utf-8" },
   });
 };
