@@ -637,6 +637,41 @@ const profileSchema = {
       }
       revealProject();
       window.addEventListener("hashchange", revealProject);
+
+      // Motion is progressive enhancement: content stays visible without JS.
+      const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const entranceAnimations = new Set();
+      const animateEntrance = (element, delay = 0) => {
+        if (motionPreference.matches || !element.animate) return;
+        const animation = element.animate(
+          [{ opacity: 0.55, transform: "translateY(16px)" },
+           { opacity: 1, transform: "translateY(0)" }],
+          { duration: 560, delay, easing: "cubic-bezier(0.22, 1, 0.36, 1)" }
+        );
+        entranceAnimations.add(animation);
+        animation.onfinish = () => entranceAnimations.delete(animation);
+        animation.oncancel = () => entranceAnimations.delete(animation);
+      };
+      document.querySelectorAll(".hero-copy > *, .portrait").forEach((element, index) => {
+        animateEntrance(element, Math.min(index * 55, 275));
+      });
+      let motionObserver;
+      if ("IntersectionObserver" in window && !motionPreference.matches) {
+        motionObserver = new IntersectionObserver((entries) => {
+          entries.forEach(({ target, isIntersecting }) => {
+            if (!isIntersecting) return;
+            animateEntrance(target);
+            motionObserver.unobserve(target);
+          });
+        }, { threshold: 0.08 });
+        document.querySelectorAll(".project, .section-heading, .strengths > *, .about > *, .contact-panel")
+          .forEach((element) => motionObserver.observe(element));
+      }
+      motionPreference.addEventListener("change", ({ matches }) => {
+        if (!matches) return;
+        motionObserver?.disconnect();
+        entranceAnimations.forEach((animation) => animation.cancel());
+      });
     </script>
   </body>
 </html>
@@ -1385,5 +1420,35 @@ const profileSchema = {
     .engine-cover > span {
       font-size: 60px;
     }
+  }
+</style>
+
+<style is:global>
+
+  /* Finite, low-distance motion; no parallax, autoplay or hidden content. */
+  @media (prefers-reduced-motion: no-preference) {
+    .button, .language, .project, .plus {
+      transition: transform 220ms ease, border-color 220ms ease,
+        background-color 220ms ease, box-shadow 220ms ease;
+    }
+    .project-cover img {
+      transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .project-details[open] .detail-body {
+      animation: detail-arrive 280ms ease-out;
+    }
+    @keyframes detail-arrive {
+      from { opacity: 0.6; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .button:hover, .language:hover { transform: translateY(-2px); }
+      .project:hover {
+        border-color: #83b7fd55;
+        box-shadow: 0 14px 36px -24px #83b7fd55;
+      }
+      .project:hover .project-cover img { transform: scale(1.025); }
+    }
+    .button:active, .language:active { transform: translateY(0); }
   }
 </style>
