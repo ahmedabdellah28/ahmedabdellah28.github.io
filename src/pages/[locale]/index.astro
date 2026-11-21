@@ -54,6 +54,28 @@ const status: Record<string, string> = {
 };
 const title = `${name} | ${text("برمجيات وذكاء اصطناعي وأتمتة", "Software, AI & Automation")}`;
 const desc = ar ? SITE_CONFIG.taglineAr : SITE_CONFIG.taglineEn;
+const illustration = (slug: string, ar: boolean) => {
+  const phone = slug === "phone-commander";
+  const labels = phone
+    ? ar
+      ? ["التقاط الشاشة", "فهم الصورة والنص", "قرار وتنفيذ"]
+      : ["Screen capture", "Vision + OCR", "Decide & act"]
+    : ar
+      ? ["توزيع المهام", "جلسات معزولة", "تصنيف وإغلاق"]
+      : ["Allocate tasks", "Isolated sessions", "Route & close"];
+  const headline = phone ? "Phone Commander" : "Gmail Options Suite";
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="${headline}: ${labels.join(" - ")}">
+ <defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#122745"/><stop offset="1" stop-color="#0b1220"/></linearGradient><linearGradient id="accent" x2="1" y2="1"><stop stop-color="#a3c8ff"/><stop offset="1" stop-color="#5087d0"/></linearGradient></defs>
+ <rect width="800" height="500" rx="22" fill="url(#bg)"/>
+ <g stroke="#8bb6ef" stroke-opacity=".08"><path d="M0 100H800M0 200H800M0 300H800M0 400H800M100 0V500M200 0V500M300 0V500M400 0V500M500 0V500M600 0V500M700 0V500"/></g>
+ <text x="48" y="63" fill="#8fb2e1" font-size="13" letter-spacing="3" font-family="Arial,sans-serif">${phone ? "ANDROID · COMPUTER VISION" : "PYTHON · BROWSER AUTOMATION"}</text>
+ <text x="48" y="106" fill="#edf4ff" font-size="32" font-weight="700" font-family="Arial,sans-serif">${headline}</text>
+ ${phone ? `<rect x="310" y="150" width="180" height="205" rx="25" fill="#0a111e" stroke="#8db7ef" stroke-width="3"/><rect x="326" y="169" width="148" height="164" rx="12" fill="#142b48"/><path d="M349 193h31m-31 0v26m102-26h-31m31 0v26m-102 87h31m-31 0v-26m102 26h-31m31 0v-26" fill="none" stroke="#a3c8ff" stroke-width="3"/><rect x="363" y="225" width="73" height="40" rx="7" fill="#72c2b5" fill-opacity=".15" stroke="#83cdbf" stroke-dasharray="5 4"/><path d="M375 282h50M384 292h32" stroke="#729ccf" stroke-width="3"/><circle cx="400" cy="344" r="3" fill="#8db7ef"/><path d="M246 245h45m-9-8 9 8-9 8M509 245h45m-9-8 9 8-9 8" fill="none" stroke="#779fd3" stroke-width="3"/><rect x="93" y="213" width="134" height="65" rx="12" fill="#183350" stroke="#476b9a"/><path d="M113 235h70m-70 13h90m-90 13h52" stroke="#9bc3f6" stroke-width="3"/><rect x="573" y="210" width="134" height="74" rx="12" fill="#153337" stroke="#52958c"/><path d="m615 248 15 15 28-32" fill="none" stroke="#8ed7c5" stroke-width="5"/>` : `<rect x="46" y="170" width="166" height="169" rx="17" fill="#101e32" stroke="#587da8"/><rect x="62" y="188" width="134" height="23" rx="5" fill="#244364"/><circle cx="74" cy="199" r="3" fill="#a3c8ff"/><path d="M75 237h100M75 261h100M75 285h70M75 309h86" stroke="#759ac7" stroke-width="5"/><path d="M227 250h51m-9-8 9 8-9 8M523 250h51m-9-8 9 8-9 8" fill="none" stroke="#8db7ef" stroke-width="3"/>${[0, 1, 2].map((i) => `<rect x="300" y="${159 + i * 62}" width="200" height="49" rx="10" fill="#172e4b" stroke="#648fc3"/><circle cx="322" cy="${184 + i * 62}" r="5" fill="#9fc5fa"/><path d="M340 ${178 + i * 62}h110M340 ${190 + i * 62}h73" stroke="#6d94c7" stroke-width="3"/>`).join("")}<rect x="594" y="170" width="160" height="169" rx="17" fill="#132d31" stroke="#5b9e94"/><path d="m620 203 8 8 15-19m-23 49 8 8 15-19m-23 49 8 8 15-19M658 204h70M658 242h70M658 280h52" fill="none" stroke="#8cd4c1" stroke-width="4"/>`}
+ ${labels.map((label, i) => `<rect x="${35 + i * 255}" y="384" width="220" height="49" rx="9" fill="#0b1525" stroke="#355477"/><text x="${145 + i * 255}" y="415" text-anchor="middle" direction="${ar ? "rtl" : "ltr"}" fill="#caddf8" font-size="20" font-family="Arial,sans-serif">${label}</text>`).join("")}
+ <text x="400" y="470" text-anchor="middle" direction="${ar ? "rtl" : "ltr"}" fill="#8ca8cc" font-size="14" font-family="Arial,sans-serif">${ar ? "رسم توضيحي لطريقة العمل، وليس لقطة من التطبيق" : "Workflow illustration, not an application screenshot"}</text>
+ </svg>`.replace(/&/g, "&amp;");
+};
+
 const origin = SITE_CONFIG.contact.domain;
 const profileSchema = {
   "@context": "https://schema.org",
@@ -206,10 +228,33 @@ const profileSchema = {
                       loading="lazy"
                     />
                   ) : (
-                    <div class="engine-cover" aria-hidden="true">
-                      <span>{p.category.includes("API") ? "{ }" : "⌘"}</span>
-                      <small>{text("محرك أتمتة", "AUTOMATION ENGINE")}</small>
-                    </div>
+                    <figure class="illustration-figure">
+                      {" "}
+                      <img
+                        class="workflow-illustration"
+                        src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(illustration(p.slug, ar))}`}
+                        alt={
+                          text(
+                            "رسم توضيحي لطريقة عمل ",
+                            "Workflow illustration for ",
+                          ) +
+                          (ar ? p.titleAr : p.titleEn) +
+                          text(
+                            "، وليس لقطة من التطبيق",
+                            ", not an app screenshot",
+                          )
+                        }
+                        width="800"
+                        height="500"
+                        loading="lazy"
+                      />
+                      <figcaption>
+                        {text(
+                          "رسم توضيحي لطريقة العمل، وليس لقطة من التطبيق",
+                          "Workflow illustration, not an application screenshot",
+                        )}
+                      </figcaption>
+                    </figure>
                   )}
                 </div>
                 <div class="project-copy">
@@ -481,17 +526,38 @@ const profileSchema = {
           </h2>
           <p>
             {text(
-              "يمكنك الاطلاع على حسابي ومشاريعي على GitHub.",
-              "Explore my profile and repositories on GitHub.",
+              "تواصل معي مباشرة على واتساب أو من خلال حسابي على فيسبوك.",
+              "Get in touch on WhatsApp or through my Facebook profile.",
             )}
           </p>
+          <div class="contact-actions">
+            <a
+              class="button primary"
+              href={SITE_CONFIG.contact.whatsapp!}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {text("تواصل عبر واتساب", "Message on WhatsApp")} ↗
+            </a>
+            <a
+              class="button secondary"
+              href={SITE_CONFIG.contact.facebook!}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Facebook ↗
+            </a>
+          </div>
+          <p class="contact-number">
+            <bdi>+201039659917</bdi>
+          </p>
           <a
-            class="button primary"
+            class="github-link"
             href={SITE_CONFIG.contact.github}
             target="_blank"
             rel="noopener noreferrer"
           >
-            GitHub <span aria-hidden="true">↗</span>
+            {text("تصفّح مشاريعي على GitHub", "Explore my projects on GitHub")} ↗
           </a>
         </div>
       </section>
@@ -1036,6 +1102,40 @@ const profileSchema = {
     border-radius: 6px;
     font-size: 12px;
     color: #a9c9f6;
+  }
+  .illustration-figure {
+    width: 100%;
+  }
+  .illustration-figure img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+  }
+  .illustration-figure figcaption {
+    font-size: 11px;
+    line-height: 1.8;
+    color: #9ab3d3;
+    text-align: center;
+    margin-top: 10px;
+  }
+  .contact-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+  .contact-number {
+    margin: 14px 0 !important;
+    font-size: 13px !important;
+    letter-spacing: 0.08em;
+  }
+  .github-link {
+    font-size: 12px;
+    color: #91b7ea;
+  }
+  .project-cover > img.workflow-illustration {
+    height: auto;
+    max-height: 330px;
   }
   .contact-panel {
     text-align: center;
