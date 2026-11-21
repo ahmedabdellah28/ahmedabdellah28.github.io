@@ -46,7 +46,7 @@ for locale in ('ar', 'en'):
     for tag, attrs in page.tags:
         if tag == 'a' and attrs.get('href', '').startswith('#'):
             check(attrs['href'][1:] in page.ids, f'{locale}: section link {attrs["href"]}')
-        if tag == 'img':
+        if tag == 'img' and not attrs.get('src', '').startswith('data:'):
             image = DIST / unquote(urlsplit(attrs['src']).path.lstrip('/'))
             check(image.is_file(), f'{locale}: image {image}')
             check('alt' in attrs, f'{locale}: image alternative text')
