@@ -1,424 +1,1237 @@
 ---
-import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import ProjectCard from '../../components/ProjectCard.astro';
-import CTA from '../../components/CTA.astro';
-import { SITE_CONFIG } from '../../config/site';
-
+import { getCollection } from "astro:content";
+import { SITE_CONFIG } from "../../config/site";
+import "../../styles/global.css";
 export function getStaticPaths() {
-  return [{ params: { locale: 'ar' } }, { params: { locale: 'en' } }];
+  return ["ar", "en"].map((locale) => ({ params: { locale } }));
 }
-
-const { locale } = Astro.params as { locale: 'ar' | 'en' };
-
-// Strictly filter published projects only, ordered by featuredOrder
-const allPublished = (await getCollection('projects', ({ data }) => data.visibility === 'published')).sort(
-  (a, b) => a.data.featuredOrder - b.data.featuredOrder
-);
-
-// Split into Section 1: Visual Applications (5 projects with real screenshots/phone frames)
-// and Section 2: Headless Background Automation Engines (2 projects without screenshots)
-const visualProjects = allPublished.filter((p) => p.data.screenshots.length > 0);
-const headlessEngines = allPublished.filter((p) => p.data.screenshots.length === 0);
-
-// Categorized Libraries & Deep Technical Skills Grid (Shows Libraries & Skills, NOT App Descriptions)
-const skillCategories = [
-  {
-    categoryAr: 'AI وصناعة الفيديو والمونتاج الآلي',
-    categoryEn: 'AI Video Compilation & Automated Montage',
-    accent: 'text-amber-300 border-amber-400/30 bg-amber-500/10',
-    items: [
-      {
-        lib: 'Manim & Scene Graph AST',
-        skillAr: 'تحويل النص الخام إلى مشاهد موشن جرافيك وطبقات كاميرا ونصوص عربية متحركة',
-        skillEn: 'Compiling raw scripts into multi-layer camera choreography and RTL kinetic typography',
-      },
-      {
-        lib: 'FFmpeg & RMS Voice Ducking',
-        skillAr: 'خلط 80+ مؤثر صوتي وخفضها تلقائياً بالمللي ثانية فور نطق المعلق الصوتي',
-        skillEn: 'Frame-accurate mixing of 80+ SFX cues with automatic RMS envelope voice ducking',
-      },
-      {
-        lib: 'Faster-Whisper & Edge-TTS',
-        skillAr: 'استخراج الأختام الزمنية للكلمات ومزامنة ظهور البطاقات مع الصوت (< 0.35s)',
-        skillEn: 'Word-level timestamp extraction locking visual card reveals to speech (<0.35s drift)',
-      },
-    ],
-  },
-  {
-    categoryAr: 'الرؤية الحاسوبية، الأتمتة، وتخفي Anti-Bot',
-    categoryEn: 'Computer Vision, ADB Automation & Anti-Bot Stealth',
-    accent: 'text-emerald-300 border-emerald-400/30 bg-emerald-500/10',
-    items: [
-      {
-        lib: 'OpenCV & Zero-GC ZNCC',
-        skillAr: 'مطابقة القوالب البصرية على شاشة الهاتف بصفر تسريب ذاكرة (0 MB/Frame) عبر ThreadLocal',
-        skillEn: 'On-device template matching with zero per-frame heap allocation via ThreadLocal buffers',
-      },
-      {
-        lib: 'ADB & uiautomator2 (User 0 / 999)',
-        skillAr: 'التحكم بالنسخة الأساسية والمزدوجة للألعاب والتطبيقات مع معايرة الشاشة على 5 نقاط إرساء',
-        skillEn: 'Controlling Main (User 0) & Dual-App (999) instances with 5-anchor dynamic screen scaling',
-      },
-      {
-        lib: 'Playwright · Selenium · Stealth Jitter',
-        skillAr: 'تأخير بشري عشوائي (5-10s) وعزل 20 متصفح متزامن ببصمات وكوكيز مستقلة لمنع كشف البوت',
-        skillEn: 'Human-like randomized click jitter and 20-slot isolated browser profiles to evade bot detection',
-      },
-    ],
-  },
-  {
-    categoryAr: 'تطبيقات الموبايل والويب والمزامنة اللحظية',
-    categoryEn: 'Mobile, Web & Real-Time Synchronization',
-    accent: 'text-blue-300 border-blue-400/30 bg-blue-500/10',
-    items: [
-      {
-        lib: 'Flutter · Bloc / Cubit · GoRouter',
-        skillAr: 'بناء تطبيقات موبايل فائقة السرعة بهوية موحدة وحماية التحديث بـ Rate-Limiter ذكي',
-        skillEn: 'Building production Flutter super-apps with clean Bloc state and client-side rate limiting',
-      },
-      {
-        lib: 'Supabase Realtime · RLS · Offline Outbox',
-        skillAr: 'بث حي لطوابير العيادات والطلبات عبر WebSockets مع طابور أوفلاين يعيد المزامنة بـ Backoff',
-        skillEn: 'Live WebSocket queue broadcasting paired with an Offline Sync outbox and jittered backoff',
-      },
-      {
-        lib: 'React 19 · TypeScript · Prisma · Google Maps',
-        skillAr: 'ربط الخرائط وتحديد الموقع الجغرافي، وبناء متاجر تحمي حصة الـ API وتفحص الملفات بـ Magic Bytes',
-        skillEn: 'GPS geocoding, quota-safe cloud catalogs, and binary Magic-Byte upload verification',
-      },
-    ],
-  },
-  {
-    categoryAr: 'الخوارزميات الرياضية، الأداء، وهندسة العربية',
-    categoryEn: 'Constraint Solving, Performance & Arabic RTL',
-    accent: 'text-purple-300 border-purple-400/30 bg-purple-500/10',
-    items: [
-      {
-        lib: 'Google OR-Tools (CP-SAT Solver)',
-        skillAr: 'حل القيود الرياضية المتشابكة (600+ حصة) بصفر تضارب مع محرك إصلاح موضعي عند التعديل اليدوي',
-        skillEn: 'Mathematical constraint programming for 600+ periods with explainable minimal-perturbation repair',
-      },
-      {
-        lib: 'SQLite WAL & Threading Locks',
-        skillAr: 'طوابير مهام محلية صامدة أمام انقطاع الكهرباء والشبكة مع أقفال ذرية تمنع سباق الخيوط',
-        skillEn: 'Crash-safe SQLite Write-Ahead Logging outboxes and mutex-guarded concurrent file operations',
-      },
-      {
-        lib: 'Arabic Reshaper · Python-BiDi · Lexical Regex',
-        skillAr: 'تشكيل العربية في تقارير PDF والموشن جرافيك وتنظيف أسماء المنتجات المزدوجة تلقائياً',
-        skillEn: 'Native Arabic shaping in ReportLab PDFs, Manim renders, and bilingual catalog normalizers',
-      },
-    ],
-  },
+const { locale } = Astro.params as { locale: "ar" | "en" };
+const ar = locale === "ar";
+const text = (a: string, e: string) => (ar ? a : e);
+const projects = (
+  await getCollection("projects", ({ data }) => data.visibility === "published")
+).sort((a, b) => a.data.featuredOrder - b.data.featuredOrder);
+const name = ar ? SITE_CONFIG.ownerNameAr : SITE_CONFIG.ownerNameEn;
+const nav = [
+  ["work", text("الأعمال", "Work")],
+  ["expertise", text("الخبرات", "Expertise")],
+  ["about", text("عنّي", "About")],
+  ["contact", text("التواصل", "Contact")],
 ];
-
-// 4 Core Technical Obstacles (Fast Story Format: Obstacle -> Technical Skill -> Result)
-const technicalObstacles = [
-  {
-    tagAr: 'تخفي الأتمتة · Anti-Bot & Dual-App',
-    tagEn: 'Anti-Bot Stealth & Dual-App Control',
-    tagStyle: 'bg-amber-500/15 text-amber-300 border-amber-400/30',
-    titleAr: 'عدم كشف البوت والتحكم بالنسخة الأساسية والمزدوجة (User 0 & 999)',
-    titleEn: 'Evading Bot Detection Across Main (User 0) & Dual-App (999) Instances',
-    obstacleAr: 'النقر الآلي الثابت يُكتشف فوراً في الألعاب والمتصفحات، كما أن اختلاف أبعاد الشاشات وتشغيل نسختين من اللعبة يكسر الإحداثيات.',
-    obstacleEn: 'Static click intervals trigger anti-bot bans immediately, while multi-instance apps and varying screen aspect ratios break fixed coordinates.',
-    skillAr: 'بناء تأخير بشري عشوائي (Randomized Jitter 5-10s)، ومعايرة الإحداثيات نسبياً على 5 نقاط إرساء، وعزل 20 متصفح ببصمات مستقلة.',
-    skillEn: 'Engineered 5-10s randomized human jitter, 5-anchor dynamic viewport scaling, Dual-App user-space switching, and 20-slot profile isolation.',
-    resultAr: 'تشغيل مستمر 24/7 لصيد الموارد وتبديل الشخصيات والحسابات بصفر حظر.',
-    resultEn: 'Continuous 24/7 multi-character resource hunting and browser automation with zero bans.',
-  },
-  {
-    tagAr: 'المونتاج الذكي · AI Audio/Video Sync',
-    tagEn: 'Frame-Accurate AI Montage & Audio Sync',
-    tagStyle: 'bg-blue-500/15 text-blue-300 border-blue-400/30',
-    titleAr: 'ربط التأثيرات الدقيقة ومهارات الذكاء الاصطناعي للمونتاج بالمللي ثانية',
-    titleEn: 'Binding Kinetic Effects & 80+ SFX Cues to Voiceover at Millisecond Precision',
-    obstacleAr: 'في إنتاج الفيديو الآلي، كانت النصوص العربية تتأخر عن حركة البطاقة، وتتداخل المؤثرات الصوتية فوق صوت المعلق.',
-    obstacleEn: 'In automated video rendering, Arabic text lagged behind card animations while sound effects drowned out the narrator.',
-    skillAr: 'بناء مهارات ذكاء اصطناعي للمونتاج تقفل حركة الكاميرا والنص مع الختم الزمني للكلمة، مع خلط صوتي (RMS Ducking) يخفض المؤثرات أثناء الكلام.',
-    skillEn: 'Built AI montage skills locking camera & text reveals to word timestamps, paired with an automatic RMS voice-ducking audio mixer.',
-    resultAr: 'إنتاج فيديو 1080p وShorts آلياً بانحراف صوت/صورة أقل من 0.35 ثانية.',
-    resultEn: 'Automated 1080p & Shorts rendering with <0.35s A/V sync drift and crystal-clear narration.',
-  },
-  {
-    tagAr: 'تطبيق عناية · Rate Limits & Realtime Sync',
-    tagEn: 'Enaya Super-App · Rate Limits & Live Sync',
-    tagStyle: 'bg-emerald-500/15 text-emerald-300 border-emerald-400/30',
-    titleAr: 'حماية الـ Rate Limits ومزامنة طابور العيادات والطلبات لحظياً وأوفلاين',
-    titleEn: 'Rate-Limit Protection, Live Clinic Queues & Offline-First Synchronization',
-    obstacleAr: 'التحديث المتكرر من المرضى يستنزف حصة السيرفر (Rate Limit)، وانقطاع شبكة الهاتف يضيع طلبات الصيدلية والتحاليل.',
-    obstacleEn: 'Frequent manual refreshes exhaust API quotas, while mobile network drops risk losing active pharmacy and lab orders.',
-    skillAr: 'فرض Rate-Limiter ذكي في واجهة Flutter، وبث الطابور عبر Supabase WebSockets، وحفظ العمليات في طابور Offline يعيد المحاولة بـ Exponential Backoff.',
-    skillEn: 'Implemented client-side refresh rate limiting, Supabase Realtime WebSocket queues, and an Offline Sync outbox with jittered backoff.',
-    resultAr: 'تزامن لحظي بين المريض والعيادة والصيدلية والمعمل مع صفر فقدان للبيانات أو استنزاف للـ API.',
-    resultEn: 'Instant sync across clinics, pharmacy, and labs with zero lost transactions or quota exhaustion.',
-  },
-  {
-    tagAr: 'خوارزميات ورؤية حاسوبية · CP-SAT & ZNCC',
-    tagEn: 'CP-SAT Solver & Zero-GC Computer Vision',
-    tagStyle: 'bg-purple-500/15 text-purple-300 border-purple-400/30',
-    titleAr: 'حل 600+ حصة مدرسية بصفر تضارب وتصفير استنزاف ذاكرة الرؤية الحاسوبية',
-    titleEn: 'Solving 600+ Timetable Periods Conflict-Free & Zero-GC Visual Template Matching',
-    obstacleAr: 'تعديل حصة واحدة يدوياً كان يضرب جدول المدرسة، ومطابقة الصور في كل إطار كانت تستهلك 8MB وتوقف المحرك.',
-    obstacleEn: 'Manual timetable edits silently broke constraints, while per-frame ZNCC template matching allocated 8MB/frame causing GC pauses.',
-    skillAr: 'صياغة القيود خطياً في Google OR-Tools CP-SAT مع محرك إصلاح موضعي (Smart Repair)، وإعادة تدوير مصفوفات البكسل عبر ThreadLocal Buffers.',
-    skillEn: 'Formulated linear CP-SAT constraints with explainable Smart-Repair diffs, and eliminated CV heap churn (0 MB/frame) via ThreadLocal buffers.',
-    resultAr: 'جدول مدرسي خالٍ 100% من التعارض في ثوانٍ، ورؤية حاسوبية فورية مستقرة على مدار الساعة.',
-    resultEn: '100% conflict-free schedules in seconds and 24/7 zero-allocation computer vision.',
-  },
+const strengths = [
+  [
+    text("تطبيقات ويب وموبايل", "Web & mobile apps"),
+    text(
+      "واجهات واضحة وأنظمة متكاملة، من المتاجر إلى تطبيقات الخدمات الطبية.",
+      "Clear interfaces and connected systems, from storefronts to healthcare apps.",
+    ),
+    "Flutter · React · TypeScript",
+  ],
+  [
+    text("ذكاء اصطناعي وأتمتة", "AI & automation"),
+    text(
+      "تحويل المهام المتكررة وإنتاج الوسائط إلى خطوات قابلة للتشغيل والفحص.",
+      "Turning repeatable tasks and media production into testable workflows.",
+    ),
+    "Python · FFmpeg · Computer Vision",
+  ],
+  [
+    text("حلول جدولة وأنظمة موثوقة", "Scheduling & reliable systems"),
+    text(
+      "حل القيود المعقدة، والتحقق من النتائج، والتعافي عند انقطاع الاتصال.",
+      "Solving complex constraints, checking outputs, and recovering from network failures.",
+    ),
+    "OR-Tools · Kotlin · SQLite",
+  ],
 ];
-
-const pageTitle =
-  locale === 'ar'
-    ? `${SITE_CONFIG.ownerNameAr} — مهندس برمجيات، ذكاء اصطناعي، وأتمتة`
-    : `${SITE_CONFIG.ownerNameEn} — Software, AI & Automation Engineer`;
-const pageDesc =
-  locale === 'ar'
-    ? 'بورتفوليو احمد عبداللاه: تطبيقات Flutter وويب، مهارات الذكاء الاصطناعي للمونتاج، الرؤية الحاسوبية، وأتمتة Anti-Bot.'
-    : 'Portfolio of Ahmed Abdellah: Flutter & Web apps, AI video montage skills, computer vision, and anti-bot automation engines.';
+const status: Record<string, string> = {
+  production: text("مكتمل وقابل للتشغيل", "Complete & runnable"),
+  functional: text("نواة وظيفية عاملة", "Functional core"),
+  prototype: text("نموذج أولي", "Prototype"),
+  in_progress: text("قيد التطوير", "In progress"),
+  concept: text("تصور معماري", "Architecture concept"),
+  unknown: text("قيد المراجعة", "Under review"),
+};
+const title = `${name} | ${text("برمجيات وذكاء اصطناعي وأتمتة", "Software, AI & Automation")}`;
+const desc = ar ? SITE_CONFIG.taglineAr : SITE_CONFIG.taglineEn;
+const origin = SITE_CONFIG.contact.domain;
+const profileSchema = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  inLanguage: locale,
+  name: title,
+  mainEntity: {
+    "@type": "Person",
+    name,
+    url: origin,
+    image: `${origin}/media/profile/ahmed-abdellah.webp`,
+    jobTitle: ar ? SITE_CONFIG.roleTitleAr : SITE_CONFIG.roleTitleEn,
+    sameAs: [SITE_CONFIG.contact.github],
+  },
+};
 ---
 
-<BaseLayout title={pageTitle} description={pageDesc} locale={locale} currentPath={`/${locale}/`}>
-  <!-- 1. HERO: Direct Human Voice, Fast Story Summary, Studio Portrait -->
-  <section class="relative border-b border-white/10 overflow-hidden">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
-        <div class="lg:col-span-7 space-y-4">
-          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.07] border border-white/15 text-xs font-bold text-amber-300">
-            <span class="w-2 h-2 rounded-full bg-emerald-400" aria-hidden="true"></span>
-            <span>
-              {locale === 'ar'
-                ? `${SITE_CONFIG.ownerNameAr} · مهندس برمجيات، ذكاء اصطناعي، وأتمتة`
-                : `${SITE_CONFIG.ownerNameEn} · Software, AI & Automation Engineer`}
-            </span>
-          </div>
-
-          <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-[1.16]">
-            {locale === 'ar'
-              ? 'أبني تطبيقات ذكية ومحركات أتمتة تحل أعقد العوائق البرمجية.'
-              : 'I Build Smart Apps & Automation Engines That Solve Hard Technical Bottlenecks.'}
-          </h1>
-
-          <p class="text-sm sm:text-base text-slate-200 leading-relaxed max-w-2xl">
-            {locale === 'ar'
-              ? 'من تطبيقات الموبايل الطبية المتكاملة (Flutter & Supabase)، إلى مهارات الذكاء الاصطناعي للمونتاج الآلي (Manim & FFmpeg)، ومحركات الأتمتة والرؤية الحاسوبية المضادة للكشف (Anti-Bot & OpenCV) — معروضة هنا باختصار مباشر: الفكرة، العائق البرمجي، والنتيجة.'
-              : 'From full-scale medical mobile super-apps (Flutter & Supabase) to AI video montage compilers (Manim & FFmpeg) and stealth computer-vision automation (Anti-Bot & OpenCV) — presented directly: Idea → Technical Obstacle → Result.'}
+<!doctype html>
+<html lang={locale} dir={ar ? "rtl" : "ltr"}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={desc} />
+    <link rel="canonical" href={`${origin}/${locale}/`} />
+    <link rel="alternate" hreflang="ar" href={`${origin}/ar/`} />
+    <link rel="alternate" hreflang="en" href={`${origin}/en/`} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={`${origin}/${locale}/`} />
+    <meta
+      property="og:image"
+      content={`${origin}/media/profile/ahmed-abdellah.webp`}
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="alternate" hreflang="x-default" href={`${origin}/ar/`} />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(profileSchema).replace(/</g, "\\u003c")}
+    />
+  </head>
+  <body>
+    <a class="skip" href="#main">
+      {text("تخطي إلى المحتوى", "Skip to content")}
+    </a>
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <a class="brand" href="#top">
+          <img
+            src="/media/profile/ahmed-abdellah-thumb.webp"
+            width="38"
+            height="38"
+            alt=""
+          />
+          <strong>{name}</strong>
+        </a>
+        <nav aria-label={text("التنقل الرئيسي", "Main navigation")}>
+          {nav.map(([id, label]) => (
+            <a href={`#${id}`}>{label}</a>
+          ))}
+        </nav>
+        <a class="language" href={ar ? "/en/" : "/ar/"} lang={ar ? "en" : "ar"}>
+          {text("English", "العربية")}
+        </a>
+      </div>
+    </header>
+    <main id="main">
+      <section id="top" class="hero wrap">
+        <div class="hero-copy">
+          <p class="eyebrow">
+            {text(
+              "برمجيات · ذكاء اصطناعي · أتمتة",
+              "SOFTWARE · AI · AUTOMATION",
+            )}
           </p>
-
-          <!-- Fast Jump Pills -->
-          <div class="pt-1 flex flex-wrap items-center gap-2.5">
-            <a
-              href="#visual-projects"
-              class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm shadow-lg shadow-blue-600/25 transition-colors min-h-[44px]"
-            >
-              <span>{locale === 'ar' ? '📱 التطبيقات والمنصات المرئية (5)' : '📱 Visual Apps & Platforms (5)'}</span>
+          <p class="intro">{text("أنا احمد عبداللاه", "I’m Ahmed Abdellah")}</p>
+          <h1>
+            {text("أفكار معقدة.", "Complex ideas.")}
+            <br />
+            <span>{text("حلول قابلة للاستخدام.", "Usable software.")}</span>
+          </h1>
+          <p class="lead">
+            {text(
+              "أصمّم وأبني تطبيقات ويب وموبايل وأنظمة ذكية، من فهم المشكلة إلى واجهة واضحة ونتيجة يمكن فحصها.",
+              "I design and build web apps, mobile apps, and intelligent systems, from understanding the problem to a clear interface and a testable result.",
+            )}
+          </p>
+          <div class="actions">
+            <a class="button primary" href="#work">
+              {text("استكشف أعمالي", "Explore my work")}{" "}
+              <span aria-hidden="true">↓</span>
             </a>
-            <a
-              href="#headless-engines"
-              class="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-white/[0.07] hover:bg-white/15 text-slate-100 font-bold text-xs sm:text-sm border border-white/15 transition-colors min-h-[44px]"
-            >
-              <span>{locale === 'ar' ? '⚙️ محركات الأتمتة الخلفية (2)' : '⚙️ Headless Engines (2)'}</span>
-            </a>
-            <a
-              href="#technical-obstacles"
-              class="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-200 font-bold text-xs sm:text-sm border border-amber-400/30 transition-colors min-h-[44px]"
-            >
-              <span>{locale === 'ar' ? '🔥 العوائق البرمجية الدقيقة' : '🔥 Hard Technical Obstacles'}</span>
-            </a>
-            <a
-              href="#libraries-skills"
-              class="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-200 font-bold text-xs sm:text-sm border border-emerald-400/30 transition-colors min-h-[44px]"
-            >
-              <span>{locale === 'ar' ? '🧰 المكتبات والمهارات' : '🧰 Libraries & Skills'}</span>
+            <a class="button secondary" href="#about">
+              {text("تعرّف عليّ", "About me")}
             </a>
           </div>
+          <div class="hero-note">
+            <span class="dot"></span>
+            {text(
+              "٧ مشاريع في التطبيقات والأتمتة والأنظمة الذكية",
+              "7 projects across apps, automation & intelligent systems",
+            )}
+          </div>
         </div>
-
-        <!-- Studio Portrait Column -->
-        <div class="lg:col-span-5 flex justify-center">
-          <div class="relative w-full max-w-[290px] sm:max-w-[340px]">
-            <div
-              class="absolute -inset-2 rounded-[28px] bg-gradient-to-tr from-blue-600/40 via-transparent to-amber-500/35 blur-xl opacity-80"
-              aria-hidden="true"
-            ></div>
-
-            <div class="relative rounded-3xl glass-panel-elevated p-2.5 shadow-2xl overflow-hidden">
-              <div class="relative rounded-2xl overflow-hidden aspect-square bg-[#050914]">
-                <img
-                  src="/media/profile/ahmed-abdellah.webp"
-                  alt={
-                    locale === 'ar'
-                      ? 'احمد عبداللاه — مهندس برمجيات ومعماري أنظمة ذكية'
-                      : 'Ahmed Abdellah — Software Engineer & Systems Architect'
-                  }
-                  width="800"
-                  height="800"
-                  loading="eager"
-                  fetchpriority="high"
-                  decoding="async"
-                  class="w-full h-full object-cover object-top"
-                />
-                <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#050914] via-[#050914]/75 to-transparent"></div>
-
-                <div class="absolute bottom-3.5 inset-x-4 flex items-end justify-between gap-2">
-                  <div>
-                    <span class="block font-extrabold text-white text-base sm:text-lg leading-tight">
-                      {locale === 'ar' ? SITE_CONFIG.ownerNameAr : SITE_CONFIG.ownerNameEn}
-                    </span>
-                    <span class="text-xs text-amber-300 font-semibold">
-                      {locale === 'ar' ? 'Flutter · Python · AI · OpenCV · Automation' : 'Flutter · Python · AI · OpenCV · Automation'}
-                    </span>
-                  </div>
+        <figure class="portrait">
+          <img
+            src="/media/profile/ahmed-abdellah.webp"
+            alt={name}
+            width="800"
+            height="800"
+            fetchpriority="high"
+          />
+          <figcaption>
+            <span>{text("من الفكرة إلى النظام", "FROM IDEA TO SYSTEM")}</span>
+            <strong>Ahmed Abdellah</strong>
+          </figcaption>
+        </figure>
+      </section>
+      <section id="work" class="wrap section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">01 / {text("الأعمال", "WORK")}</p>
+            <h2>
+              {text(
+                "كل مشروع يبدأ بمشكلة.",
+                "Every project starts with a problem.",
+              )}
+            </h2>
+          </div>
+          <p>
+            {text(
+              "النتيجة أولًا. التفاصيل والصور والأدلة داخل كل مشروع، من غير ما تخرج من الصفحة.",
+              "The result comes first. Open any project for details, screenshots, and evidence without leaving this page.",
+            )}
+          </p>
+        </div>
+        <div class="project-list">
+          {projects.map(({ data: p }, i) => {
+            const photo = p.screenshots[0];
+            return (
+              <article class="project" id={`project-${p.slug}`}>
+                <div class="project-cover">
+                  {photo ? (
+                    <img
+                      src={photo.src}
+                      alt={ar ? photo.altAr : photo.altEn}
+                      width={photo.width}
+                      height={photo.height}
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div class="engine-cover" aria-hidden="true">
+                      <span>{p.category.includes("API") ? "{ }" : "⌘"}</span>
+                      <small>{text("محرك أتمتة", "AUTOMATION ENGINE")}</small>
+                    </div>
+                  )}
                 </div>
-              </div>
-            </div>
+                <div class="project-copy">
+                  <div class="project-meta">
+                    <span class="project-number">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span>{ar ? p.humanCategoryAr : p.humanCategoryEn}</span>
+                    <span class="status">{status[p.status]}</span>
+                  </div>
+                  <h3>{ar ? p.titleAr : p.titleEn}</h3>
+                  <p class="value">
+                    {ar ? p.valuePropositionAr : p.valuePropositionEn}
+                  </p>
+                  <div class="project-outcome">
+                    <span>{text("من نتائج المشروع", "PROJECT RESULT")}</span>
+                    <p>
+                      <strong dir="auto">{p.results[0].metric}</strong>{" "}
+                      {ar ? p.results[0].labelAr : p.results[0].labelEn}
+                    </p>
+                  </div>
+                  <p class="tech-preview" dir="ltr">
+                    {p.technologies.slice(0, 4).join(" · ")}
+                  </p>
+                </div>
+                <details class="project-details">
+                  <summary>
+                    <span>
+                      {text(
+                        "تفاصيل المشروع والصور والأدلة",
+                        "Project details, screenshots & evidence",
+                      )}
+                    </span>
+                    <span class="plus" aria-hidden="true">
+                      +
+                    </span>
+                  </summary>
+                  <div class="detail-body">
+                    <div class="detail-grid">
+                      <div>
+                        <h4>{text("المشكلة", "The problem")}</h4>
+                        <p>{p.problem[locale]}</p>
+                      </div>
+                      <div>
+                        <h4>{text("الحل", "The solution")}</h4>
+                        <p>{p.solution[locale]}</p>
+                      </div>
+                      <div>
+                        <h4>{text("الدور والجمهور", "Role & audience")}</h4>
+                        <p>{p.role[locale]}</p>
+                        <p>{p.audience[locale]}</p>
+                      </div>
+                      <div>
+                        <h4>
+                          {text(
+                            "الأثر مقارنة بالعمل اليدوي",
+                            "Manual vs. automated",
+                          )}
+                        </h4>
+                        <p>{p.manualVsAutomated[locale]}</p>
+                      </div>
+                    </div>
+                    <h4>
+                      {text("القدرات المنفّذة", "Implemented capabilities")}
+                    </h4>
+                    <ul class="capabilities">
+                      {p.capabilities.map((c) => (
+                        <li>{c[locale]}</li>
+                      ))}
+                    </ul>
+                    <div class="metrics">
+                      {p.results.map((r) => (
+                        <div>
+                          <strong dir="auto">{r.metric}</strong>
+                          <p>{ar ? r.labelAr : r.labelEn}</p>
+                          <small>
+                            {text("مرجع المشروع: ", "Project reference: ")}
+                            <bdi>{r.sourceRef}</bdi>
+                          </small>
+                        </div>
+                      ))}
+                    </div>
+                    {p.screenshots.length > 0 && (
+                      <div class="gallery">
+                        {p.screenshots.map((s) => (
+                          <figure>
+                            <a
+                              href={s.src}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              aria-label={
+                                text(
+                                  "فتح الصورة بالحجم الكامل: ",
+                                  "Open full-size image: ",
+                                ) + (ar ? s.altAr : s.altEn)
+                              }
+                            >
+                              <img
+                                src={s.src}
+                                alt={ar ? s.altAr : s.altEn}
+                                width={s.width}
+                                height={s.height}
+                                loading="lazy"
+                              />
+                            </a>
+                            <figcaption>
+                              {ar ? s.captionAr : s.captionEn}
+                            </figcaption>
+                          </figure>
+                        ))}
+                      </div>
+                    )}
+                    <details class="technical">
+                      <summary>
+                        {text(
+                          "التفاصيل الهندسية والمراجع",
+                          "Engineering details & references",
+                        )}
+                      </summary>
+                      <div class="technical-body">
+                        <h4>{text("التقنيات", "Technologies")}</h4>
+                        <p dir="ltr">{p.technologies.join(" · ")}</p>
+                        <h4>{text("بنية النظام", "System architecture")}</h4>
+                        <p>
+                          {ar
+                            ? p.architecture.overviewAr
+                            : p.architecture.overviewEn}
+                        </p>
+                        <ol>
+                          {p.architecture.pipelineSteps.map((s) => (
+                            <li>
+                              <strong>{ar ? s.titleAr : s.titleEn}</strong>
+                              <p>{ar ? s.detailAr : s.detailEn}</p>
+                            </li>
+                          ))}
+                        </ol>
+                        <p>
+                          {ar
+                            ? p.architecture.systemBoundariesAr
+                            : p.architecture.systemBoundariesEn}
+                        </p>
+                        <h4>
+                          {text("التحديات والقرارات", "Challenges & decisions")}
+                        </h4>
+                        {p.challenges.map((c) => (
+                          <div class="challenge">
+                            <span class="evidence-state">
+                              {c.type === "verified_fix"
+                                ? text("إصلاح موثق بالمشروع", "Documented fix")
+                                : c.type === "preventive_design"
+                                  ? text("تصميم وقائي", "Preventive design")
+                                  : c.type === "possible_risk"
+                                    ? text(
+                                        "خطر مرصود، وليس إصلاحًا مثبتًا",
+                                        "Identified risk, not a verified fix",
+                                      )
+                                    : text("قيد المراجعة", "Under review")}
+                            </span>
+                            <h5>{ar ? c.titleAr : c.titleEn}</h5>
+                            <p>{ar ? c.problemAr : c.problemEn}</p>
+                            <p>{ar ? c.whyImportantAr : c.whyImportantEn}</p>
+                            <p>{ar ? c.solutionAr : c.solutionEn}</p>
+                            <p>{ar ? c.impactAr : c.impactEn}</p>
+                            <p>{ar ? c.lessonAr : c.lessonEn}</p>
+                            <small>
+                              <bdi>{c.proofRef}</bdi>
+                            </small>
+                          </div>
+                        ))}
+                        <h4>
+                          {text(
+                            "مراجع الأدلة في المشروع",
+                            "Project evidence references",
+                          )}
+                        </h4>
+                        <p class="evidence-note">
+                          {text(
+                            "المراجع التالية محفوظة من ملف المشروع الأصلي. هي إحالات إلى الكود والاختبارات، وليست تدقيقًا مستقلًا جديدًا.",
+                            "These references are preserved from the original project records. They point to source code and tests, not a new independent audit.",
+                          )}
+                        </p>
+                        <ul class="evidence-list">
+                          {p.evidence
+                            .filter((e) => e.visibility === "public")
+                            .map((e) => (
+                              <li>
+                                <strong>{ar ? e.claimAr : e.claimEn}</strong>
+                                <small>
+                                  {e.verificationStatus === "verified" &&
+                                  e.relationType === "EXTRACTED"
+                                    ? text(
+                                        "موثق في سجل المشروع",
+                                        "Documented in project record",
+                                      )
+                                    : text(
+                                        "استنتاج أو غير متحقق منه",
+                                        "Inferred or unverified",
+                                      )}{" "}
+                                  · {e.confidence}
+                                </small>
+                                <code>
+                                  {e.evidencePath} : {e.lineOrSymbol}
+                                </code>
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
+                    </details>
+                  </div>
+                </details>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+      <section id="expertise" class="wrap section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">02 / {text("الخبرات", "EXPERTISE")}</p>
+            <h2>{text("ما الذي أستطيع بناءه؟", "What can I build?")}</h2>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 2. SECTION 1: VISUAL APPLICATIONS & PLATFORMS (5 Projects with Real Screenshots & Full Phone Frames) -->
-  <section id="visual-projects" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
-      <div>
-        <span class="text-xs uppercase tracking-wider text-amber-400 font-bold">
-          {locale === 'ar' ? 'القسم الأول · 5 تطبيقات ومنصات مرئية بلقطات حقيقية' : 'Section 1 · 5 Visual Applications with Real Screenshots'}
-        </span>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">
-          {locale === 'ar'
-            ? 'تطبيقات ومنصات مرئية (الفكرة ← العائق البرمجي ← النتيجة)'
-            : 'Visual Applications & Platforms (Idea → Technical Obstacle → Result)'}
-        </h2>
-      </div>
-      <a
-        href={`/${locale}/projects`}
-        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.08] hover:bg-blue-600 text-white text-xs font-bold border border-white/15 transition-colors shrink-0"
-      >
-        <span>{locale === 'ar' ? 'تصفح وبحث في كل المشاريع (7)' : 'Search & Filter All Projects (7)'}</span>
-      </a>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {visualProjects.map((entry, idx) => (
-        <ProjectCard project={entry.data} locale={locale} index={idx} />
-      ))}
-    </div>
-  </section>
-
-  <!-- 3. SECTION 2: HEADLESS BACKGROUND AUTOMATION ENGINES (2 Projects Without Screenshots — Direct Feature Cards) -->
-  <section id="headless-engines" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 border-t border-white/10">
-    <div class="mb-7">
-      <span class="text-xs uppercase tracking-wider text-blue-400 font-bold">
-        {locale === 'ar' ? 'القسم الثاني · محركات تعمل في الخلفية بدون واجهة رسومية' : 'Section 2 · Background & Headless Automation Engines'}
-      </span>
-      <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">
-        {locale === 'ar'
-          ? 'محركات أتمتة وأدوات خلفية (ماذا تفعل وما ميزتها التقنية؟)'
-          : 'Headless Automation Engines (What They Do & Their Technical Edge)'}
-      </h2>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {headlessEngines.map((entry, idx) => (
-        <ProjectCard project={entry.data} locale={locale} index={idx + 5} />
-      ))}
-    </div>
-  </section>
-
-  <!-- 4. HARD TECHNICAL OBSTACLES (Rate Limits, Sync, Anti-Bot, AI Montage, Enaya Architecture) -->
-  <section id="technical-obstacles" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-white/10">
-    <div class="mb-8">
-      <span class="text-xs uppercase tracking-wider text-amber-400 font-bold">
-        {locale === 'ar' ? 'العوائق البرمجية الدقيقة' : 'Hard Engineering Obstacles'}
-      </span>
-      <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">
-        {locale === 'ar'
-          ? 'تحديات برمجية واجهتني وكيف حسمتها بالكود'
-          : 'Critical Technical Obstacles & How I Solved Them'}
-      </h2>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {technicalObstacles.map((item) => (
-        <article class="glass-panel rounded-2xl p-5 sm:p-6 flex flex-col justify-between gap-4">
-          <div class="space-y-3">
-            <span class:list={['inline-block px-3 py-1 rounded-full text-xs font-bold border', item.tagStyle]}>
-              {locale === 'ar' ? item.tagAr : item.tagEn}
-            </span>
-
-            <h3 class="text-base sm:text-lg font-extrabold text-white leading-snug">
-              {locale === 'ar' ? item.titleAr : item.titleEn}
-            </h3>
-
-            <div class="space-y-2 text-xs sm:text-[13px] leading-relaxed">
-              <div class="p-2.5 rounded-xl bg-rose-950/35 border border-rose-500/25">
-                <strong class="text-rose-300">{locale === 'ar' ? '🔥 العائق: ' : '🔥 Obstacle: '}</strong>
-                <span class="text-slate-200">{locale === 'ar' ? item.obstacleAr : item.obstacleEn}</span>
-              </div>
-              <div class="p-2.5 rounded-xl bg-blue-950/35 border border-blue-500/25">
-                <strong class="text-blue-300">{locale === 'ar' ? '⚙️ المهارة والحل: ' : '⚙️ Technical Fix: '}</strong>
-                <span class="text-slate-200">{locale === 'ar' ? item.skillAr : item.skillEn}</span>
-              </div>
-              <div class="p-2.5 rounded-xl bg-emerald-950/35 border border-emerald-500/25">
-                <strong class="text-emerald-300">{locale === 'ar' ? '✅ النتيجة: ' : '✅ Result: '}</strong>
-                <span class="text-slate-100 font-semibold">{locale === 'ar' ? item.resultAr : item.resultEn}</span>
-              </div>
-            </div>
-          </div>
-        </article>
-      ))}
-    </div>
-  </section>
-
-  <!-- 5. LIBRARIES & TECHNICAL SKILLS MATRIX (Libraries & Exact Skills, NOT App Descriptions) -->
-  <section id="libraries-skills" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-white/10">
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
-      <div>
-        <span class="text-xs uppercase tracking-wider text-emerald-400 font-bold">
-          {locale === 'ar' ? 'الخبرة التقنية والأدوات' : 'Technical Stack & Libraries'}
-        </span>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">
-          {locale === 'ar'
-            ? 'المكتبات والمهارات البرمجية المستخدمة فعلياً'
-            : 'Core Libraries, Frameworks & Low-Level Engineering Skills'}
-        </h2>
-      </div>
-      <a
-        href={`/${locale}/expertise`}
-        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.08] hover:bg-blue-600 text-white text-xs font-bold border border-white/15 transition-colors shrink-0"
-      >
-        <span>{locale === 'ar' ? 'فتح صفحة الخبرات الكاملة ←' : 'View Full Skills Matrix →'}</span>
-      </a>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {skillCategories.map((cat) => (
-        <div class="glass-panel rounded-2xl p-5 sm:p-6 space-y-4">
-          <span class:list={['inline-block px-3 py-1 rounded-lg text-xs font-extrabold border', cat.accent]}>
-            {locale === 'ar' ? cat.categoryAr : cat.categoryEn}
-          </span>
-
-          <div class="space-y-3">
-            {cat.items.map((it) => (
-              <div class="p-3 rounded-xl bg-white/[0.04] border border-white/10">
-                <code class="text-xs sm:text-sm font-mono font-extrabold text-amber-300 block mb-1">
-                  {it.lib}
-                </code>
-                <p class="text-xs sm:text-[13px] text-slate-200 leading-relaxed">
-                  {locale === 'ar' ? it.skillAr : it.skillEn}
-                </p>
-              </div>
-            ))}
+        <div class="strengths">
+          {strengths.map(([h, p, tech], i) => (
+            <article>
+              <span class="project-number">0{i + 1}</span>
+              <h3>{h}</h3>
+              <p>{p}</p>
+              <small dir="ltr">{tech}</small>
+            </article>
+          ))}
+        </div>
+      </section>
+      <section id="about" class="wrap section about">
+        <div>
+          <p class="eyebrow">03 / {text("عنّي", "ABOUT")}</p>
+          <h2>
+            {text(
+              "أهتم بما وراء الواجهة.",
+              "Good software goes beyond the interface.",
+            )}
+          </h2>
+        </div>
+        <div>
+          <p class="about-lead">
+            {text(
+              "أنا احمد عبداللاه، مهندس برمجيات أعمل على الربط بين حل المشكلة التقنية وتجربة المستخدم النهائية.",
+              "I’m Ahmed Abdellah, a software engineer connecting technical problem-solving with the experience people actually use.",
+            )}
+          </p>
+          <p>
+            {text(
+              "تشمل أعمالي إنتاج الوسائط بالذكاء الاصطناعي، وجدولة الحصص، والرؤية الحاسوبية على أندرويد، وتطبيقات الرعاية الصحية والتجارة الإلكترونية. أركز على وضوح تدفق البيانات، وعزل الأعطال، والتحقق من المخرجات بدلًا من الاكتفاء بأن النظام يعمل مرة واحدة.",
+              "My projects span AI media production, school timetabling, Android computer vision, healthcare apps, and e-commerce. I focus on clear data flow, fault isolation, and output validation rather than a system that only works once.",
+            )}
+          </p>
+          <div class="principles">
+            <span>{text("فهم المشكلة", "Understand")}</span>
+            <span>{text("بناء الحل", "Build")}</span>
+            <span>{text("التحقق من النتيجة", "Validate")}</span>
           </div>
         </div>
-      ))}
-    </div>
-  </section>
-
-  <!-- 6. CONTACT CTA -->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
-    <CTA locale={locale} />
-  </div>
-</BaseLayout>
+      </section>
+      <section id="contact" class="wrap section">
+        <div class="contact-panel">
+          <p class="eyebrow">04 / {text("لنكمل الحديث", "LET’S CONNECT")}</p>
+          <h2>
+            {text("لديك فكرة تحتاج إلى تنفيذ؟", "Have an idea to build?")}
+          </h2>
+          <p>
+            {text(
+              "يمكنك الاطلاع على حسابي ومشاريعي على GitHub.",
+              "Explore my profile and repositories on GitHub.",
+            )}
+          </p>
+          <a
+            class="button primary"
+            href={SITE_CONFIG.contact.github}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </section>
+    </main>
+    <footer class="wrap">
+      <span>© {name}</span>
+      <a href="#top">{text("العودة للأعلى", "Back to top")} ↑</a>
+      <a href={ar ? "/en/" : "/ar/"}>{text("English", "العربية")}</a>
+    </footer>
+    <script is:inline>
+      // Deep links from the previous multi-page version open the matching project.
+      function revealProject() {
+        let id;
+        try {
+          id = decodeURIComponent(location.hash.slice(1));
+        } catch {
+          return;
+        }
+        const target = document.getElementById(id);
+        if (target?.classList.contains("project")) {
+          const details = target.querySelector("details");
+          if (details) details.open = true;
+          requestAnimationFrame(() => target.scrollIntoView());
+        }
+      }
+      revealProject();
+      window.addEventListener("hashchange", revealProject);
+    </script>
+  </body>
+</html>
+<style is:global>
+  body {
+    margin: 0;
+    background: #080d18;
+    color: #f4f6fb;
+    line-height: 1.8;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  img {
+    max-width: 100%;
+    display: block;
+  }
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  figure {
+    margin: 0;
+  }
+  p + p {
+    margin-top: 12px;
+  }
+  .wrap {
+    width: min(1160px, calc(100% - 64px));
+    margin-inline: auto;
+  }
+  section,
+  article[id] {
+    scroll-margin-top: 112px;
+  }
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: #080d18ed;
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid #ffffff12;
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-height: 82px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    white-space: nowrap;
+  }
+  .brand img {
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .brand strong {
+    font-size: 16px;
+  }
+  nav {
+    display: flex;
+    gap: 28px;
+    font-size: 14px;
+    color: #b9c5d8;
+  }
+  nav a:hover,
+  footer a:hover {
+    color: #7fb5ff;
+  }
+  .language {
+    border: 1px solid #ffffff28;
+    padding: 6px 15px;
+    border-radius: 9px;
+    font-size: 13px;
+  }
+  .hero {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    align-items: center;
+    gap: 72px;
+    padding-block: 88px 100px;
+    min-height: 720px;
+  }
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    color: #83b7fd;
+  }
+  .intro {
+    margin-top: 23px;
+    font-size: 20px;
+    color: #cbd6e7;
+  }
+  h1 {
+    font-size: clamp(38px, 4.8vw, 65px);
+    line-height: 1.3;
+    letter-spacing: -0.035em;
+    margin: 12px 0 22px;
+    font-weight: 800;
+  }
+  h1 span {
+    color: #87b8ff;
+  }
+  .lead {
+    font-size: 17px;
+    color: #b4c2d7;
+    max-width: 580px;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 30px;
+  }
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    min-height: 49px;
+    border-radius: 10px;
+    padding: 10px 23px;
+    font-weight: 650;
+    font-size: 14px;
+  }
+  .primary {
+    background: #a3c8ff;
+    color: #0c1a30;
+  }
+  .primary:hover {
+    background: #c0daff;
+  }
+  .secondary {
+    border: 1px solid #ffffff30;
+    color: #d3deee;
+  }
+  .hero-note {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 12px;
+    color: #8fa2bd;
+    margin-top: 27px;
+  }
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #7eb0f5;
+    flex-shrink: 0;
+  }
+  .portrait {
+    border-radius: 24px;
+    overflow: hidden;
+    background: #132139;
+    border: 1px solid #ffffff18;
+    position: relative;
+    box-shadow: 0 25px 90px #2563eb12;
+  }
+  .portrait > img {
+    width: 100%;
+    aspect-ratio: 4/4.6;
+    object-fit: cover;
+    object-position: 50% 35%;
+  }
+  .portrait figcaption {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    padding: 50px 26px 24px;
+    background: linear-gradient(transparent, #07101bef);
+  }
+  .portrait figcaption span {
+    display: block;
+    font-size: 10px;
+    color: #b3c5dc;
+    letter-spacing: 0.16em;
+  }
+  .portrait figcaption strong {
+    font-size: 22px;
+  }
+  .section {
+    padding-block: 66px;
+    border-top: 1px solid #ffffff15;
+  }
+  .section-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 42px;
+    margin-bottom: 32px;
+  }
+  .section-heading > p {
+    max-width: 340px;
+    color: #8fa2bd;
+    font-size: 14px;
+  }
+  h2 {
+    font-size: clamp(27px, 3vw, 39px);
+    line-height: 1.5;
+    font-weight: 750;
+    letter-spacing: -0.02em;
+    margin-top: 10px;
+  }
+  .project-list {
+    display: grid;
+    gap: 30px;
+  }
+  .project {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #101827;
+    border: 1px solid #ffffff14;
+    border-radius: 19px;
+    overflow: hidden;
+  }
+  .project-cover {
+    background: #080f1d;
+    min-height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .project-cover > img {
+    width: 100%;
+    height: 280px;
+    object-fit: contain;
+    border-radius: 9px;
+  }
+  .project-copy {
+    padding: 30px 32px;
+  }
+  .project-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    font-size: 11px;
+    color: #96abc7;
+  }
+  .project-number {
+    font-family: monospace;
+    color: #83b7fd;
+    font-size: 13px;
+  }
+  .status {
+    font-size: 10px;
+    padding: 2px 8px;
+    border: 1px solid #66d0ac32;
+    border-radius: 4px;
+    color: #91d1bb;
+  }
+  h3 {
+    font-size: 24px;
+    line-height: 1.5;
+    margin: 14px 0 10px;
+    font-weight: 700;
+  }
+  .value {
+    color: #bccbe0;
+    font-size: 14px;
+  }
+  .project-outcome {
+    margin-top: 20px;
+    border-inline-start: 2px solid #83b7fd;
+    padding-inline-start: 14px;
+  }
+  .project-outcome > span {
+    font-size: 10px;
+    color: #88a1c2;
+    letter-spacing: 0.08em;
+  }
+  .project-outcome p {
+    font-size: 12px;
+    color: #b7c9e3;
+  }
+  .project-outcome strong {
+    font-size: 21px;
+    color: #e0edff;
+    margin-inline-end: 5px;
+  }
+  .tech-preview {
+    font-size: 10px;
+    color: #8499b5;
+    margin-top: 18px !important;
+    text-align: start;
+  }
+  .engine-cover {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    color: #6e98d5;
+  }
+  .engine-cover > span {
+    font-family: monospace;
+    font-size: 85px;
+    line-height: 1.2;
+  }
+  .engine-cover small {
+    letter-spacing: 0.2em;
+    font-size: 11px;
+  }
+  .project-details {
+    grid-column: 1/-1;
+    border-top: 1px solid #ffffff14;
+  }
+  summary {
+    cursor: pointer;
+    padding: 17px 28px;
+    color: #b6d3ff;
+    font-size: 13px;
+  }
+  summary:hover {
+    background: #ffffff04;
+  }
+  .project-details > summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+  }
+  .project-details > summary::-webkit-details-marker {
+    display: none;
+  }
+  .plus {
+    font-size: 23px;
+    line-height: 1;
+  }
+  .project-details[open] .plus {
+    transform: rotate(45deg);
+  }
+  .detail-body {
+    border-top: 1px solid #ffffff14;
+    padding: 30px;
+  }
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+  .detail-body p,
+  .detail-body li {
+    font-size: 14px;
+    color: #b6c6dd;
+  }
+  .detail-body h4 {
+    font-size: 17px;
+    color: #e1ebfc;
+    margin: 25px 0 12px;
+  }
+  .detail-grid h4 {
+    margin-top: 0;
+  }
+  .detail-body h5 {
+    font-size: 16px;
+    margin: 10px 0;
+  }
+  .detail-body small {
+    font-size: 10px;
+    overflow-wrap: anywhere;
+    color: #8ca2c1;
+  }
+  .capabilities {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 30px;
+    padding-inline-start: 20px;
+  }
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin: 28px 0;
+  }
+  .metrics > div {
+    padding: 18px;
+    background: #ffffff04;
+    border: 1px solid #ffffff10;
+    border-radius: 10px;
+  }
+  .metrics strong {
+    font-size: 24px;
+    color: #a3c8ff;
+  }
+  .metrics p {
+    font-size: 12px;
+  }
+  .gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .gallery figure {
+    border: 1px solid #ffffff14;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #080f1d;
+  }
+  .gallery img {
+    height: 300px;
+    width: 100%;
+    object-fit: contain;
+    padding: 10px;
+  }
+  .gallery figcaption {
+    font-size: 11px;
+    color: #91a8c8;
+    padding: 12px 16px;
+    overflow-wrap: anywhere;
+  }
+  .technical {
+    border: 1px solid #ffffff16;
+    border-radius: 10px;
+    margin-top: 26px;
+  }
+  .technical-body {
+    padding: 0 24px 24px;
+    overflow-wrap: anywhere;
+  }
+  .technical ol {
+    padding-inline-start: 25px;
+  }
+  .technical li {
+    margin-block: 14px;
+  }
+  .challenge {
+    border-top: 1px solid #ffffff15;
+    padding-block: 20px;
+  }
+  .evidence-state {
+    font-size: 11px;
+    color: #b7cba8;
+  }
+  .evidence-list {
+    padding: 0;
+    list-style: none;
+  }
+  .evidence-list li {
+    padding: 14px;
+    border: 1px solid #ffffff12;
+    border-radius: 9px;
+  }
+  .evidence-list small,
+  .evidence-list code {
+    display: block;
+    margin-top: 7px;
+    font-size: 11px;
+    overflow-wrap: anywhere;
+  }
+  .evidence-list code {
+    color: #8eb7ef;
+  }
+  .evidence-note {
+    font-size: 12px !important;
+  }
+  .strengths {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .strengths article {
+    padding: 27px;
+    border: 1px solid #ffffff16;
+    border-radius: 15px;
+    background: #ffffff03;
+  }
+  .strengths h3 {
+    font-size: 21px;
+  }
+  .strengths p {
+    font-size: 14px;
+    color: #9eafc7;
+  }
+  .strengths small {
+    display: block;
+    font-size: 10px;
+    color: #89a7d0;
+    margin-top: 24px;
+  }
+  .about {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+  }
+  .about > div > p:not(.eyebrow) {
+    color: #aabbd2;
+    font-size: 15px;
+  }
+  .about .about-lead {
+    font-size: 21px !important;
+    color: #dee8f8 !important;
+  }
+  .principles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 25px;
+  }
+  .principles span {
+    border: 1px solid #ffffff1c;
+    padding: 6px 13px;
+    border-radius: 6px;
+    font-size: 12px;
+    color: #a9c9f6;
+  }
+  .contact-panel {
+    text-align: center;
+    padding: 55px 25px;
+    background:
+      radial-gradient(ellipse at 50% 0, #18315a88, transparent 75%), #101827;
+    border: 1px solid #ffffff18;
+    border-radius: 20px;
+  }
+  .contact-panel > p:not(.eyebrow) {
+    font-size: 15px;
+    color: #a5b7d0;
+    margin: 13px 0 26px;
+  }
+  footer {
+    padding-block: 28px 38px;
+    border-top: 1px solid #ffffff16;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 26px;
+    justify-content: space-between;
+    color: #8095b3;
+    font-size: 12px;
+  }
+  .skip {
+    position: fixed;
+    top: -100px;
+    z-index: 99;
+    background: #a3c8ff;
+    color: #080d18;
+    padding: 10px;
+  }
+  .skip:focus {
+    top: 5px;
+  }
+  details img {
+    content-visibility: auto;
+  }
+  html[lang="en"] h1 {
+    font-size: clamp(38px, 4.4vw, 59px);
+  }
+  @media (max-width: 800px) {
+    .wrap {
+      width: calc(100% - 38px);
+    }
+    .header-inner {
+      min-height: 100px;
+      flex-wrap: wrap;
+      padding-block: 12px;
+      gap: 10px;
+    }
+    .brand strong {
+      font-size: 14px;
+    }
+    .brand img {
+      width: 32px;
+      height: 32px;
+    }
+    .language {
+      font-size: 12px;
+    }
+    nav {
+      order: 3;
+      width: 100%;
+      justify-content: center;
+      gap: 27px;
+      font-size: 12px;
+    }
+    .hero {
+      grid-template-columns: 1fr;
+      gap: 36px;
+      padding-block: 46px 52px;
+      min-height: 0;
+    }
+    .hero-copy {
+      order: 1;
+    }
+    .portrait {
+      order: 0;
+      max-width: 300px;
+      width: 75%;
+      margin-inline: auto;
+    }
+    .portrait > img {
+      aspect-ratio: 1.2;
+      object-position: 50% 28%;
+    }
+    .portrait figcaption {
+      padding: 35px 18px 13px;
+    }
+    .portrait figcaption strong {
+      font-size: 16px;
+    }
+    .portrait figcaption span {
+      font-size: 8px;
+    }
+    .intro {
+      margin-top: 17px;
+      font-size: 17px;
+    }
+    h1,
+    html[lang="en"] h1 {
+      font-size: 39px;
+    }
+    .lead {
+      font-size: 15px;
+    }
+    .hero-note {
+      font-size: 10px;
+    }
+    .section {
+      padding-block: 43px;
+    }
+    .section-heading {
+      display: block;
+      margin-bottom: 24px;
+    }
+    .section-heading > p {
+      max-width: none;
+      margin-top: 13px;
+      font-size: 13px;
+    }
+    h2 {
+      font-size: 28px;
+    }
+    .project {
+      grid-template-columns: 1fr;
+    }
+    .project-cover {
+      padding: 14px;
+      min-height: 200px;
+    }
+    .project-cover > img {
+      height: 210px;
+    }
+    .project-copy {
+      padding: 23px;
+    }
+    .project-meta {
+      gap: 9px;
+    }
+    h3 {
+      font-size: 21px;
+    }
+    .value {
+      font-size: 13px;
+    }
+    .project-details > summary {
+      padding: 16px 22px;
+      font-size: 12px;
+    }
+    .detail-body {
+      padding: 22px;
+    }
+    .detail-grid,
+    .capabilities,
+    .gallery {
+      grid-template-columns: 1fr;
+    }
+    .gallery img {
+      height: 240px;
+    }
+    .strengths {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .strengths article {
+      padding: 24px;
+    }
+    .strengths h3 {
+      font-size: 20px;
+    }
+    .about {
+      grid-template-columns: 1fr;
+      gap: 23px;
+    }
+    .about .about-lead {
+      font-size: 19px !important;
+    }
+    .technical-body {
+      padding-inline: 16px;
+    }
+    .contact-panel {
+      padding: 37px 20px;
+    }
+    .contact-panel h2 {
+      font-size: 26px;
+    }
+    .project-list {
+      gap: 23px;
+    }
+    .engine-cover {
+      padding: 25px;
+    }
+    .engine-cover > span {
+      font-size: 60px;
+    }
+  }
+</style>
